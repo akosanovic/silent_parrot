@@ -1,34 +1,116 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
 	<title>Silent Parrot</title>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
+	<!-- Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,400i,600" rel="stylesheet">
+	
+	<!-- Style -->
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+
+
 </head>
 <body>
-	<div class="mainPage_wrapper">
-		
-	<div class="bgVideo_wrapper">
-		
-		<video class="bgVideo" autoplay="true" loop>
-		  <source src="./assets/video/Waterfall_Snow_Background_HD_Footage.mov" type="video/mp4">
-		  <source src="./assets/video/Waterfall_Snow_Background_HD_Footage.mov" type="video/ogg">
-		  Your browser does not support HTML5 video.
-		</video>
+	<!-- Universe :: BEGIN -->
+	<div class="universeWrapper main--wrapper">
 
-		<div class="logo_wrapper">
-			<div class="logo_container">
-				<img class="logo_open" src="./assets/images/logo-open.png">
-				<img class="logo_closed" src="./assets/images/logo-closed.png">
+		<div class="fullscreenBackground">
+					
+			<!-- Video :: BEGIN -->
+			<video class=" fullscreenBackground-video" autoplay="true" loop muted="true" poster='#'>
+			  <source src="./assets/video/desktop-video.mp4" type="video/mp4">
+			     Your browser does not support HTML5 video.
+			</video><!-- Video :: END -->
+		</div>
 
+
+
+
+		<div class="universe universe--wrapper">
+
+
+
+
+			<!-- Home Page :: BEGIN -->
+			<div class="homePage_wrapper home--page page" data-page-name='home' >
+				
+				<div class="fullscreenBackground">
+					<!-- Logo :: BEGIN -->
+					<div class="logo_wrapper">
+						<div class="logo_container">
+							<!-- <img class="logo logo_open" src="./assets/images/logo-open.png">
+							<img class="logo logo_closed" src="./assets/images/logo-closed.png"> -->
+						</div>
+					</div><!-- Logo :: END -->
+				</div>
+			</div><!-- Home Page :: END -->
+
+
+
+			<!-- AboutUs Page :: BEGIN -->
+			<div class="aboutUsPage_wrapper about--us--page page" data-page-name='aboutUs'>
+				
+				<div class="pageContent_wrapper">
+					<div class="content_wrapper">
+						
+						content of mine
+
+
+
+						<!-- <div class="separator">
+
+								<svg width="0" height="0">
+								  <defs>
+								    <clipPath id="clip-shape-about-us-page" clipPathUnits="objectBoundingBox">
+								      <polygon points="0.6 0, 1 0, 1 1, 4 1"></polygon>
+
+								    </clipPath>
+								  </defs>
+								</svg>
+
+							
+						</div> -->
+					</div>
+				
+
+				</div>
+			
+			</div><!-- AboutUs Page :: BEGIN -->
+
+
+
+
+
+			<!-- Bottom Right -->
+			<div class="randomPage_wrapper random--page page" data-page-name='page3'>
+				<h1>This is where we would place our work </h1>
+				<h2>If we had any</h2>
 			</div>
 
+
+
+
+
+			<!-- Bottom Left -->
+			<div class="contactPage_wrapper contact--page page" data-page-name='page4'>
+				<p>But still give us a call</p>
+			</div>
+		
+
 		</div>
-	</div>
+	</div><!-- Universe :: END -->
 
+	<!-- JavaScript -->
+	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+	<!-- GreenSock -->
+	<script type="text/javascript" src='js/third-party-lab/js/lib/greensock/TweenMax.min.js'></script>
+	<script type="text/javascript" src='js/third-party-lab/scrollmagic/minified/ScrollMagic.min.js'></script>
 
-	</div>
+	<script type="text/javascript" src='js/global-animation.js'></script>
+	<script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,52 @@
+
+.fullscreenBackground {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0; 
+	bottom: 0;
+
+	overflow: hidden;
+	z-index: -100;
+	.fullscreenBackground-video {
+		position: absolute;
+		top: 50%;
+	    left: 50%;
+	    width: auto;
+	    height: auto;
+	    min-width: 100%;
+	    min-height: 100%;
+		@include transform ( translate(-50%, -50%) );
+	    pointer-events: none;
+	}
+}
+
+.logo_wrapper {
+	position: absolute;
+	top   : 0;
+	left  : 0;
+	right : 0;
+	bottom: 0;
+
+	.logo_container {
+		position: absolute;
+		top     : 0;
+		bottom  : 0;
+		left    : 0; 
+		right   : 0;
+		margin: auto; 
+
+		height: $lh*10;
+		width: $lh *10;
+		overflow: hidden;
+		background: url("../assets/images/logo-open-beige2.png");
+		background-size: 100% 100%;;
+		background-blend-mode: multiply;
+
+		.logo {
+			display: inline-block;
+			height: 100%;
+			width: auto;
+		}
+	}
+}

@@ -13,6 +13,66 @@ body {
 	font-size  : $lh;
 	line-height: $lh;
 	font-family: $ff;
+	color: $white;
+}
+.universeWrapper{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	background-color: rgba(0, 20, 27, 0.8);
 }
 
+.universe {
+	position: absolute;
+	width: 200%;
+	height: 200%;
+}
 
+.homePage_wrapper {
+	position: absolute;
+	top   : 0;
+	left  : 0;
+	right : 50%;
+	bottom: 50%;
+
+	width: 50%;
+	height: 50%;
+}
+
+.aboutUsPage_wrapper {
+	position: absolute;
+	top  : 0;
+	right: 0;
+	bottom: 50%;
+	left  : 50%;
+
+	z-index: 10;
+	@include transition(all 0.3s ease);
+	background-color: rgba(255, 255, 255, 0.15);
+
+	width: 50%;
+	height: 50%;
+}
+.randomPage_wrapper {
+	position: absolute;
+	top   : 50%;
+	left  : 50%;
+	bottom: 0;
+
+	width : 50%;
+	height: 50%;
+	background-color: rgba(0, 101, 128, 0.15);
+}
+
+.contactPage_wrapper {
+	position: absolute;
+	top   : 50%;
+	left  : 0;
+	bottom: 0;
+	right: 50%;
+
+	width : 50%;
+	height: 50%;
+	background-color: rgba(17, 24, 32, 0.15);
+}

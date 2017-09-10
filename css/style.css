@@ -1203,7 +1203,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   float: left !important;
 }
 
-/* line 3, ../scss/_main-layout.scss */
+/* line 2, ../scss/_main-layout.scss */
 * {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -1212,19 +1212,207 @@ article, aside, details, figcaption, figure, footer, header, hgroup, main, menu,
   padding: 0;
 }
 
-/* line 9, ../scss/_main-layout.scss */
+/* line 8, ../scss/_main-layout.scss */
 html {
-  font-size: 1rem;
-  line-height: 1.5rem;
-  font-family: sans-serif;
+  font-size: 16px;
 }
 
-/* line 16, ../scss/_main-layout.scss */
+/* line 12, ../scss/_main-layout.scss */
+body {
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+  font-family: "Montserrat", sans-serif;
+  color: #fff;
+}
+
+/* line 18, ../scss/_main-layout.scss */
+.universeWrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0, 20, 27, 0.8);
+}
+
+/* line 26, ../scss/_main-layout.scss */
+.universe {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+}
+
+/* line 32, ../scss/_main-layout.scss */
+.homePage_wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 50%;
+  bottom: 50%;
+  width: 50%;
+  height: 50%;
+}
+
+/* line 43, ../scss/_main-layout.scss */
+.aboutUsPage_wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 50%;
+  left: 50%;
+  z-index: 10;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.15);
+  width: 50%;
+  height: 50%;
+}
+
+/* line 57, ../scss/_main-layout.scss */
+.randomPage_wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  bottom: 0;
+  width: 50%;
+  height: 50%;
+  background-color: rgba(0, 101, 128, 0.15);
+}
+
+/* line 68, ../scss/_main-layout.scss */
+.contactPage_wrapper {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  bottom: 0;
+  right: 50%;
+  width: 50%;
+  height: 50%;
+  background-color: rgba(17, 24, 32, 0.15);
+}
+
+/* line 4, ../scss/_main-style.scss */
+a {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* line 10, ../scss/_main-style.scss */
+h1 {
+  line-height: 1.5;
+  font-size: 3rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* line 17, ../scss/_main-style.scss */
+h2 {
+  font-size: 1.5rem;
+}
+
+/* line 23, ../scss/_main-style.scss */
 .hide {
   display: none !important;
 }
 
-/* line 19, ../scss/_main-layout.scss */
+/* line 26, ../scss/_main-style.scss */
 .show {
   display: block !important;
+}
+
+/* line 2, ../scss/_home-page.scss */
+.fullscreenBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: -100;
+}
+/* line 11, ../scss/_home-page.scss */
+.fullscreenBackground .fullscreenBackground-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height: auto;
+  min-width: 100%;
+  min-height: 100%;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* line 24, ../scss/_home-page.scss */
+.logo_wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+/* line 31, ../scss/_home-page.scss */
+.logo_wrapper .logo_container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 15rem;
+  width: 15rem;
+  overflow: hidden;
+  background: url("../assets/images/logo-open-beige2.png");
+  background-size: 100% 100%;
+  background-blend-mode: multiply;
+}
+/* line 46, ../scss/_home-page.scss */
+.logo_wrapper .logo_container .logo {
+  display: inline-block;
+  height: 100%;
+  width: auto;
+}
+
+/* line 2, ../scss/_about-us-page.scss */
+.aboutUsPage_container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-left: 0.75rem solid #3bb0c9;
+  background-color: transparent;
+}
+
+/* line 10, ../scss/_about-us-page.scss */
+.left-triangle {
+  background-color: #3bb0c9;
+}
+
+/* line 14, ../scss/_about-us-page.scss */
+.pageContent_wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 40%;
+  bottom: 0;
+}
+/* line 21, ../scss/_about-us-page.scss */
+.pageContent_wrapper .content_wrapper {
+  -webkit-clip-path: polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%);
+  clip-path: polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%);
+  clip-path: url(#clip-shape-about-us-page);
+}
+
+/* line 27, ../scss/_about-us-page.scss */
+.separator {
+  color: white;
+  background-color: #006580;
+  height: 100%;
+  /*Chrome,Safari*/
+  width: 100%;
+  /*Firefox*/
 }

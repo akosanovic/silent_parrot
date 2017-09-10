@@ -1,0 +1,35 @@
+
+.aboutUsPage_container{
+	position: relative;
+	width: 100%;
+	height: 100%;
+
+	border-left: $lh/2 solid $tirqouise;
+	background-color: transparent;
+}
+.left-triangle {
+	background-color: $tirqouise;
+}
+
+.pageContent_wrapper {
+	position: absolute;
+	top   : 0;
+	right : 0;
+	left  : 40%;
+	bottom: 0;
+	
+	.content_wrapper {
+		-webkit-clip-path: polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%);
+	    clip-path: polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%);
+		clip-path: url(#clip-shape-about-us-page);
+	}
+}
+.separator {
+	color: white;
+	background-color: $tirqouise-dark;
+	height: 100%;
+	/*Chrome,Safari*/
+	width: 100%;
+	/*Firefox*/
+	// clip-path: url("#clipPolygon");
+}
