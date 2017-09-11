@@ -7,131 +7,172 @@ class @SilentParrot
 		@websiteWindow = $(window)
 		@mainWrapper   = $('.universe--wrapper')
 		@pages         = @mainWrapper.find('.page')
-
+		
 		@mainWrapperPosition = @_getWrapperSize();
 
-		@homePage    = @mainWrapper.find('.home--page')
-		@aboutUsPage = @mainWrapper.find('.about--us--page')
-		@randomPage  = @mainWrapper.find('.random--page');
-		@contactPage = @mainWrapper.find('.contact--page')
+		@homePage    = new Page(@pages[0], this);
+		@aboutUsPage = new Page(@pages[1], this);
+		@randomPage  = new Page(@pages[2], this);
+		@contactPage = new Page(@pages[3], this);
+		
+
 
 		@orderOfPages = [@homePage, @aboutUsPage, @randomPage, @contactPage]
 
 		# Default Values
-		@activePage = 'home'
+		@activePage = 
 		@leftCounter = 0
 		@mainWrapperTop  = 0
 
+		@windowW = 0;
+		@windowH = 0;
 
-	
+			
 
 
 		# Event Binding
 		# ON Load 
-		@_pageSize()
+		@_onLoadHandler()
+
+		# on resize
+		@websiteWindow.on('resize', @_resizeHandler.bind(@))
+
+		# on mouse scroll
+		$(window).on('mousewheel DOMMouseScroll', @_scrollHandler.bind(@))
+
+
+
+	_onLoadHandler:() ->
+		@_getWindowDimensions()		
+		@_setWrapperSize()
+		@_getActivePage()
+		@_getHash()
+
+
+
+
+	_resizeHandler: () ->
+		@_getWindowDimensions()
+		@_setWrapperSize()
 		
 
-		@websiteWindow.on('resize', @_pageSize.bind(@))
+	
+	_scrollHandler:(e) ->
+		if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0)
+			console.log "Scrolled up"
+			@_scrollUp()
 
-		$(window).on('mousewheel DOMMouseScroll', @_scrollEventHandler.bind(@))
+		else 
+			@_scrollDown()
 
-
-	_pageSize: () ->
-		# Automatically set page size on resize
-		windowW = @websiteWindow.width()
-		windowH = @websiteWindow.height()
-		
-		for page in @pages 
-			page = $(page)
 			
-			page.height(windowH)
-			page.width(windowW)
-			return {windowW, windowH}
-			
+
+
+
+	_getWindowDimensions: () ->
+		@windowW = @websiteWindow.width()
+		@windowH = @websiteWindow.height()
+
+
+	_setWrapperSize: ()->
+		@mainWrapper.css("width", @windowW*2)
+		@mainWrapper.css("height", @windowH*2)
+
 
 
 	_getWrapperSize: () ->
-		elementPosition = @mainWrapper[0].getBoundingClientRect();
-		# console.log('Main Wrapper position, ', elementPosition)
-
-		return elementPosition #top, bottom, left, right
-
+		wrapperSize = @mainWrapper[0].getBoundingClientRect();
+		console.log "WRAPPER SIZE", wrapperSize
+		return wrapperSize #top, bottom, left, right	
 
 
-
-	
-
-	_scrollEventHandler:(e) ->
-		@mainWrapperPosition = @_getWrapperSize();
-		@_getActivePage()
-
-		if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0)
-			console.log "Scrolled up"
-			@_scrollWrapperLeft()
-
-		else 
-			@_scrollWrapperRight()
-
-			# console.log "scrolled down"
 
 
 
 
 	_checkIfOverscroll: () ->
-		height = @homePage.height
-
+		
 		top    = @mainWrapper[0].getBoundingClientRect().top
 		right  = @mainWrapper[0].getBoundingClientRect().right
 		bottom = @mainWrapper[0].getBoundingClientRect().bottom
 		left   = @mainWrapper[0].getBoundingClientRect().left
+		
 
-		console.log "TOP, ", top, "\nRIGHT: ", right, "\nBOTTOM: ", bottom, "\nLEFT: ", left
-
-		if(top < (-height)) 
+		if(top > 0 ) 
 			console.log "too high"
+			return true
+		else if (left > 0)
+			console.log "too left"
+			return true
+		else if (right < 0)
+			console.log "too right"
+			return true
+		else if (bottom < 0)
+			console.log "too low"
+			return true
+		else 
 			return false
 
 
 
 	
-	_scrollWrapperRight:() ->
-		@_checkIfOverscroll()
+	_scrollDown:() ->
+		console.log "SCROLL DOWN"
+				
+		if @activePage.top() == 0 && @activePage.left() == 0
+			@_goToNextActivePage()
+			@_scrollDown()
 
-
-		@leftCounter = @leftCounter + 10
-		console.log "Main Wrapper Left", @leftCounter
-		console.log "Main Wrapper Left", @mainWrapper[0].getBoundingClientRect().right
-
-		if @leftCounter <= 100
-			TweenLite.to(@mainWrapper, 1, {
+		if !@_checkIfOverscroll()		
+		
+			TweenLite.to( @mainWrapper, 1, {
 				left: "-#{@leftCounter}%",
 				ease:   Power0.easeNone
 			})
+
+
+		# if @activePage.right() != 0 && @activePage.bottom != 0
+		# 	TweenLite.to( @mainWrapper, 1, {
+		# 		left: "-#{@leftCounter}%",
+		# 		ease:   Power0.easeNone
+		# 	})
+
+		@leftCounter = @leftCounter + 20
 			
-		else if (@leftCounter >= 100 && @leftCounter <= 200)
-			TweenLite.to(@mainWrapper, 1, {
-				top: "-#{@leftCounter-100}%",
-				ease:  Power0.easeNone
-			})
 
-		else if (@leftCounter >= 200 && @leftCounter <= 300)
-			TweenLite.to(@mainWrapper, 1, {
-				left: "#{@leftCounter-300}%",
-				ease:  Power0.easeNone
-			})
+		
 
-		else if (@leftCounter >= 300 && @leftCounter <= 400)
-			TweenLite.to(@mainWrapper, 1, {
-				top: "#{@leftCounter-400}%",
-				ease:  Power0.easeNone
-			})
-			
-		else
-			@leftCounter = 0;
+
+	_goToNextActivePage: () ->
+
+		for page, i in @orderOfPages
+			if page == @activePage 
+				if (i < @orderOfPages.length)
+					@activePage = @orderOfPages[i+1]
+					return @activePage
+				else 
+					@activePage = @orderOfPages[0]
+					return @activePage
 
 
 
-	_scrollWrapperLeft:() ->
+	
+
+	_goToPrevActivePage: () ->
+		for page, i in @orderOfPages
+			if page == @activePage
+				if (i > 0)
+					@activePage = @orderOfPages[i-1]
+					return @activePage
+				else 
+					i = @orderOfPages.length
+					@activePage = @orderOfPages[i]
+
+				
+
+
+
+	_scrollUp:() ->
 		@leftCounter = @leftCounter - 100
 		# console.log "Scroll wrapper left"
 		
@@ -143,25 +184,34 @@ class @SilentParrot
 
 
 	_getActivePage: () ->
-
-		height = @websiteWindow.height()
-		width  = @websiteWindow.width()
-
 		for page in @orderOfPages
-			position = page[0].getBoundingClientRect()
-			
-			if (position.top >= 0 && position.top <= height / 2 ) && (position.left >= 0 && position.left <= width / 2) 
-				name = $(page).data('page-name')
-				@_setUrl(name)
+			if page.isActive()
+				@_setHash(page)
+				return page
 
 
-	
-	_setUrl: (newActivePage) ->
-		console.log "NEW active page", newActivePage
+
+	_setActivePage: (hash) ->
+		console.log "Set active page based on hash"
+
+
+
+
+	_setHash: (newActivePage) ->
+
 		if @activePage != newActivePage
 			@activePage = newActivePage
 
-			window.location.hash = @activePage
+			window.location.hash = @activePage.getPageName()
+		console.log "window location hash", window.location.hash
+
+	
+
+	_getHash: () ->
+		hash = window.location.hash
+
+		@_setActivePage(hash)
+
 
 
 

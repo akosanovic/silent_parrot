@@ -6,98 +6,131 @@
       this.mainWrapper = $('.universe--wrapper');
       this.pages = this.mainWrapper.find('.page');
       this.mainWrapperPosition = this._getWrapperSize();
-      this.homePage = this.mainWrapper.find('.home--page');
-      this.aboutUsPage = this.mainWrapper.find('.about--us--page');
-      this.randomPage = this.mainWrapper.find('.random--page');
-      this.contactPage = this.mainWrapper.find('.contact--page');
+      this.homePage = new Page(this.pages[0], this);
+      this.aboutUsPage = new Page(this.pages[1], this);
+      this.randomPage = new Page(this.pages[2], this);
+      this.contactPage = new Page(this.pages[3], this);
       this.orderOfPages = [this.homePage, this.aboutUsPage, this.randomPage, this.contactPage];
-      this.activePage = 'home';
-      this.leftCounter = 0;
+      this.activePage = this.leftCounter = 0;
       this.mainWrapperTop = 0;
-      this._pageSize();
-      this.websiteWindow.on('resize', this._pageSize.bind(this));
-      $(window).on('mousewheel DOMMouseScroll', this._scrollEventHandler.bind(this));
+      this.windowW = 0;
+      this.windowH = 0;
+      this._onLoadHandler();
+      this.websiteWindow.on('resize', this._resizeHandler.bind(this));
+      $(window).on('mousewheel DOMMouseScroll', this._scrollHandler.bind(this));
     }
 
-    SilentParrot.prototype._pageSize = function() {
-      var i, len, page, ref, windowH, windowW;
-      windowW = this.websiteWindow.width();
-      windowH = this.websiteWindow.height();
-      ref = this.pages;
-      for (i = 0, len = ref.length; i < len; i++) {
-        page = ref[i];
-        page = $(page);
-        page.height(windowH);
-        page.width(windowW);
-        return {
-          windowW: windowW,
-          windowH: windowH
-        };
+    SilentParrot.prototype._onLoadHandler = function() {
+      this._getWindowDimensions();
+      this._setWrapperSize();
+      this._getActivePage();
+      return this._getHash();
+    };
+
+    SilentParrot.prototype._resizeHandler = function() {
+      this._getWindowDimensions();
+      return this._setWrapperSize();
+    };
+
+    SilentParrot.prototype._scrollHandler = function(e) {
+      if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
+        console.log("Scrolled up");
+        return this._scrollUp();
+      } else {
+        return this._scrollDown();
       }
+    };
+
+    SilentParrot.prototype._getWindowDimensions = function() {
+      this.windowW = this.websiteWindow.width();
+      return this.windowH = this.websiteWindow.height();
+    };
+
+    SilentParrot.prototype._setWrapperSize = function() {
+      this.mainWrapper.css("width", this.windowW * 2);
+      return this.mainWrapper.css("height", this.windowH * 2);
     };
 
     SilentParrot.prototype._getWrapperSize = function() {
-      var elementPosition;
-      elementPosition = this.mainWrapper[0].getBoundingClientRect();
-      return elementPosition;
-    };
-
-    SilentParrot.prototype._scrollEventHandler = function(e) {
-      this.mainWrapperPosition = this._getWrapperSize();
-      this._getActivePage();
-      if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
-        console.log("Scrolled up");
-        return this._scrollWrapperLeft();
-      } else {
-        return this._scrollWrapperRight();
-      }
+      var wrapperSize;
+      wrapperSize = this.mainWrapper[0].getBoundingClientRect();
+      console.log("WRAPPER SIZE", wrapperSize);
+      return wrapperSize;
     };
 
     SilentParrot.prototype._checkIfOverscroll = function() {
-      var bottom, height, left, right, top;
-      height = this.homePage.height;
+      var bottom, left, right, top;
       top = this.mainWrapper[0].getBoundingClientRect().top;
       right = this.mainWrapper[0].getBoundingClientRect().right;
       bottom = this.mainWrapper[0].getBoundingClientRect().bottom;
       left = this.mainWrapper[0].getBoundingClientRect().left;
-      console.log("TOP, ", top, "\nRIGHT: ", right, "\nBOTTOM: ", bottom, "\nLEFT: ", left);
-      if (top < (-height)) {
+      if (top > 0) {
         console.log("too high");
+        return true;
+      } else if (left > 0) {
+        console.log("too left");
+        return true;
+      } else if (right < 0) {
+        console.log("too right");
+        return true;
+      } else if (bottom < 0) {
+        console.log("too low");
+        return true;
+      } else {
         return false;
       }
     };
 
-    SilentParrot.prototype._scrollWrapperRight = function() {
-      this._checkIfOverscroll();
-      this.leftCounter = this.leftCounter + 10;
-      console.log("Main Wrapper Left", this.leftCounter);
-      console.log("Main Wrapper Left", this.mainWrapper[0].getBoundingClientRect().right);
-      if (this.leftCounter <= 100) {
-        return TweenLite.to(this.mainWrapper, 1, {
+    SilentParrot.prototype._scrollDown = function() {
+      console.log("SCROLL DOWN");
+      if (this.activePage.top() === 0 && this.activePage.left() === 0) {
+        this._goToNextActivePage();
+        this._scrollDown();
+      }
+      if (!this._checkIfOverscroll()) {
+        TweenLite.to(this.mainWrapper, 1, {
           left: "-" + this.leftCounter + "%",
           ease: Power0.easeNone
         });
-      } else if (this.leftCounter >= 100 && this.leftCounter <= 200) {
-        return TweenLite.to(this.mainWrapper, 1, {
-          top: "-" + (this.leftCounter - 100) + "%",
-          ease: Power0.easeNone
-        });
-      } else if (this.leftCounter >= 200 && this.leftCounter <= 300) {
-        return TweenLite.to(this.mainWrapper, 1, {
-          left: (this.leftCounter - 300) + "%",
-          ease: Power0.easeNone
-        });
-      } else if (this.leftCounter >= 300 && this.leftCounter <= 400) {
-        return TweenLite.to(this.mainWrapper, 1, {
-          top: (this.leftCounter - 400) + "%",
-          ease: Power0.easeNone
-        });
-      } else {
-        return this.leftCounter = 0;
+      }
+      return this.leftCounter = this.leftCounter + 20;
+    };
+
+    SilentParrot.prototype._goToNextActivePage = function() {
+      var i, j, len, page, ref;
+      ref = this.orderOfPages;
+      for (i = j = 0, len = ref.length; j < len; i = ++j) {
+        page = ref[i];
+        if (page === this.activePage) {
+          if (i < this.orderOfPages.length) {
+            this.activePage = this.orderOfPages[i + 1];
+            return this.activePage;
+          } else {
+            this.activePage = this.orderOfPages[0];
+            return this.activePage;
+          }
+        }
       }
     };
 
-    SilentParrot.prototype._scrollWrapperLeft = function() {
+    SilentParrot.prototype._goToPrevActivePage = function() {
+      var i, j, len, page, ref;
+      ref = this.orderOfPages;
+      for (i = j = 0, len = ref.length; j < len; i = ++j) {
+        page = ref[i];
+        if (page === this.activePage) {
+          if (i > 0) {
+            this.activePage = this.orderOfPages[i - 1];
+            return this.activePage;
+          } else {
+            i = this.orderOfPages.length;
+            this.activePage = this.orderOfPages[i];
+          }
+        }
+      }
+    };
+
+    SilentParrot.prototype._scrollUp = function() {
       this.leftCounter = this.leftCounter - 100;
       return TweenLite.to(this.mainWrapper, 0.3, {
         y: this.leftCounter,
@@ -106,30 +139,33 @@
     };
 
     SilentParrot.prototype._getActivePage = function() {
-      var height, i, len, name, page, position, ref, results, width;
-      height = this.websiteWindow.height();
-      width = this.websiteWindow.width();
+      var j, len, page, ref;
       ref = this.orderOfPages;
-      results = [];
-      for (i = 0, len = ref.length; i < len; i++) {
-        page = ref[i];
-        position = page[0].getBoundingClientRect();
-        if ((position.top >= 0 && position.top <= height / 2) && (position.left >= 0 && position.left <= width / 2)) {
-          name = $(page).data('page-name');
-          results.push(this._setUrl(name));
-        } else {
-          results.push(void 0);
+      for (j = 0, len = ref.length; j < len; j++) {
+        page = ref[j];
+        if (page.isActive()) {
+          this._setHash(page);
+          return page;
         }
       }
-      return results;
     };
 
-    SilentParrot.prototype._setUrl = function(newActivePage) {
-      console.log("NEW active page", newActivePage);
+    SilentParrot.prototype._setActivePage = function(hash) {
+      return console.log("Set active page based on hash");
+    };
+
+    SilentParrot.prototype._setHash = function(newActivePage) {
       if (this.activePage !== newActivePage) {
         this.activePage = newActivePage;
-        return window.location.hash = this.activePage;
+        window.location.hash = this.activePage.getPageName();
       }
+      return console.log("window location hash", window.location.hash);
+    };
+
+    SilentParrot.prototype._getHash = function() {
+      var hash;
+      hash = window.location.hash;
+      return this._setActivePage(hash);
     };
 
     return SilentParrot;
