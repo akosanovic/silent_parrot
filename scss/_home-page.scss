@@ -47,13 +47,20 @@
 		@include transform(translateY(-50%));
 
 		.logo {
-			display: inline-block;
+			z-index: 70; // navigation: 50, socialicons: 60
 			height: 100%;
 			width: auto;
 
 			&.logo_main {
+				display: inline-block;
 				opacity: 0.72;
 			}
+			// &.logo_scene1,
+			// &.logo_scene2,
+			// &.logo_scene3,
+			// &.logo_scene4 {
+			// 	display: none;
+			// }
 		}
 	}
 }

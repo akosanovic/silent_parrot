@@ -5,3 +5,7 @@ LF1-79%O : LF2-86%O : LF3-93%O : LF4-100%O : LF3-100%O : LF2-100%O : LF1-100%O :
 Kad se kursor misa pomeri sa logoa,
 transparencija se ponovo postepeno smanji sa 100% na 72%.
 
+LogoFrame1-79%Opacity.png
+LogoFrame2-86%Opacity.png
+LogoFrame3-93%Opacity.png
+LogoFrame4-100%Opacity.png

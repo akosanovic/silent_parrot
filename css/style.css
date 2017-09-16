@@ -1314,20 +1314,20 @@ h2 {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 50;
 }
 /* line 10, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_item {
+  z-index: 150;
   position: absolute;
   cursor: pointer;
 }
-/* line 14, ../scss/_static-layer.scss */
+/* line 15, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_item img {
   display: inline-block;
   width: 100%;
   height: auto;
 }
-/* line 19, ../scss/_static-layer.scss */
+/* line 20, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_item .navigationIcon_hover {
   -moz-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
@@ -1339,7 +1339,7 @@ h2 {
   top: 0;
   right: 0;
 }
-/* line 30, ../scss/_static-layer.scss */
+/* line 31, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_item:hover .navigationIcon_active {
   -moz-transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
@@ -1348,7 +1348,7 @@ h2 {
   visibility: hidden;
   opacity: 0;
 }
-/* line 35, ../scss/_static-layer.scss */
+/* line 36, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_item:hover .navigationIcon_hover {
   -moz-transition: all 0.5s linear;
   -o-transition: all 0.5s linear;
@@ -1358,7 +1358,7 @@ h2 {
   visibility: visible;
   opacity: 1;
 }
-/* line 43, ../scss/_static-layer.scss */
+/* line 44, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_right {
   top: 50%;
   right: 1.5rem;
@@ -1369,7 +1369,7 @@ h2 {
   width: 4.5rem;
   height: auto;
 }
-/* line 52, ../scss/_static-layer.scss */
+/* line 53, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_bottom {
   left: 50%;
   bottom: 1.5rem;
@@ -1381,23 +1381,23 @@ h2 {
   height: auto;
 }
 
-/* line 64, ../scss/_static-layer.scss */
+/* line 65, ../scss/_static-layer.scss */
 .socialIcons_wrapper {
   position: absolute;
   left: 1.5rem;
   bottom: 1.5rem;
   z-index: 60;
 }
-/* line 70, ../scss/_static-layer.scss */
+/* line 71, ../scss/_static-layer.scss */
 .socialIcons_wrapper .socialIcons_list .socialIcons_li {
   display: inline-block;
   margin-right: 0.75rem;
 }
-/* line 74, ../scss/_static-layer.scss */
+/* line 75, ../scss/_static-layer.scss */
 .socialIcons_wrapper .socialIcons_list .socialIcons_li:last-child {
   margin-right: 0;
 }
-/* line 77, ../scss/_static-layer.scss */
+/* line 78, ../scss/_static-layer.scss */
 .socialIcons_wrapper .socialIcons_list .socialIcons_li .socialIcons_link {
   position: relative;
   display: inline-block;
@@ -1408,11 +1408,11 @@ h2 {
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
-/* line 85, ../scss/_static-layer.scss */
+/* line 86, ../scss/_static-layer.scss */
 .socialIcons_wrapper .socialIcons_list .socialIcons_li .socialIcons_link:hover {
   background-color: #cd6846;
 }
-/* line 89, ../scss/_static-layer.scss */
+/* line 90, ../scss/_static-layer.scss */
 .socialIcons_wrapper .socialIcons_list .socialIcons_li .socialIcons_link .fa {
   display: inline-block;
   position: absolute;
@@ -1480,12 +1480,13 @@ h2 {
 }
 /* line 49, ../scss/_home-page.scss */
 .logo_wrapper .logo_container .logo {
-  display: inline-block;
+  z-index: 70;
   height: 100%;
   width: auto;
 }
 /* line 54, ../scss/_home-page.scss */
 .logo_wrapper .logo_container .logo.logo_main {
+  display: inline-block;
   opacity: 0.72;
 }
 

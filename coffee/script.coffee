@@ -19,6 +19,9 @@ class @SilentParrot
 
 		@orderOfPages = [@homePage, @aboutUsPage, @randomPage, @contactPage]
 
+
+
+		@logo = @mainWrapper.find('.logo--main')
 		# Default Values
 		@activePage = 
 		@leftCounter = 0
@@ -39,7 +42,7 @@ class @SilentParrot
 
 		# on mouse scroll
 		$(window).on('mousewheel DOMMouseScroll', @_scrollHandler.bind(@))
-
+		$(@logo).on('mouseenter', @_hoverHandler.bind(@))
 
 
 	_onLoadHandler:() ->
@@ -56,7 +59,13 @@ class @SilentParrot
 		@_setWrapperSize()
 		
 
+	_hoverHandler: () ->
+		logoAnimation = new LogoAnimation()
+		console.log logoAnimation
+		logoAnimation.mouseInAnimation()
 	
+
+
 	_scrollHandler:(e) ->
 		if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0)
 			console.log "Scrolled up"
@@ -65,7 +74,8 @@ class @SilentParrot
 		else 
 			@_scrollDown()
 
-			
+		
+
 
 
 

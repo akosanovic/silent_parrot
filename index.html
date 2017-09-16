@@ -29,6 +29,8 @@
 			     Your browser does not support HTML5 video.
 			</video><!-- Video :: END -->
 
+
+
 			<!-- Navigation :: BEGIN -->
 			<nav class="navigation_wrapper">
 				
@@ -77,7 +79,6 @@
 					</li>
 				</ul>
 			</div><!-- Social Icons :: END-->
-
 		</div><!-- Static Layer :: END -->
 
 
@@ -86,16 +87,23 @@
 		<div class="universe universe--wrapper">
 
 
-
-
 			<!-- Home Page :: BEGIN -->
 			<div class="homePage_wrapper home--page page" data-page-name='home' >
 				
 				<div class="fullscreenBackground">
 					<!-- Logo :: BEGIN -->
 					<div class="logo_wrapper">
-						<div class="logo_container">
-							<img class="logo logo_main" src="./assets/images/Logo&LogoAnimation/LogoSP-72PercentOpacity.png">
+						<div class="logo_container logo--container">
+							<img class="logo logo_main logo--main" src="./assets/images/Logo&LogoAnimation/LogoSP-72PercentOpacity.png">
+							
+							<img class="logo logo_scene1 logo--scene--1" src="./assets/images/Logo&LogoAnimation/logoAnimation/LogoFrame1.png">
+							
+							<img class="logo logo_scene2 logo--scene--2" src="./assets/images/Logo&LogoAnimation/logoAnimation/LogoFrame2.png">
+							
+							<img class="logo logo_scene3 logo--scene--3" src="./assets/images/Logo&LogoAnimation/logoAnimation/LogoFrame3.png">
+							
+							<img class="logo logo_scene4 logo--scene--4" src="./assets/images/Logo&LogoAnimation/logoAnimation/LogoFrame4.png">
+							
 						</div>
 					</div><!-- Logo :: END -->
 				</div>
@@ -159,9 +167,19 @@
 	<!-- JavaScript -->
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 	<!-- GreenSock -->
-	<script type="text/javascript" src='js/third-party-lab/js/lib/greensock/TweenMax.min.js'></script>
-	<script type="text/javascript" src='js/third-party-lab/scrollmagic/minified/ScrollMagic.min.js'></script>
+	<!-- <script type="text/javascript" src='js/greensock-minified/TimelineLite.min.js'></script>
+	<script type="text/javascript" src='js/greensock-minified/TweenLite.min.js'></script>
+	<script type="text/javascript" src='js/greensock-minified/TweenMax.min.js'></script> -->
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/plugins/CSSPlugin.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/easing/EasePack.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenLite.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TimelineLite.min.js"></script>
+
+
+	
+	
+	<script type="text/javascript" src='js/logo-animation.js'></script>
 	<script type="text/javascript" src='js/global-animation.js'></script>
 	<script type="text/javascript" src='js/page.model.js'></script>
 	<script type="text/javascript" src="js/script.js"></script>
