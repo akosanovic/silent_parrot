@@ -7,6 +7,8 @@
 
 	<!-- Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:200,400,400i,600" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" type="text/css" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
 	
 	<!-- Style -->
 	<link rel="stylesheet" type="text/css" href="css/style.css">
@@ -18,18 +20,65 @@
 	<!-- Universe :: BEGIN -->
 	<div class="universeWrapper main--wrapper">
 
-		<div class="fullscreenBackground">
+		<!-- Static Layer :: BEGIN -->
+		<div class="staticLayer_wrapper fullscreenBackground">
 					
 			<!-- Video :: BEGIN -->
-			<video class=" fullscreenBackground-video" autoplay="true" loop muted="true" poster='#'>
-			  <source src="./assets/video/desktop-video.mp4" type="video/mp4">
+			<video class="fullscreenBackground-video" autoplay="true" loop muted="true" poster='#'>
+			  <source src="./assets/video/background-animation.mp4" type="video/mp4">
 			     Your browser does not support HTML5 video.
 			</video><!-- Video :: END -->
-		</div>
+
+			<!-- Navigation :: BEGIN -->
+			<nav class="navigation_wrapper">
+				
+				<!-- <div class="navigation_top">
+					<img src="#">
+				</div> -->
+				<!-- Right -->
+				<div class="navigation_item navigation_right">
+					<img class="navigationIcon_active" src="./assets/images/Navigation/About_Button.png">
+					<img class="navigationIcon_hover" src="./assets/images/Navigation/About-Mouse_Over.png">
+				</div>
+
+				<!-- Bottom -->
+				<div class="navigation_item navigation_bottom">
+					<img class="navigationIcon_active" src="./assets/images/Navigation/Contact_Button.png">
+					<img class="navigationIcon_hover" src="./assets/images/Navigation/Contact-Mouse_Over.png">
+				</div>
+
+
+			</nav><!-- Navigation :: END -->
+
+			<!-- Social Icons :: BEGIN-->
+			<div class="socialIcons_wrapper">
+				<ul class="socialIcons_list">
+					<!-- Facebook -->
+					<li class="socialIcons_li">
+						<a class="socialIcons_link" href="#">
+							<i class="fa fa-facebook" aria-hidden="true"></i>
+						</a>
+					</li>
+
+					<li class="socialIcons_li">
+						<a class="socialIcons_link" href="#">
+							<i class="fa fa-instagram" aria-hidden="true"></i>
+						</a>
+					</li>
+
+					<li class="socialIcons_li">
+						<a class="socialIcons_link" href="#">
+							<i class="fa fa-pinterest-p" aria-hidden="true"></i>
+						</a>
+					</li>
+				</ul>
+			</div><!-- Social Icons :: END-->
+
+		</div><!-- Static Layer :: END -->
 
 
 
-
+		<!-- Dynamic Layer :: BEGIN -->
 		<div class="universe universe--wrapper">
 
 
@@ -42,8 +91,7 @@
 					<!-- Logo :: BEGIN -->
 					<div class="logo_wrapper">
 						<div class="logo_container">
-							<!-- <img class="logo logo_open" src="./assets/images/logo-open.png">
-							<img class="logo logo_closed" src="./assets/images/logo-closed.png"> -->
+							<img class="logo logo_main" src="./assets/images/Logo&LogoAnimation/LogoSP-72PercentOpacity.png">
 						</div>
 					</div><!-- Logo :: END -->
 				</div>
@@ -101,7 +149,7 @@
 			</div>
 		
 
-		</div>
+		</div><!-- Dynamic Layer :: END -->
 	</div><!-- Universe :: END -->
 
 	<!-- JavaScript -->

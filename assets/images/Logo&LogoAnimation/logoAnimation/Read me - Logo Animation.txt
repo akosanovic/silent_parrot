@@ -1,0 +1,7 @@
+Kad se kursor misa nadje na logou 
+koji inace treba da ima transparenciju 72%,
+krece animacija koja treba da traje oko 1s:
+LF1-79%O : LF2-86%O : LF3-93%O : LF4-100%O : LF3-100%O : LF2-100%O : LF1-100%O : LogoSP-100%O
+Kad se kursor misa pomeri sa logoa,
+transparencija se ponovo postepeno smanji sa 100% na 72%.
+
