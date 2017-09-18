@@ -13,42 +13,51 @@
     }
 
     LogoAnimation.prototype.mouseInAnimation = function() {
-      var logoTitmeline, sceneFour, sceneOne, sceneThree, sceneTwo, start;
+      var logoTitmeline;
       console.log("WHY YOU NO WORK?");
-      start = TweenLite.to(this.logoMain, 0.1, {
-        autoAlpha: 1,
-        ease: Power0
+      logoTitmeline = new TimelineLite({
+        onComplete: function(e) {
+          var animationOn;
+          logoTitmeline.reverse();
+          return animationOn = false;
+        }
       });
-      sceneOne = TweenLite.fromTo(this.logoScene1, 1, {
-        autoAlpha: 1,
-        display: "block"
+      return logoTitmeline.fromTo(this.logoMain, 0.1, {
+        opacity: "0.72",
+        visibility: "visible"
       }, {
-        autoAlpha: 0,
+        opacity: "0",
+        visibility: "hidden",
         ease: Power1.easeOut
-      });
-      sceneTwo = TweenLite.fromTo(this.logoScene2, 1, {
-        autoAlpha: 1,
-        display: "block"
+      }, '=-0.025').fromTo(this.logoScene1, 0.1, {
+        opacity: "0.79",
+        visibility: "visible"
       }, {
-        autoAlpha: 0,
+        opacity: "0",
+        visibility: "hidden",
         ease: Power1.easeOut
-      });
-      sceneThree = TweenLite.fromTo(this.logoScene3, 1, {
-        autoAlpha: 1,
-        display: "block"
+      }, '=-0.025').fromTo(this.logoScene2, 0.1, {
+        opacity: "0.79",
+        visibility: "visible"
       }, {
-        autoAlpha: 0,
+        opacity: "0",
+        visibility: "hidden",
         ease: Power1.easeOut
-      });
-      sceneFour = TweenLite.fromTo(this.logoScene3, 1, {
-        autoAlpha: 1,
-        display: "block"
+      }, '=-0.025').fromTo(this.logoScene3, 0.1, {
+        opacity: "0.86",
+        visibility: "visible"
       }, {
-        autoAlpha: 0,
+        opacity: "0",
+        visibility: "hidden",
         ease: Power1.easeOut
-      });
-      logoTitmeline = new TimelineLite();
-      return logoTitmeline.add(sceneFour).add(sceneOne).add(sceneTwo).add(sceneThree);
+      }, '=-0.025').fromTo(this.logoScene4, 0.1, {
+        opacity: "0.72",
+        visibility: "visible"
+      }, {
+        opacity: "0.3",
+        visibility: "visible",
+        ease: Power1.easeOut
+      }, '=-0.025');
     };
 
     return LogoAnimation;

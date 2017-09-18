@@ -42,7 +42,7 @@ class @SilentParrot
 
 		# on mouse scroll
 		$(window).on('mousewheel DOMMouseScroll', @_scrollHandler.bind(@))
-		$(@logo).on('mouseenter', @_hoverHandler.bind(@))
+		$(@logo).on('mouseenter mouseleave', @_hoverHandler.bind(@))
 
 
 	_onLoadHandler:() ->
@@ -61,7 +61,7 @@ class @SilentParrot
 
 	_hoverHandler: () ->
 		logoAnimation = new LogoAnimation()
-		console.log logoAnimation
+		
 		logoAnimation.mouseInAnimation()
 	
 

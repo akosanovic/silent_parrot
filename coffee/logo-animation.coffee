@@ -11,69 +11,47 @@ class @LogoAnimation
 		console.log "Logo Container", @logoContainer
 
 		
-		
-
+	
 
 	mouseInAnimation: ()->
 		
 		console.log "WHY YOU NO WORK?"
 
-		start      = TweenLite.to( @logoMain, 1, 
-						{
-							autoAlpha: 1,
-							ease: Power0
-						})
-		
-		sceneOne   = TweenLite.fromTo( @logoScene1, 1, 
-						{ 
-							autoAlpha: 1
-						}, 
-						{
-							autoAlpha: 0,
-							ease: Power1.easeOut
-						});
-
-		sceneTwo   = TweenLite.fromTo( @logoScene2, 1, 
-			{ 
-							autoAlpha: 1
-						}, 
-						{
-							autoAlpha: 0,
-							ease: Power1.easeOut
-						});
-
-		sceneThree = TweenLite.fromTo( @logoScene3, 1, { 
-							autoAlpha: 1
-						}, 
-						{
-							autoAlpha: 0,
-							ease: Power1.easeOut
-						});
-		sceneFour = TweenLite.fromTo( @logoScene3, 1, { 
-							autoAlpha: 1
-						}, 
-						{
-							autoAlpha: 0,
-							ease: Power1.easeOut
-						});
-
-		sceneFive = TweenLite.to (@logoMain, 1,
-						{
-							autoAlpha: 1;
-						})
-
-		
+	
 		
 		
 
-		logoTitmeline = new TimelineLite();
+		logoTitmeline = new TimelineLite(
+				
+						
+			onComplete: (e) ->
+				logoTitmeline.reverse()
+				animationOn = false;
+		);
 
 		
 		logoTitmeline 
-			.add(sceneFour)
-			.add(sceneOne)
-			.add(sceneTwo)
-			.add(sceneThree)
+			.fromTo( @logoMain, 0.1, { opacity: "0.72", visibility: "visible" },
+									 { opacity: "0", visibility: "hidden",  ease: Power1.easeOut }, '=-0.025')
+
+			.fromTo( @logoScene1, 0.1, { opacity: "0.79", visibility: "visible" },
+									 { opacity: "0", visibility: "hidden",  ease: Power1.easeOut }, '=-0.025')
+
+			.fromTo( @logoScene2, 0.1, { opacity: "0.79", visibility: "visible" },
+									 { opacity: "0", visibility: "hidden",  ease: Power1.easeOut }, '=-0.025')
+
+			.fromTo( @logoScene3, 0.1, { opacity: "0.86", visibility: "visible" },
+										{ opacity: "0", visibility: "hidden",  ease: Power1.easeOut }, '=-0.025')
+
+			.fromTo( @logoScene4, 0.1, { opacity: "0.72", visibility: "visible" },
+										{ opacity: "0.3", visibility: "visible",  ease: Power1.easeOut }, '=-0.025' )
+
+
+
+
+
+			
+
 
 		
 

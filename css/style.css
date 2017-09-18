@@ -1480,14 +1480,42 @@ h2 {
 }
 /* line 49, ../scss/_home-page.scss */
 .logo_wrapper .logo_container .logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -moz-transform: translate3d(-50%, -50%, 0);
+  -ms-transform: translate3d(-50%, -50%, 0);
+  -webkit-transform: translate3d(-50%, -50%, 0);
+  transform: translate3d(-50%, -50%, 0);
   z-index: 70;
   height: 100%;
   width: auto;
 }
-/* line 54, ../scss/_home-page.scss */
+/* line 58, ../scss/_home-page.scss */
 .logo_wrapper .logo_container .logo.logo_main {
   display: inline-block;
   opacity: 0.72;
+  z-index: 80;
+}
+/* line 63, ../scss/_home-page.scss */
+.logo_wrapper .logo_container .logo.logo_scene1, .logo_wrapper .logo_container .logo.logo_scene2, .logo_wrapper .logo_container .logo.logo_scene3, .logo_wrapper .logo_container .logo.logo_scene4 {
+  visibility: hidden;
+}
+/* line 70, ../scss/_home-page.scss */
+.logo_wrapper .logo_container .logo.logo_scene1 {
+  opacity: 0.79;
+}
+/* line 73, ../scss/_home-page.scss */
+.logo_wrapper .logo_container .logo.logo_scene2 {
+  opacity: 0.86;
+}
+/* line 76, ../scss/_home-page.scss */
+.logo_wrapper .logo_container .logo.logo_scene1 {
+  opacity: 0.93;
+}
+/* line 79, ../scss/_home-page.scss */
+.logo_wrapper .logo_container .logo.logo_scene1 {
+  opacity: 1;
 }
 
 /* line 2, ../scss/_about-us-page.scss */

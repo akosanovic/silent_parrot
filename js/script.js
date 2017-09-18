@@ -19,7 +19,7 @@
       this._onLoadHandler();
       this.websiteWindow.on('resize', this._resizeHandler.bind(this));
       $(window).on('mousewheel DOMMouseScroll', this._scrollHandler.bind(this));
-      $(this.logo).on('mouseenter', this._hoverHandler.bind(this));
+      $(this.logo).on('mouseenter mouseleave', this._hoverHandler.bind(this));
     }
 
     SilentParrot.prototype._onLoadHandler = function() {
@@ -37,7 +37,6 @@
     SilentParrot.prototype._hoverHandler = function() {
       var logoAnimation;
       logoAnimation = new LogoAnimation();
-      console.log(logoAnimation);
       return logoAnimation.mouseInAnimation();
     };
 
