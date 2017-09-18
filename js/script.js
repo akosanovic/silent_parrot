@@ -12,11 +12,13 @@
       this.contactPage = new Page(this.pages[3], this);
       this.orderOfPages = [this.homePage, this.aboutUsPage, this.randomPage, this.contactPage];
       this.logo = this.mainWrapper.find('.logo--main');
-      this.activePage = this.leftCounter = 0;
+      this.activePage = this.homePage;
+      this.leftCounter = 0;
       this.mainWrapperTop = 0;
       this.windowW = 0;
       this.windowH = 0;
       this._onLoadHandler();
+      $(window).on('hashchange', this._hashHandler.bind(this));
       this.websiteWindow.on('resize', this._resizeHandler.bind(this));
       $(window).on('mousewheel DOMMouseScroll', this._scrollHandler.bind(this));
       $(this.logo).on('mouseenter mouseleave', this._hoverHandler.bind(this));
@@ -27,6 +29,17 @@
       this._setWrapperSize();
       this._getActivePage();
       return this._getHash();
+    };
+
+    SilentParrot.prototype._hashHandler = function(e) {
+      var newHash;
+      newHash = window.location.hash;
+      newHash = newHash.replace(/#/g, '');
+      if (newHash !== this.activePage.getPageName) {
+        return this._goToNextPageAutomatically(newHash);
+      } else {
+        return console.log("page not changed");
+      }
     };
 
     SilentParrot.prototype._resizeHandler = function() {
@@ -42,11 +55,60 @@
 
     SilentParrot.prototype._scrollHandler = function(e) {
       if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
-        console.log("Scrolled up");
-        return this._scrollUp();
+        return console.log("Scrolled up");
       } else {
         return this._scrollDown();
       }
+    };
+
+    SilentParrot.prototype._goToNextPageAutomatically = function(newActivePage) {
+      var j, k, len, len1, oldActivePage, page, ref, ref1, results, results1;
+      oldActivePage = this.activePage;
+      if (newActivePage === "aboutUs") {
+        ref = this.orderOfPages;
+        results = [];
+        for (j = 0, len = ref.length; j < len; j++) {
+          page = ref[j];
+          if (page.getPageName() === newActivePage) {
+            this.activePage = page;
+            results.push(this._scrollRight(oldActivePage, newActivePage));
+          } else {
+            results.push(void 0);
+          }
+        }
+        return results;
+      } else if (newActivePage === "contact") {
+        ref1 = this.orderOfPages;
+        results1 = [];
+        for (k = 0, len1 = ref1.length; k < len1; k++) {
+          page = ref1[k];
+          if (page.getPageName() === newActivePage) {
+            this.activePage = page;
+            results1.push(this._scrollBottom(oldActivePage, newActivePage));
+          } else {
+            results1.push(void 0);
+          }
+        }
+        return results1;
+      }
+    };
+
+    SilentParrot.prototype._scrollRight = function(oldPage, newPage) {
+      var scrollRight, scrollToNextPage;
+      scrollRight = oldPage.getWidth();
+      return scrollToNextPage = TweenLite.to(this.mainWrapper, 2.5, {
+        x: -scrollRight,
+        ease: Power1.easeOut
+      });
+    };
+
+    SilentParrot.prototype._scrollBottom = function(oldPage, newPage) {
+      var scrollBottom, scrollToNextPage;
+      scrollBottom = oldPage.getHeight();
+      return scrollToNextPage = TweenLite.to(this.mainWrapper, 2.5, {
+        y: -scrollBottom,
+        ease: Power1.easeOut
+      });
     };
 
     SilentParrot.prototype._getWindowDimensions = function() {

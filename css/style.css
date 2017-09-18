@@ -1329,10 +1329,10 @@ h2 {
 }
 /* line 20, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_item .navigationIcon_hover {
-  -moz-transition: all 0.3s linear;
-  -o-transition: all 0.3s linear;
-  -webkit-transition: all 0.3s linear;
-  transition: all 0.3s linear;
+  -moz-transition: all 0.4s linear;
+  -o-transition: all 0.4s linear;
+  -webkit-transition: all 0.4s linear;
+  transition: all 0.4s linear;
   visibility: hidden;
   opacity: 0;
   position: absolute;
@@ -1341,19 +1341,19 @@ h2 {
 }
 /* line 31, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_item:hover .navigationIcon_active {
-  -moz-transition: all 0.3s linear;
-  -o-transition: all 0.3s linear;
-  -webkit-transition: all 0.3s linear;
-  transition: all 0.3s linear;
+  -moz-transition: all 0.4s linear;
+  -o-transition: all 0.4s linear;
+  -webkit-transition: all 0.4s linear;
+  transition: all 0.4s linear;
   visibility: hidden;
   opacity: 0;
 }
 /* line 36, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_item:hover .navigationIcon_hover {
-  -moz-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
-  -webkit-transition: all 0.5s linear;
-  transition: all 0.5s linear;
+  -moz-transition: all 0.4s linear;
+  -o-transition: all 0.4s linear;
+  -webkit-transition: all 0.4s linear;
+  transition: all 0.4s linear;
   display: inline-block;
   visibility: visible;
   opacity: 1;
@@ -1488,7 +1488,7 @@ h2 {
   -webkit-transform: translate3d(-50%, -50%, 0);
   transform: translate3d(-50%, -50%, 0);
   z-index: 70;
-  height: 100%;
+  height: 98%;
   width: auto;
 }
 /* line 58, ../scss/_home-page.scss */

@@ -23,7 +23,7 @@ class @SilentParrot
 
 		@logo = @mainWrapper.find('.logo--main')
 		# Default Values
-		@activePage = 
+		@activePage = @homePage
 		@leftCounter = 0
 		@mainWrapperTop  = 0
 
@@ -37,12 +37,16 @@ class @SilentParrot
 		# ON Load 
 		@_onLoadHandler()
 
+		# On hash change
+		$(window).on('hashchange', @_hashHandler.bind(@))
+
 		# on resize
 		@websiteWindow.on('resize', @_resizeHandler.bind(@))
 
 		# on mouse scroll
 		$(window).on('mousewheel DOMMouseScroll', @_scrollHandler.bind(@))
 		$(@logo).on('mouseenter mouseleave', @_hoverHandler.bind(@))
+
 
 
 	_onLoadHandler:() ->
@@ -54,6 +58,20 @@ class @SilentParrot
 
 
 
+	_hashHandler: (e) ->
+		
+		newHash = window.location.hash
+		newHash = newHash.replace(/#/g, '')
+
+		if newHash != @activePage.getPageName
+			@_goToNextPageAutomatically(newHash)
+
+		else 
+			console.log "page not changed"
+
+
+
+
 	_resizeHandler: () ->
 		@_getWindowDimensions()
 		@_setWrapperSize()
@@ -61,7 +79,6 @@ class @SilentParrot
 
 	_hoverHandler: () ->
 		logoAnimation = new LogoAnimation()
-		
 		logoAnimation.mouseInAnimation()
 	
 
@@ -69,15 +86,52 @@ class @SilentParrot
 	_scrollHandler:(e) ->
 		if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0)
 			console.log "Scrolled up"
-			@_scrollUp()
+			# @_scrollUp()
 
 		else 
 			@_scrollDown()
 
 		
+########################
+#	change this section
+	_goToNextPageAutomatically: (newActivePage) ->
+		oldActivePage = @activePage
+		if newActivePage == "aboutUs"
+		
+			for page in @orderOfPages
+
+				if page.getPageName() == newActivePage
+					@activePage = page
+					@_scrollRight(oldActivePage, newActivePage)
+					# @_scrollToNextPage(oldActivePage, @activePage)
 
 
 
+		else if newActivePage == "contact"
+			for page in @orderOfPages 
+				if page.getPageName() == newActivePage
+					@activePage = page
+					@_scrollBottom(oldActivePage, newActivePage)
+					
+
+	_scrollRight: (oldPage, newPage) ->
+		scrollRight = oldPage.getWidth()
+
+		scrollToNextPage = TweenLite.to(@mainWrapper, 2.5, {
+			x: -scrollRight,
+			ease: Power1.easeOut
+		})
+
+	_scrollBottom: (oldPage, newPage) ->
+		scrollBottom = oldPage.getHeight()
+
+		scrollToNextPage = TweenLite.to(@mainWrapper, 2.5, {
+			y: -scrollBottom,
+			ease: Power1.easeOut
+		})
+
+
+##############################
 
 	_getWindowDimensions: () ->
 		@windowW = @websiteWindow.width()
@@ -123,8 +177,6 @@ class @SilentParrot
 		else 
 			return false
 
-
-
 	
 	_scrollDown:() ->
 		console.log "SCROLL DOWN"
@@ -150,9 +202,6 @@ class @SilentParrot
 		@leftCounter = @leftCounter + 20
 			
 
-		
-
-
 	_goToNextActivePage: () ->
 
 		for page, i in @orderOfPages
@@ -163,9 +212,6 @@ class @SilentParrot
 				else 
 					@activePage = @orderOfPages[0]
 					return @activePage
-
-
-
 	
 
 	_goToPrevActivePage: () ->
@@ -178,9 +224,7 @@ class @SilentParrot
 					i = @orderOfPages.length
 					@activePage = @orderOfPages[i]
 
-				
-
-
+			
 
 	_scrollUp:() ->
 		@leftCounter = @leftCounter - 100
