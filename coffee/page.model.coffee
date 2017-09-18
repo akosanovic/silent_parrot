@@ -47,6 +47,14 @@ class @Page
 		return String(name)
 
 
+	getWidth: () ->
+		@page.width()
+
+
+	getHeight: () ->
+		@page.height()
+
+
 
 
 

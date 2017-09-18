@@ -49,6 +49,14 @@
       return String(name);
     };
 
+    Page.prototype.getWidth = function() {
+      return this.page.width();
+    };
+
+    Page.prototype.getHeight = function() {
+      return this.page.height();
+    };
+
     return Page;
 
   })();
