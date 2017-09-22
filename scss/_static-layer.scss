@@ -43,7 +43,7 @@
 	}
 	.navigation_right {
 		top  : 50%;
-		right: $lh;
+		right: 0;
 		@include transform ( translateY(-50%) );
 
 		width: $lh*3;
@@ -52,7 +52,7 @@
 
 	.navigation_bottom {
 		left: 50%;
-		bottom: $lh;
+		bottom: 0;
 		@include transform (translateX(-50%));
 
 		width: $lh*3;

@@ -1,7 +1,4 @@
 
-
-
-
 class @SilentParrot
 	constructor: () ->
 		@websiteWindow = $(window)
@@ -25,6 +22,7 @@ class @SilentParrot
 		# Default Values
 		@activePage = @homePage
 		@leftCounter = 0
+		@topCounter  = 0
 		@mainWrapperTop  = 0
 
 		@windowW = 0;
@@ -34,17 +32,20 @@ class @SilentParrot
 
 
 		# Event Binding
-		# ON Load 
+
+		# load
 		@_onLoadHandler()
 
-		# On hash change
+		# hash change
 		$(window).on('hashchange', @_hashHandler.bind(@))
 
-		# on resize
+		# resize
 		@websiteWindow.on('resize', @_resizeHandler.bind(@))
 
-		# on mouse scroll
+		# mouse scroll
 		$(window).on('mousewheel DOMMouseScroll', @_scrollHandler.bind(@))
+
+		# hover
 		$(@logo).on('mouseenter mouseleave', @_hoverHandler.bind(@))
 
 
@@ -54,8 +55,6 @@ class @SilentParrot
 		@_setWrapperSize()
 		@_getActivePage()
 		@_getHash()
-
-
 
 
 	_hashHandler: (e) ->
@@ -70,17 +69,9 @@ class @SilentParrot
 			console.log "page not changed"
 
 
-
-
 	_resizeHandler: () ->
 		@_getWindowDimensions()
 		@_setWrapperSize()
-		
-
-	_hoverHandler: () ->
-		logoAnimation = new LogoAnimation()
-		logoAnimation.mouseInAnimation()
-	
 
 
 	_scrollHandler:(e) ->
@@ -91,7 +82,47 @@ class @SilentParrot
 		else 
 			@_scrollDown()
 
-		
+
+	_hoverHandler: () ->
+		logoAnimation = new LogoAnimation()
+		logoAnimation.mouseInAnimation()
+
+
+
+
+	_getWindowDimensions: () ->
+		@windowW = @websiteWindow.width()
+		@windowH = @websiteWindow.height()
+
+
+	_setWrapperSize: ()->
+		@mainWrapper.css("width", @windowW*2)
+		@mainWrapper.css("height", @windowH*2)
+
+
+	_getWrapperSize: () ->
+		wrapperSize = @mainWrapper[0].getBoundingClientRect();
+		console.log "WRAPPER SIZE", wrapperSize
+		return wrapperSize #top, bottom, left, right	
+
+
+	_getActivePage: () ->
+		for page in @orderOfPages
+			if page.isActive()
+				@_setHash(page)
+				return page
+
+
+	_getHash: () ->
+		hash = window.location.hash
+
+		@_setActivePage(hash)
+
+
+
+
+
+
 ########################
 #	change this section
 	_goToNextPageAutomatically: (newActivePage) ->
@@ -133,21 +164,8 @@ class @SilentParrot
 
 ##############################
 
-	_getWindowDimensions: () ->
-		@windowW = @websiteWindow.width()
-		@windowH = @websiteWindow.height()
 
 
-	_setWrapperSize: ()->
-		@mainWrapper.css("width", @windowW*2)
-		@mainWrapper.css("height", @windowH*2)
-
-
-
-	_getWrapperSize: () ->
-		wrapperSize = @mainWrapper[0].getBoundingClientRect();
-		console.log "WRAPPER SIZE", wrapperSize
-		return wrapperSize #top, bottom, left, right	
 
 
 
@@ -179,34 +197,97 @@ class @SilentParrot
 
 	
 	_scrollDown:() ->
-		console.log "SCROLL DOWN"
+		activePageName = @activePage.getPageName()
+		console.log "active page is ", @activePage
+
+		if activePageName == 'home'
+			if @leftCounter <= 100
 				
-		if @activePage.top() == 0 && @activePage.left() == 0
-			@_goToNextActivePage()
-			@_scrollDown()
-
-		if !@_checkIfOverscroll()		
-		
-			TweenLite.to( @mainWrapper, 1, {
-				left: "-#{@leftCounter}%",
-				ease:   Power0.easeNone
-			})
+				TweenLite.to( @mainWrapper, 1, {
+					left: "-#{@leftCounter}%",
+					ease:   Power0.easeNone
+				})
+				@leftCounter = @leftCounter + 10
+			else 
+				@leftCounter = 100
+				@_goToNextActivePage()
 
 
-		# if @activePage.right() != 0 && @activePage.bottom != 0
-		# 	TweenLite.to( @mainWrapper, 1, {
-		# 		left: "-#{@leftCounter}%",
-		# 		ease:   Power0.easeNone
-		# 	})
 
-		@leftCounter = @leftCounter + 20
+		if activePageName == 'aboutUs'
+
+			# scroll down
+			if @topCounter <= 100
+				console.log "TOP COUNTER", @topCounter
+				TweenLite.to( @mainWrapper, 1, {
+					top: "-#{@topCounter}%",
+					ease: Power0.easeNone
+				})
+				@topCounter = @topCounter + 10
+
+			else 
+				@topCounter = 100
+				@_goToNextActivePage()
+
+
+
+		if activePageName == 'random'
+			console.log "active page is random"
 			
+			if @leftCounter >= 0
+				
+				TweenLite.to( @mainWrapper, 1, {
+					left: "-#{@leftCounter}%",
+					ease:   Power0.easeNone
+				})
+
+				@leftCounter = @leftCounter - 10
+			
+			else 
+				@_goToNextActivePage()
+
+
+
+		if activePageName == 'contact'
+			console.log "active page is contact"
+			console.log "top couner", @topCounter
+			
+			if @topCounter >= 0
+				
+				TweenLite.to( @mainWrapper, 1, {
+					top: "-#{@topCounter}%",
+					ease:   Power0.easeNone
+				})
+
+				@topCounter = @topCounter - 10
+			
+			else 
+				@_goToNextActivePage()
+				
+				
+
+
+
+
+
+
+
+
+
+		
+
+		
+
 
 	_goToNextActivePage: () ->
+		# set the correct url
 
 		for page, i in @orderOfPages
+
+			console.log "page name is ", page.getPageName()
+
 			if page == @activePage 
-				if (i < @orderOfPages.length)
+				if (i+1 < @orderOfPages.length)
 					@activePage = @orderOfPages[i+1]
 					return @activePage
 				else 
@@ -237,12 +318,6 @@ class @SilentParrot
 
 
 
-	_getActivePage: () ->
-		for page in @orderOfPages
-			if page.isActive()
-				@_setHash(page)
-				return page
-
 
 
 	_setActivePage: (hash) ->
@@ -261,10 +336,6 @@ class @SilentParrot
 
 	
 
-	_getHash: () ->
-		hash = window.location.hash
-
-		@_setActivePage(hash)
 
 
 

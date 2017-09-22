@@ -14,6 +14,7 @@
       this.logo = this.mainWrapper.find('.logo--main');
       this.activePage = this.homePage;
       this.leftCounter = 0;
+      this.topCounter = 0;
       this.mainWrapperTop = 0;
       this.windowW = 0;
       this.windowH = 0;
@@ -47,18 +48,53 @@
       return this._setWrapperSize();
     };
 
-    SilentParrot.prototype._hoverHandler = function() {
-      var logoAnimation;
-      logoAnimation = new LogoAnimation();
-      return logoAnimation.mouseInAnimation();
-    };
-
     SilentParrot.prototype._scrollHandler = function(e) {
       if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
         return console.log("Scrolled up");
       } else {
         return this._scrollDown();
       }
+    };
+
+    SilentParrot.prototype._hoverHandler = function() {
+      var logoAnimation;
+      logoAnimation = new LogoAnimation();
+      return logoAnimation.mouseInAnimation();
+    };
+
+    SilentParrot.prototype._getWindowDimensions = function() {
+      this.windowW = this.websiteWindow.width();
+      return this.windowH = this.websiteWindow.height();
+    };
+
+    SilentParrot.prototype._setWrapperSize = function() {
+      this.mainWrapper.css("width", this.windowW * 2);
+      return this.mainWrapper.css("height", this.windowH * 2);
+    };
+
+    SilentParrot.prototype._getWrapperSize = function() {
+      var wrapperSize;
+      wrapperSize = this.mainWrapper[0].getBoundingClientRect();
+      console.log("WRAPPER SIZE", wrapperSize);
+      return wrapperSize;
+    };
+
+    SilentParrot.prototype._getActivePage = function() {
+      var j, len, page, ref;
+      ref = this.orderOfPages;
+      for (j = 0, len = ref.length; j < len; j++) {
+        page = ref[j];
+        if (page.isActive()) {
+          this._setHash(page);
+          return page;
+        }
+      }
+    };
+
+    SilentParrot.prototype._getHash = function() {
+      var hash;
+      hash = window.location.hash;
+      return this._setActivePage(hash);
     };
 
     SilentParrot.prototype._goToNextPageAutomatically = function(newActivePage) {
@@ -111,23 +147,6 @@
       });
     };
 
-    SilentParrot.prototype._getWindowDimensions = function() {
-      this.windowW = this.websiteWindow.width();
-      return this.windowH = this.websiteWindow.height();
-    };
-
-    SilentParrot.prototype._setWrapperSize = function() {
-      this.mainWrapper.css("width", this.windowW * 2);
-      return this.mainWrapper.css("height", this.windowH * 2);
-    };
-
-    SilentParrot.prototype._getWrapperSize = function() {
-      var wrapperSize;
-      wrapperSize = this.mainWrapper[0].getBoundingClientRect();
-      console.log("WRAPPER SIZE", wrapperSize);
-      return wrapperSize;
-    };
-
     SilentParrot.prototype._checkIfOverscroll = function() {
       var bottom, left, right, top;
       top = this.mainWrapper[0].getBoundingClientRect().top;
@@ -152,18 +171,59 @@
     };
 
     SilentParrot.prototype._scrollDown = function() {
-      console.log("SCROLL DOWN");
-      if (this.activePage.top() === 0 && this.activePage.left() === 0) {
-        this._goToNextActivePage();
-        this._scrollDown();
+      var activePageName;
+      activePageName = this.activePage.getPageName();
+      console.log("active page is ", this.activePage);
+      if (activePageName === 'home') {
+        if (this.leftCounter <= 100) {
+          TweenLite.to(this.mainWrapper, 1, {
+            left: "-" + this.leftCounter + "%",
+            ease: Power0.easeNone
+          });
+          this.leftCounter = this.leftCounter + 10;
+        } else {
+          this.leftCounter = 100;
+          this._goToNextActivePage();
+        }
       }
-      if (!this._checkIfOverscroll()) {
-        TweenLite.to(this.mainWrapper, 1, {
-          left: "-" + this.leftCounter + "%",
-          ease: Power0.easeNone
-        });
+      if (activePageName === 'aboutUs') {
+        if (this.topCounter <= 100) {
+          console.log("TOP COUNTER", this.topCounter);
+          TweenLite.to(this.mainWrapper, 1, {
+            top: "-" + this.topCounter + "%",
+            ease: Power0.easeNone
+          });
+          this.topCounter = this.topCounter + 10;
+        } else {
+          this.topCounter = 100;
+          this._goToNextActivePage();
+        }
       }
-      return this.leftCounter = this.leftCounter + 20;
+      if (activePageName === 'random') {
+        console.log("active page is random");
+        if (this.leftCounter >= 0) {
+          TweenLite.to(this.mainWrapper, 1, {
+            left: "-" + this.leftCounter + "%",
+            ease: Power0.easeNone
+          });
+          this.leftCounter = this.leftCounter - 10;
+        } else {
+          this._goToNextActivePage();
+        }
+      }
+      if (activePageName === 'contact') {
+        console.log("active page is contact");
+        console.log("top couner", this.topCounter);
+        if (this.topCounter >= 0) {
+          TweenLite.to(this.mainWrapper, 1, {
+            top: "-" + this.topCounter + "%",
+            ease: Power0.easeNone
+          });
+          return this.topCounter = this.topCounter - 10;
+        } else {
+          return this._goToNextActivePage();
+        }
+      }
     };
 
     SilentParrot.prototype._goToNextActivePage = function() {
@@ -171,8 +231,9 @@
       ref = this.orderOfPages;
       for (i = j = 0, len = ref.length; j < len; i = ++j) {
         page = ref[i];
+        console.log("page name is ", page.getPageName());
         if (page === this.activePage) {
-          if (i < this.orderOfPages.length) {
+          if (i + 1 < this.orderOfPages.length) {
             this.activePage = this.orderOfPages[i + 1];
             return this.activePage;
           } else {
@@ -208,18 +269,6 @@
       });
     };
 
-    SilentParrot.prototype._getActivePage = function() {
-      var j, len, page, ref;
-      ref = this.orderOfPages;
-      for (j = 0, len = ref.length; j < len; j++) {
-        page = ref[j];
-        if (page.isActive()) {
-          this._setHash(page);
-          return page;
-        }
-      }
-    };
-
     SilentParrot.prototype._setActivePage = function(hash) {
       return console.log("Set active page based on hash");
     };
@@ -230,12 +279,6 @@
         window.location.hash = this.activePage.getPageName();
       }
       return console.log("window location hash", window.location.hash);
-    };
-
-    SilentParrot.prototype._getHash = function() {
-      var hash;
-      hash = window.location.hash;
-      return this._setActivePage(hash);
     };
 
     return SilentParrot;

@@ -1252,7 +1252,7 @@ body {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 50%;
+  right: 0;
   z-index: 10;
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
@@ -1361,7 +1361,7 @@ h2 {
 /* line 44, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_right {
   top: 50%;
-  right: 1.5rem;
+  right: 0;
   -moz-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
@@ -1372,7 +1372,7 @@ h2 {
 /* line 53, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_bottom {
   left: 50%;
-  bottom: 1.5rem;
+  bottom: 0;
   -moz-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
