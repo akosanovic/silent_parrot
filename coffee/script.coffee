@@ -62,11 +62,11 @@ class @SilentParrot
 		newHash = window.location.hash
 		newHash = newHash.replace(/#/g, '')
 
-		if newHash != @activePage.getPageName
-			@_goToNextPageAutomatically(newHash)
+		# if newHash != @activePage.getPageName
+		# 	@_goToNextPageAutomatically(newHash)
 
-		else 
-			console.log "page not changed"
+		# else 
+		# 	console.log "page not changed"
 
 
 	_resizeHandler: () ->
@@ -169,36 +169,12 @@ class @SilentParrot
 
 
 
-
-
-
-	_checkIfOverscroll: () ->
-		
-		top    = @mainWrapper[0].getBoundingClientRect().top
-		right  = @mainWrapper[0].getBoundingClientRect().right
-		bottom = @mainWrapper[0].getBoundingClientRect().bottom
-		left   = @mainWrapper[0].getBoundingClientRect().left
-		
-
-		if(top > 0 ) 
-			console.log "too high"
-			return true
-		else if (left > 0)
-			console.log "too left"
-			return true
-		else if (right < 0)
-			console.log "too right"
-			return true
-		else if (bottom < 0)
-			console.log "too low"
-			return true
-		else 
-			return false
-
 	
 	_scrollDown:() ->
 		activePageName = @activePage.getPageName()
 		console.log "active page is ", @activePage
+		mainWrapperPosition = @mainWrapper[0].getBoundingClientRect()
+
 
 		if activePageName == 'home'
 			if @leftCounter <= 100
@@ -208,11 +184,18 @@ class @SilentParrot
 					ease:   Power0.easeNone
 				})
 				@leftCounter = @leftCounter + 10
+			
 			else 
 				@leftCounter = 100
-				@_goToNextActivePage()
 
-
+				TweenLite.to( @mainWrapper, 0.5, {
+					left: "-100%",
+					top: 0,
+					ease:   Power0.easeNone,
+					onComplete: @_goToNextActivePage.bind(@)
+				})
+				
+				
 
 		if activePageName == 'aboutUs'
 
@@ -227,8 +210,14 @@ class @SilentParrot
 
 			else 
 				@topCounter = 100
-				@_goToNextActivePage()
-
+				
+				TweenLite.to( @mainWrapper, 0.5, {
+					left: "-100%",
+					top : "-100%",
+					ease:   Power0.easeNone,
+					onComplete: @_goToNextActivePage.bind(@)
+				})
+				
 
 
 		if activePageName == 'random'
@@ -240,11 +229,17 @@ class @SilentParrot
 					left: "-#{@leftCounter}%",
 					ease:   Power0.easeNone
 				})
-
 				@leftCounter = @leftCounter - 10
 			
 			else 
-				@_goToNextActivePage()
+				@leftCounter = 0;
+
+				TweenLite.to( @mainWrapper, 0.5, {
+					left: 0,
+					top : "-100%",
+					ease:  Power0.easeNone,
+					onComplete: @_goToNextActivePage.bind(@)
+				})
 
 
 
@@ -262,37 +257,37 @@ class @SilentParrot
 				@topCounter = @topCounter - 10
 			
 			else 
-				@_goToNextActivePage()
+				@topCounter = 0;
+
+				TweenLite.to( @mainWrapper, 0.5, {
+					left: 0,
+					top : 0,
+					ease:   Power0.easeNone,
+					onComplete: @_goToNextActivePage.bind(@)
+				})
+
 				
 				
 
 
-
-
-
-
-
-
-
-		
-
-		
 
 
 	_goToNextActivePage: () ->
 		# set the correct url
-
+		newActivePage = null
 		for page, i in @orderOfPages
-
-			console.log "page name is ", page.getPageName()
 
 			if page == @activePage 
 				if (i+1 < @orderOfPages.length)
-					@activePage = @orderOfPages[i+1]
-					return @activePage
+					newActivePage = @orderOfPages[i+1]
+					
 				else 
-					@activePage = @orderOfPages[0]
-					return @activePage
+					newActivePage = @orderOfPages[0]
+					
+
+		if newActivePage
+			@_setHash(newActivePage)
+				
 	
 
 	_goToPrevActivePage: () ->

@@ -35,12 +35,7 @@
     SilentParrot.prototype._hashHandler = function(e) {
       var newHash;
       newHash = window.location.hash;
-      newHash = newHash.replace(/#/g, '');
-      if (newHash !== this.activePage.getPageName) {
-        return this._goToNextPageAutomatically(newHash);
-      } else {
-        return console.log("page not changed");
-      }
+      return newHash = newHash.replace(/#/g, '');
     };
 
     SilentParrot.prototype._resizeHandler = function() {
@@ -147,33 +142,11 @@
       });
     };
 
-    SilentParrot.prototype._checkIfOverscroll = function() {
-      var bottom, left, right, top;
-      top = this.mainWrapper[0].getBoundingClientRect().top;
-      right = this.mainWrapper[0].getBoundingClientRect().right;
-      bottom = this.mainWrapper[0].getBoundingClientRect().bottom;
-      left = this.mainWrapper[0].getBoundingClientRect().left;
-      if (top > 0) {
-        console.log("too high");
-        return true;
-      } else if (left > 0) {
-        console.log("too left");
-        return true;
-      } else if (right < 0) {
-        console.log("too right");
-        return true;
-      } else if (bottom < 0) {
-        console.log("too low");
-        return true;
-      } else {
-        return false;
-      }
-    };
-
     SilentParrot.prototype._scrollDown = function() {
-      var activePageName;
+      var activePageName, mainWrapperPosition;
       activePageName = this.activePage.getPageName();
       console.log("active page is ", this.activePage);
+      mainWrapperPosition = this.mainWrapper[0].getBoundingClientRect();
       if (activePageName === 'home') {
         if (this.leftCounter <= 100) {
           TweenLite.to(this.mainWrapper, 1, {
@@ -183,7 +156,12 @@
           this.leftCounter = this.leftCounter + 10;
         } else {
           this.leftCounter = 100;
-          this._goToNextActivePage();
+          TweenLite.to(this.mainWrapper, 0.5, {
+            left: "-100%",
+            top: 0,
+            ease: Power0.easeNone,
+            onComplete: this._goToNextActivePage.bind(this)
+          });
         }
       }
       if (activePageName === 'aboutUs') {
@@ -196,7 +174,12 @@
           this.topCounter = this.topCounter + 10;
         } else {
           this.topCounter = 100;
-          this._goToNextActivePage();
+          TweenLite.to(this.mainWrapper, 0.5, {
+            left: "-100%",
+            top: "-100%",
+            ease: Power0.easeNone,
+            onComplete: this._goToNextActivePage.bind(this)
+          });
         }
       }
       if (activePageName === 'random') {
@@ -208,7 +191,13 @@
           });
           this.leftCounter = this.leftCounter - 10;
         } else {
-          this._goToNextActivePage();
+          this.leftCounter = 0;
+          TweenLite.to(this.mainWrapper, 0.5, {
+            left: 0,
+            top: "-100%",
+            ease: Power0.easeNone,
+            onComplete: this._goToNextActivePage.bind(this)
+          });
         }
       }
       if (activePageName === 'contact') {
@@ -221,26 +210,33 @@
           });
           return this.topCounter = this.topCounter - 10;
         } else {
-          return this._goToNextActivePage();
+          this.topCounter = 0;
+          return TweenLite.to(this.mainWrapper, 0.5, {
+            left: 0,
+            top: 0,
+            ease: Power0.easeNone,
+            onComplete: this._goToNextActivePage.bind(this)
+          });
         }
       }
     };
 
     SilentParrot.prototype._goToNextActivePage = function() {
-      var i, j, len, page, ref;
+      var i, j, len, newActivePage, page, ref;
+      newActivePage = null;
       ref = this.orderOfPages;
       for (i = j = 0, len = ref.length; j < len; i = ++j) {
         page = ref[i];
-        console.log("page name is ", page.getPageName());
         if (page === this.activePage) {
           if (i + 1 < this.orderOfPages.length) {
-            this.activePage = this.orderOfPages[i + 1];
-            return this.activePage;
+            newActivePage = this.orderOfPages[i + 1];
           } else {
-            this.activePage = this.orderOfPages[0];
-            return this.activePage;
+            newActivePage = this.orderOfPages[0];
           }
         }
+      }
+      if (newActivePage) {
+        return this._setHash(newActivePage);
       }
     };
 
