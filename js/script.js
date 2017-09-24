@@ -45,10 +45,21 @@
 
     SilentParrot.prototype._scrollHandler = function(e) {
       if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
-        return console.log("Scrolled up");
+        console.log("Scrolled up");
+        return this._scrollUp();
       } else {
         return this._scrollDown();
       }
+    };
+
+    SilentParrot.prototype._removeScrollHandler = function() {
+      console.log("SCROLL handler removed ");
+      return $(window).off('mousewheel DOMMouseScroll');
+    };
+
+    SilentParrot.prototype._addScrollHandler = function() {
+      console.log("scroll handler added");
+      return $(window).on('mousewheel DOMMouseScroll', this._scrollHandler.bind(this));
     };
 
     SilentParrot.prototype._hoverHandler = function() {
@@ -148,44 +159,91 @@
       console.log("active page is ", this.activePage);
       mainWrapperPosition = this.mainWrapper[0].getBoundingClientRect();
       if (activePageName === 'home') {
+        this.leftCounter = this.leftCounter + 20;
         if (this.leftCounter <= 100) {
-          TweenLite.to(this.mainWrapper, 1, {
-            left: "-" + this.leftCounter + "%",
-            ease: Power0.easeNone
-          });
-          this.leftCounter = this.leftCounter + 10;
-        } else {
-          this.leftCounter = 100;
           TweenLite.to(this.mainWrapper, 0.5, {
-            left: "-100%",
+            left: "-" + this.leftCounter + "%",
+            ease: Power0.easeOut,
+            onStart: this._removeScrollHandler.bind(this),
+            onComplete: this._addScrollHandler.bind(this)
+          });
+        } else {
+          console.log("Go to next page activated");
+          this.leftCounter = 100;
+          TweenLite.to(this.mainWrapper, 0.3, {
+            left: "-" + this.leftCounter + "%",
             top: 0,
-            ease: Power0.easeNone,
+            ease: Power0.easeOut,
             onComplete: this._goToNextActivePage.bind(this)
           });
         }
       }
       if (activePageName === 'aboutUs') {
+        this.topCounter = this.topCounter + 20;
         if (this.topCounter <= 100) {
-          console.log("TOP COUNTER", this.topCounter);
-          TweenLite.to(this.mainWrapper, 1, {
+          TweenLite.to(this.mainWrapper, 0.3, {
             top: "-" + this.topCounter + "%",
-            ease: Power0.easeNone
+            ease: Power0.easeOut,
+            onStart: this._removeScrollHandler.bind(this),
+            onComplete: this._addScrollHandler.bind(this)
           });
-          this.topCounter = this.topCounter + 10;
         } else {
           this.topCounter = 100;
           TweenLite.to(this.mainWrapper, 0.5, {
-            left: "-100%",
-            top: "-100%",
+            left: "-" + this.leftCounter + "%",
+            top: "-" + this.topCounter + "%",
             ease: Power0.easeNone,
             onComplete: this._goToNextActivePage.bind(this)
           });
         }
       }
       if (activePageName === 'random') {
-        console.log("active page is random");
+        this.leftCounter = this.leftCounter - 20;
         if (this.leftCounter >= 0) {
-          TweenLite.to(this.mainWrapper, 1, {
+          TweenLite.to(this.mainWrapper, 0.4, {
+            left: "-" + this.leftCounter + "%",
+            ease: Power0.easeOut,
+            onStart: this._removeScrollHandler.bind(this),
+            onComplete: this._addScrollHandler.bind(this)
+          });
+        } else {
+          this.leftCounter = 0;
+          TweenLite.to(this.mainWrapper, 0.5, {
+            left: this.leftCounter,
+            top: "-" + this.topCounter + "%",
+            ease: Power0.easeNone,
+            onComplete: this._goToNextActivePage.bind(this)
+          });
+        }
+      }
+      if (activePageName === 'contact') {
+        this.topCounter = this.topCounter - 20;
+        if (this.topCounter >= 0) {
+          return TweenLite.to(this.mainWrapper, 0.4, {
+            top: "-" + this.topCounter + "%",
+            ease: Power0.easeNone,
+            onStart: this._removeScrollHandler.bind(this),
+            onComplete: this._addScrollHandler.bind(this)
+          });
+        } else {
+          this.topCounter = 0;
+          return TweenLite.to(this.mainWrapper, 0.5, {
+            left: 0,
+            top: 0,
+            ease: Power0.easeNone,
+            onComplete: this._goToNextActivePage.bind(this)
+          });
+        }
+      }
+    };
+
+    SilentParrot.prototype._scrollUp = function() {
+      var activePageName, mainWrapperPosition;
+      activePageName = this.activePage.getPageName();
+      mainWrapperPosition = this.mainWrapper[0].getBoundingClientRect();
+      if (activePageName === 'home') {
+        if (this.leftCounter > 0) {
+          TweenLite.to(this.mainWrapper, 0.5, {
             left: "-" + this.leftCounter + "%",
             ease: Power0.easeNone
           });
@@ -194,9 +252,48 @@
           this.leftCounter = 0;
           TweenLite.to(this.mainWrapper, 0.5, {
             left: 0,
+            top: 0,
+            ease: Power0.easeNone
+          });
+        }
+      }
+      if (activePageName === 'aboutUs') {
+        if (this.topCounter > 100) {
+          console.log("TOP COUNTER", this.topCounter);
+          TweenLite.to(this.mainWrapper, 0.5, {
+            top: "-" + this.topCounter + "%",
+            ease: Power0.easeNone,
+            onStart: this._removeScrollHandler(),
+            onComplete: this._addScrollHandler()
+          });
+          this.topCounter = this.topCounter - 10;
+        } else {
+          this.topCounter = 100;
+          TweenLite.to(this.mainWrapper, 0.5, {
+            left: "-100%",
             top: "-100%",
             ease: Power0.easeNone,
-            onComplete: this._goToNextActivePage.bind(this)
+            onComplete: this._goToPrevActivePage.bind(this)
+          });
+        }
+      }
+      if (activePageName === 'random') {
+        console.log("active page is random");
+        if (this.leftCounter < 0) {
+          TweenLite.to(this.mainWrapper, 0.5, {
+            left: "-" + this.leftCounter + "%",
+            ease: Power0.easeNone,
+            onStart: this._removeScrollHandler(),
+            onComplete: this._addScrollHandler()
+          });
+          this.leftCounter = this.leftCounter + 10;
+        } else {
+          this.leftCounter = 0;
+          TweenLite.to(this.mainWrapper, 0.5, {
+            left: 0,
+            top: "-100%",
+            ease: Power0.easeNone,
+            onComplete: this._goToPrevActivePage.bind(this)
           });
         }
       }
@@ -204,7 +301,7 @@
         console.log("active page is contact");
         console.log("top couner", this.topCounter);
         if (this.topCounter >= 0) {
-          TweenLite.to(this.mainWrapper, 1, {
+          TweenLite.to(this.mainWrapper, 0.5, {
             top: "-" + this.topCounter + "%",
             ease: Power0.easeNone
           });
@@ -246,7 +343,7 @@
       for (i = j = 0, len = ref.length; j < len; i = ++j) {
         page = ref[i];
         if (page === this.activePage) {
-          if (i > 0) {
+          if (i >= 1) {
             this.activePage = this.orderOfPages[i - 1];
             return this.activePage;
           } else {
@@ -255,14 +352,6 @@
           }
         }
       }
-    };
-
-    SilentParrot.prototype._scrollUp = function() {
-      this.leftCounter = this.leftCounter - 100;
-      return TweenLite.to(this.mainWrapper, 0.3, {
-        y: this.leftCounter,
-        ease: Power1.easeInOut
-      });
     };
 
     SilentParrot.prototype._setActivePage = function(hash) {
