@@ -1277,6 +1277,11 @@ body {
   background-color: rgba(17, 24, 32, 0.15);
 }
 
+/* line 65, ../scss/_main-layout.scss */
+.pageContent_wrapper {
+  padding: 4.5rem;
+}
+
 /* line 4, ../scss/_main-style.scss */
 a {
   color: inherit;
@@ -1317,17 +1322,27 @@ h2 {
 }
 /* line 10, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_item {
+  -moz-transition: all 0.4s linear;
+  -o-transition: all 0.4s linear;
+  -webkit-transition: all 0.4s linear;
+  transition: all 0.4s linear;
   z-index: 150;
   position: absolute;
+  overflow: hidden;
   cursor: pointer;
 }
-/* line 15, ../scss/_static-layer.scss */
-.navigation_wrapper .navigation_item img {
-  display: inline-block;
-  width: 100%;
-  height: auto;
+/* line 19, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_item .nav_label {
+  position: absolute;
+  line-height: 1;
+  font-size: 12px;
+  text-transform: uppercase;
 }
-/* line 20, ../scss/_static-layer.scss */
+/* line 26, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_item .nav_icon {
+  position: absolute;
+}
+/* line 32, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_item .navigationIcon_hover {
   -moz-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
@@ -1339,7 +1354,30 @@ h2 {
   top: 0;
   right: 0;
 }
-/* line 31, ../scss/_static-layer.scss */
+/* line 42, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_item:hover {
+  -moz-transition: all 0.4s linear;
+  -o-transition: all 0.4s linear;
+  -webkit-transition: all 0.4s linear;
+  transition: all 0.4s linear;
+}
+/* line 44, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_item:hover.navigation_top {
+  top: 1.5rem;
+}
+/* line 47, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_item:hover.navigation_bottom {
+  bottom: 1.5rem;
+}
+/* line 50, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_item:hover.navigation_left {
+  left: 1.5rem;
+}
+/* line 53, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_item:hover.navigation_right {
+  right: 1.5rem;
+}
+/* line 57, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_item:hover .navigationIcon_active {
   -moz-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
@@ -1348,7 +1386,7 @@ h2 {
   visibility: hidden;
   opacity: 0;
 }
-/* line 36, ../scss/_static-layer.scss */
+/* line 62, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_item:hover .navigationIcon_hover {
   -moz-transition: all 0.4s linear;
   -o-transition: all 0.4s linear;
@@ -1358,18 +1396,61 @@ h2 {
   visibility: visible;
   opacity: 1;
 }
-/* line 44, ../scss/_static-layer.scss */
-.navigation_wrapper .navigation_right {
-  top: 50%;
-  right: 0;
-  -moz-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
-  width: 4.5rem;
+/* line 72, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_item.navigation_top, .navigation_wrapper .navigation_item.navigation_bottom {
+  width: 9rem;
+  height: 3rem;
+}
+/* line 76, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_item.navigation_top .nav_label, .navigation_wrapper .navigation_item.navigation_bottom .nav_label {
+  letter-spacing: 2px;
+}
+/* line 79, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_item.navigation_top img, .navigation_wrapper .navigation_item.navigation_bottom img {
+  display: inline-block;
+  width: auto;
+  height: 100%;
+}
+/* line 85, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_item.navigation_right, .navigation_wrapper .navigation_item.navigation_left {
+  width: 3rem;
+  height: 9rem;
+}
+/* line 89, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_item.navigation_right img, .navigation_wrapper .navigation_item.navigation_left img {
+  display: inline-block;
+  width: 100%;
   height: auto;
 }
-/* line 53, ../scss/_static-layer.scss */
+/* line 100, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_top {
+  top: 0%;
+  left: 50%;
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+/* line 104, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_top .nav_label {
+  bottom: 0;
+  left: 50%;
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+/* line 109, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_top .nav_icon {
+  height: 1.5rem;
+  top: 0;
+  left: 50%;
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+/* line 117, ../scss/_static-layer.scss */
 .navigation_wrapper .navigation_bottom {
   left: 50%;
   bottom: 0;
@@ -1377,27 +1458,105 @@ h2 {
   -ms-transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
-  width: 4.5rem;
-  height: auto;
+}
+/* line 121, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_bottom .nav_label {
+  top: 0;
+  left: 50%;
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+/* line 126, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_bottom .nav_icon {
+  height: 1.5rem;
+  bottom: 0;
+  left: 50%;
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+/* line 134, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_right {
+  top: 50%;
+  right: 0;
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+/* line 139, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_right .nav_label {
+  top: 50%;
+  left: 0;
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+/* line 146, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_right .nav_icon {
+  width: 1.5rem !important;
+  top: 50%;
+  right: 0;
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+/* line 154, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_left {
+  top: 50%;
+  left: 0;
+  width: 1.5rem;
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+/* line 160, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_left .nav_label {
+  top: 50%;
+  right: 0;
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+/* line 167, ../scss/_static-layer.scss */
+.navigation_wrapper .navigation_left .nav_icon {
+  width: 1.5rem;
+  top: 50%;
+  left: 0;
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
-/* line 65, ../scss/_static-layer.scss */
+/* line 177, ../scss/_static-layer.scss */
 .socialIcons_wrapper {
   position: absolute;
   left: 1.5rem;
   bottom: 1.5rem;
   z-index: 60;
 }
-/* line 71, ../scss/_static-layer.scss */
+/* line 183, ../scss/_static-layer.scss */
 .socialIcons_wrapper .socialIcons_list .socialIcons_li {
   display: inline-block;
   margin-right: 0.75rem;
 }
-/* line 75, ../scss/_static-layer.scss */
+/* line 187, ../scss/_static-layer.scss */
 .socialIcons_wrapper .socialIcons_list .socialIcons_li:last-child {
   margin-right: 0;
 }
-/* line 78, ../scss/_static-layer.scss */
+/* line 190, ../scss/_static-layer.scss */
 .socialIcons_wrapper .socialIcons_list .socialIcons_li .socialIcons_link {
   position: relative;
   display: inline-block;
@@ -1408,11 +1567,11 @@ h2 {
   -webkit-border-radius: 50%;
   border-radius: 50%;
 }
-/* line 86, ../scss/_static-layer.scss */
+/* line 198, ../scss/_static-layer.scss */
 .socialIcons_wrapper .socialIcons_list .socialIcons_li .socialIcons_link:hover {
   background-color: #cd6846;
 }
-/* line 90, ../scss/_static-layer.scss */
+/* line 202, ../scss/_static-layer.scss */
 .socialIcons_wrapper .socialIcons_list .socialIcons_li .socialIcons_link .fa {
   display: inline-block;
   position: absolute;

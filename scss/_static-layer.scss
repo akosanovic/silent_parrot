@@ -8,15 +8,27 @@
 	
 
 	.navigation_item {
+		@include transition(all 0.4s linear);
+
 		z-index: 150;
 		position: absolute;
-		cursor: pointer;
 
-		img {
-			display: inline-block;
-			width: 100%;
-			height: auto;
+		overflow: hidden;
+		cursor: pointer;
+		
+		.nav_label {
+			position : absolute;	
+			line-height: 1;
+			font-size: 12px;
+			text-transform: uppercase;
 		}
+
+		.nav_icon {
+			position: absolute;
+		}
+
+		
+
 		.navigationIcon_hover {
 			@include transition(all 0.4s linear);
 			visibility: hidden;
@@ -28,6 +40,20 @@
 		}	
 
 		&:hover {
+			@include transition(all 0.4s linear);
+			&.navigation_top {
+				top: $lh;
+			}
+			&.navigation_bottom {
+				bottom: $lh;
+			}
+			&.navigation_left {
+				left: $lh;
+			}
+			&.navigation_right {
+				right: $lh;
+			}
+
 			.navigationIcon_active {
 				@include transition(all 0.4s linear);
 				visibility: hidden;
@@ -40,25 +66,111 @@
 				opacity   : 1;
 			}
 		}
-	}
-	.navigation_right {
-		top  : 50%;
-		right: 0;
-		@include transform ( translateY(-50%) );
 
-		width: $lh*3;
-		height: auto;
+
+
+		&.navigation_top, 
+		&.navigation_bottom {
+			width: $lh*6;
+			height: $lh*2;
+			.nav_label  {
+				letter-spacing: 2px;
+			}
+			img {
+				display: inline-block;
+				width: auto;
+				height: 100%;
+			}
+		}
+		&.navigation_right,
+		&.navigation_left {
+			width: $lh*2;
+			height: $lh*6;
+			img {
+				display: inline-block;
+				width: 100%;
+				height: auto;
+			}
+		}
+
+		
+	}
+
+
+	.navigation_top {
+		top  : 0%;
+		left: 50%;
+		@include transform ( translateX(-50%) );
+		.nav_label {
+			bottom: 0;
+			left: 50%;
+			@include transform(translateX(-50%));
+		}
+		.nav_icon {
+			height: $lh;
+			top: 0;
+			left: 50%;
+			@include transform(translateX(-50%));
+		}
 	}
 
 	.navigation_bottom {
 		left: 50%;
 		bottom: 0;
 		@include transform (translateX(-50%));
-
-		width: $lh*3;
-		height:auto;
+		.nav_label {
+			top: 0;
+			left: 50%;
+			@include transform(translateX(-50%));
+		}
+		.nav_icon {
+			height: $lh;
+			bottom: 0;
+			left: 50%;
+			@include transform(translateX(-50%));
+		}
 	}
 
+	.navigation_right {
+		top  : 50%;
+		right: 0;
+		@include transform ( translateY(-50%) );
+		
+		.nav_label {
+			top: 50%;
+			left: 0;
+			@include transform(translateY(-50%));
+			writing-mode: vertical-rl;
+			text-orientation: upright;
+		}
+		.nav_icon {
+			width: $lh !important;
+			top: 50%;
+			right: 0;
+			@include transform(translateY(-50%));
+		}
+	}
+
+	.navigation_left {
+		top  : 50%;
+		left: 0;
+		width: $lh;
+		@include transform ( translateY(-50%) );
+
+		.nav_label {
+			top: 50%;
+			right: 0;
+			@include transform(translateY(-50%));
+			writing-mode: vertical-rl;
+			text-orientation: upright;
+		}
+		.nav_icon {
+			width: $lh;
+			top: 50%;
+			left: 0;
+			@include transform(translateY(-50%));
+		}
+	}
 	
 }
 

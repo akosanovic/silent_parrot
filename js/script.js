@@ -161,7 +161,7 @@
       if (activePageName === 'home') {
         this.leftCounter = this.leftCounter + 20;
         if (this.leftCounter <= 100) {
-          TweenLite.to(this.mainWrapper, 0.5, {
+          TweenLite.to(this.mainWrapper, 0.4, {
             left: "-" + this.leftCounter + "%",
             ease: Power0.easeOut,
             onStart: this._removeScrollHandler.bind(this),
@@ -170,7 +170,7 @@
         } else {
           console.log("Go to next page activated");
           this.leftCounter = 100;
-          TweenLite.to(this.mainWrapper, 0.3, {
+          TweenLite.to(this.mainWrapper, 0.4, {
             left: "-" + this.leftCounter + "%",
             top: 0,
             ease: Power0.easeOut,
@@ -181,7 +181,7 @@
       if (activePageName === 'aboutUs') {
         this.topCounter = this.topCounter + 20;
         if (this.topCounter <= 100) {
-          TweenLite.to(this.mainWrapper, 0.3, {
+          TweenLite.to(this.mainWrapper, 0.4, {
             top: "-" + this.topCounter + "%",
             ease: Power0.easeOut,
             onStart: this._removeScrollHandler.bind(this),
@@ -189,7 +189,7 @@
           });
         } else {
           this.topCounter = 100;
-          TweenLite.to(this.mainWrapper, 0.5, {
+          TweenLite.to(this.mainWrapper, 0.4, {
             left: "-" + this.leftCounter + "%",
             top: "-" + this.topCounter + "%",
             ease: Power0.easeNone,
@@ -208,7 +208,7 @@
           });
         } else {
           this.leftCounter = 0;
-          TweenLite.to(this.mainWrapper, 0.5, {
+          TweenLite.to(this.mainWrapper, 0.4, {
             left: this.leftCounter,
             top: "-" + this.topCounter + "%",
             ease: Power0.easeNone,
@@ -227,7 +227,7 @@
           });
         } else {
           this.topCounter = 0;
-          return TweenLite.to(this.mainWrapper, 0.5, {
+          return TweenLite.to(this.mainWrapper, 0.4, {
             left: 0,
             top: 0,
             ease: Power0.easeNone,
@@ -242,77 +242,79 @@
       activePageName = this.activePage.getPageName();
       mainWrapperPosition = this.mainWrapper[0].getBoundingClientRect();
       if (activePageName === 'home') {
+        this.leftCounter = this.leftCounter - 20;
         if (this.leftCounter > 0) {
-          TweenLite.to(this.mainWrapper, 0.5, {
+          TweenLite.to(this.mainWrapper, 0.4, {
             left: "-" + this.leftCounter + "%",
-            ease: Power0.easeNone
+            ease: Power0.easeOut,
+            onStart: this._removeScrollHandler.bind(this),
+            onComplete: this._addScrollHandler.bind(this)
           });
-          this.leftCounter = this.leftCounter - 10;
         } else {
           this.leftCounter = 0;
-          TweenLite.to(this.mainWrapper, 0.5, {
+          TweenLite.to(this.mainWrapper, 0.4, {
             left: 0,
             top: 0,
-            ease: Power0.easeNone
+            ease: Power0.easeNone,
+            onComplete: this._goToPrevActivePage.bind(this)
           });
         }
       }
       if (activePageName === 'aboutUs') {
-        if (this.topCounter > 100) {
-          console.log("TOP COUNTER", this.topCounter);
-          TweenLite.to(this.mainWrapper, 0.5, {
+        this.topCounter = this.topCounter - 20;
+        if (this.topCounter > 0) {
+          TweenLite.to(this.mainWrapper, 0.4, {
             top: "-" + this.topCounter + "%",
             ease: Power0.easeNone,
-            onStart: this._removeScrollHandler(),
-            onComplete: this._addScrollHandler()
+            onStart: this._removeScrollHandler.bind(this),
+            onComplete: this._addScrollHandler.bind(this)
           });
-          this.topCounter = this.topCounter - 10;
         } else {
-          this.topCounter = 100;
-          TweenLite.to(this.mainWrapper, 0.5, {
-            left: "-100%",
-            top: "-100%",
+          this.topCounter = 0;
+          TweenLite.to(this.mainWrapper, 0.4, {
+            left: "-" + this.leftCounter + "%",
+            top: "-" + this.topCounter + "%",
             ease: Power0.easeNone,
             onComplete: this._goToPrevActivePage.bind(this)
           });
         }
       }
       if (activePageName === 'random') {
-        console.log("active page is random");
-        if (this.leftCounter < 0) {
-          TweenLite.to(this.mainWrapper, 0.5, {
+        this.leftCounter = this.leftCounter + 20;
+        if (this.leftCounter < 100) {
+          TweenLite.to(this.mainWrapper, 0.4, {
             left: "-" + this.leftCounter + "%",
             ease: Power0.easeNone,
-            onStart: this._removeScrollHandler(),
-            onComplete: this._addScrollHandler()
+            onStart: this._removeScrollHandler.bind(this),
+            onComplete: this._addScrollHandler.bind(this)
           });
-          this.leftCounter = this.leftCounter + 10;
         } else {
-          this.leftCounter = 0;
-          TweenLite.to(this.mainWrapper, 0.5, {
-            left: 0,
-            top: "-100%",
+          this.leftCounter = 100;
+          TweenLite.to(this.mainWrapper, 0.4, {
+            left: "-" + this.leftCounter + "%",
+            top: "-" + this.topCounter + "%",
             ease: Power0.easeNone,
             onComplete: this._goToPrevActivePage.bind(this)
           });
         }
       }
       if (activePageName === 'contact') {
-        console.log("active page is contact");
-        console.log("top couner", this.topCounter);
-        if (this.topCounter >= 0) {
-          TweenLite.to(this.mainWrapper, 0.5, {
+        this.topCounter = this.topCounter + 20;
+        console.log("TOP COuNTER is ", this.topCounter);
+        if (this.topCounter < 100) {
+          return TweenLite.to(this.mainWrapper, 0.4, {
             top: "-" + this.topCounter + "%",
-            ease: Power0.easeNone
-          });
-          return this.topCounter = this.topCounter - 10;
-        } else {
-          this.topCounter = 0;
-          return TweenLite.to(this.mainWrapper, 0.5, {
-            left: 0,
-            top: 0,
             ease: Power0.easeNone,
-            onComplete: this._goToNextActivePage.bind(this)
+            onStart: this._removeScrollHandler.bind(this),
+            onComplete: this._addScrollHandler.bind(this)
+          });
+        } else {
+          this.topCounter = 100;
+          return TweenLite.to(this.mainWrapper, 0.4, {
+            left: 0,
+            top: "-" + this.topCounter + "%",
+            ease: Power0.easeNone,
+            onComplete: this._goToPrevActivePage.bind(this)
           });
         }
       }
@@ -338,19 +340,22 @@
     };
 
     SilentParrot.prototype._goToPrevActivePage = function() {
-      var i, j, len, page, ref;
+      var i, j, len, newActivePage, numOfPages, page, ref;
+      newActivePage = null;
       ref = this.orderOfPages;
       for (i = j = 0, len = ref.length; j < len; i = ++j) {
         page = ref[i];
         if (page === this.activePage) {
           if (i >= 1) {
-            this.activePage = this.orderOfPages[i - 1];
-            return this.activePage;
+            newActivePage = this.orderOfPages[i - 1];
           } else {
-            i = this.orderOfPages.length;
-            this.activePage = this.orderOfPages[i];
+            numOfPages = this.orderOfPages.length - 1;
+            newActivePage = this.orderOfPages[numOfPages];
           }
         }
+      }
+      if (newActivePage) {
+        return this._setHash(newActivePage);
       }
     };
 
