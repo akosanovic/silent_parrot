@@ -43,7 +43,7 @@
         width: 0,
         left: "50%",
         ease: Power1.easeOut
-      }).set(this.animatedLineV, {
+      }, "verticalLine").set(this.animatedLineV, {
         left: "50%",
         height: '60%'
       });

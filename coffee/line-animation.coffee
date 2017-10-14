@@ -1,5 +1,5 @@
 class @PageAnimation
-	
+
 	constructor: () ->
 		@mainContainer = $('.main--content--wrapper');
 		
@@ -38,7 +38,7 @@ class @PageAnimation
 					{height: 0}, {height: "60%"}, "horizontalLine+=0.2")
 
 
-			.to( @animatedLineH, 0.3, { width: 0, left: "50%", ease: Power1.easeOut } )
+			.to( @animatedLineH, 0.3, { width: 0, left: "50%", ease: Power1.easeOut }, "verticalLine" )
 			.set( @animatedLineV, {left: "50%", height: '60%',} )
 
 
