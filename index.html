@@ -19,8 +19,8 @@
 
 </head>
 <body>
-	<!-- Universe :: BEGIN -->
-	<div class="universeWrapper main--wrapper">
+	
+	<div class="mainContainer main--wrapper">
 
 		<!-- Static Layer :: BEGIN -->
 		<div class="staticLayer_wrapper fullscreenBackground">
@@ -35,12 +35,12 @@
 
 
 		<!-- Dynamic Layer :: BEGIN -->
-		<div class="universe universe--wrapper">
+		<div class="mainContent main--content--wrapper">
 
 
 			<!-- Home Page :: BEGIN -->
 			<div class="homePage_wrapper home--page page" data-page-name='home' >
-
+				
 				<!-- Social :: BEGIN-->
 				<div class="socialIcons_wrapper">
 					<ul class="socialIcons_list">
@@ -68,8 +68,7 @@
 
 
 				<!-- Navigation :: BEGIN -->
-				<nav class="navigation_wrapper">
-					
+				<nav class="navigation_wrapper">					
 				
 					<!-- Right -->
 					<div class="navigation_item navigation_right">
@@ -78,8 +77,10 @@
 								About
 							</div>
 							<div class="nav_icon">
-								<img class="navigationIcon_active" src="./assets/images/Navigation/Strelice/right_line.svg">
-								<img class="navigationIcon_hover" src="./assets/images/Navigation/Strelice/right_triangle.svg">
+								<img class="navigationIcon_active" 		
+									src="./assets/images/Navigation/Strelice/right_line.svg">
+								<img class="navigationIcon_hover" 
+									src="./assets/images/Navigation/Strelice/right_triangle.svg">
 							</div>
 						</a>
 					</div>
@@ -115,8 +116,23 @@
 							
 						</div>
 					</div><!-- Logo :: END -->
+
+
+
+
+
+					<div class="pageContainer">
+						
+
+
+
+					</div>
 				</div>
 			</div><!-- Home Page :: END -->
+
+
+
+
 
 
 
@@ -125,12 +141,11 @@
 				
 				<!-- Navigation :: BEGIN -->
 				<nav class="navigation_wrapper">
-					
 					<!-- Bottom -->
 					<div class="navigation_item navigation_bottom">
-						<a href="#random">
+						<a href="#team">
 							<div class="nav_label">
-								Random
+								Team
 							</div>
 							<div class="nav_icon">
 								<img class="navigationIcon_active" src="./assets/images/Navigation/Strelice/up_line.svg">
@@ -153,12 +168,19 @@
 					</div>
 				</nav><!-- Navigation :: END -->
 
+				<div class="pageContainer">
+					<div class="animatedLine_container">
+						<div class="animatedLine animatedLineHorizontal animated--line--horizontal"></div>
+						<div class="animatedLine animatedLineVertical animated--line--vertical"></div>	
+					</div>					
+				</div>
+
 
 				<!-- AboutUs Content :: BEGIN -->
 				<div class="pageContent_wrapper">
 					<div class="content_wrapper">
 						
-						content of mine
+						
 
 					</div>
 			
@@ -170,7 +192,7 @@
 
 
 			<!-- Team Page :: BEGIN -->
-			<div class="randomPage_wrapper random--page page" data-page-name='random'>
+			<div class="teamPage_wrapper team--page page" data-page-name='team'>
 				<!-- Navigation :: BEGIN -->
 				<nav class="navigation_wrapper">
 					
@@ -237,7 +259,7 @@
 
 					<!-- Right-->
 					<div class="navigation_item navigation_right">
-						<a href="#random">
+						<a href="#team">
 							<div class="nav_label">
 								Team
 							</div>
@@ -264,7 +286,10 @@
 		
 
 		</div><!-- Dynamic Layer :: END -->
-	</div><!-- Universe :: END -->
+	</div>
+
+
+
 
 	<!-- JavaScript -->
 	<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
@@ -280,9 +305,12 @@
 
 
 	
-	
-	<script type="text/javascript" src='js/logo-animation.js'></script>
-	<script type="text/javascript" src='js/global-animation.js'></script>
+	<!-- Animations :: BEGIN -->
+	<script type ="text/javascript" src='js/logo-animation.js'></script>
+	<script type ="text/javascript" src='js/global-animation.js'></script>
+	<script type ="text/javascript" src='js/line-animation.js'></script>
+	<!-- Animations :: BEGIN -->
+
 	<script type="text/javascript" src='js/page.model.js'></script>
 	<script type="text/javascript" src="js/script.js"></script>
 </body>

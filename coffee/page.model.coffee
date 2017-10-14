@@ -1,7 +1,11 @@
 class @Page
-	constructor: (htmlElement, parentContext) ->
+	constructor: (htmlElement, hasAnimation) ->
+		@mainContainer = $('.main--content--wrapper')
+
 		@element = htmlElement
-		@page = $(htmlElement)
+		@page    = $(htmlElement)
+		@hasAnimation = hasAnimation;
+
 
 		@_setPageSize()
 
@@ -56,6 +60,55 @@ class @Page
 
 
 
+
+
+	autoScrollToActivate: () ->
+		pageTop = @top()
+		pageLeft = @left()
+
+		console.log "TOP ", pageTop
+		console.log "left", pageLeft
+		console.log "Main Container position ", @mainContainer[0].getBoundingClientRect()
+
+		if pageTop > 0
+			TweenLite.to( @mainContainer, 0.5, {
+				top: -pageTop,
+				ease: Power0.easeOut,
+				onComplete: @_activateAnimation.bind(@)
+			})
+
+		else if pageTop < 0 
+			TweenLite.to( @mainContainer, 0.5, {
+				top:  0,
+				ease: Power0.easeOut,
+				onComplete: @_activateAnimation.bind(@)
+			})
+
+		else if pageLeft > 0 
+			TweenLite.to( @mainContainer, 0.5, {
+				left: -pageLeft,
+				ease: Power0.easeOut,
+				onComplete: @_activateAnimation.bind(@)
+			})
+
+		else if pageLeft < 0 
+			TweenLite.to( @mainContainer, 0.5, {
+				left: 0,
+				ease: Power0.easeOut,
+				onComplete: @_activateAnimation.bind(@)
+			})
+
+		
+
+
+	_activateAnimation: () ->
+		
+		if (@hasAnimation)
+			
+			pageAnimation = new PageAnimation()
+			pa = pageAnimation.lineAniamtion()
+			
+			pa.play()
 
 
 

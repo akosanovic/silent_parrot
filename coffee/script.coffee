@@ -1,16 +1,17 @@
 
 class @SilentParrot
 	constructor: () ->
+		
 		@websiteWindow = $(window)
-		@mainWrapper   = $('.universe--wrapper')
+		@mainWrapper   = $('.main--content--wrapper')
 		@pages         = @mainWrapper.find('.page')
 		
 		@mainWrapperPosition = @_getWrapperSize();
 
-		@homePage    = new Page(@pages[0], this);
-		@aboutUsPage = new Page(@pages[1], this);
-		@randomPage  = new Page(@pages[2], this);
-		@contactPage = new Page(@pages[3], this);
+		@homePage    = new Page(@pages[0], false);
+		@aboutUsPage = new Page(@pages[1], true );
+		@randomPage  = new Page(@pages[2], false);
+		@contactPage = new Page(@pages[3], false);
 		
 
 
@@ -37,13 +38,16 @@ class @SilentParrot
 		@_onLoadHandler()
 
 		# hash change
-		$(window).on('hashchange', @_hashHandler.bind(@))
+		@websiteWindow.on('hashchange', @_hashHandler.bind(@))
 
 		# resize
 		@websiteWindow.on('resize', @_resizeHandler.bind(@))
 
 		# mouse scroll
-		$(window).on('mousewheel DOMMouseScroll', @_scrollHandler.bind(@))
+		@websiteWindow.on('mousewheel DOMMouseScroll', @_scrollHandler.bind(@))
+		
+		# click
+		@mainWrapper.on('click', @_clickHandler.bind(@))		
 
 		# hover
 		$(@logo).on('mouseenter mouseleave', @_hoverHandler.bind(@))
@@ -57,21 +61,34 @@ class @SilentParrot
 		@_getHash()
 
 
+
+
 	_hashHandler: (e) ->
 		
 		newHash = window.location.hash
 		newHash = newHash.replace(/#/g, '')
+		
+		if newHash != @activePage.getPageName
+			newPage = @_findPageByName(newHash)
+			@_autoScrollToNewPage(newPage)
 
-		# if newHash != @activePage.getPageName
-		# 	@_goToNextPageAutomatically(newHash)
 
-		# else 
-		# 	console.log "page not changed"
+
+
+	_autoScrollToNewPage:(newActivePage) ->
+		# scroll to new page
+		# make page active
+		newActivePage.autoScrollToActivate();
+
+
+
 
 
 	_resizeHandler: () ->
 		@_getWindowDimensions()
 		@_setWrapperSize()
+
+
 
 
 
@@ -84,16 +101,20 @@ class @SilentParrot
 			@_scrollDown()
 
 
-
 	_removeScrollHandler: () ->
 		console.log "SCROLL handler removed "
 		$(window).off('mousewheel DOMMouseScroll')
 		
-
 	_addScrollHandler: () ->
 		console.log "scroll handler added"
 		$(window).on('mousewheel DOMMouseScroll', @_scrollHandler.bind(@))
 
+
+
+
+	_clickHandler: (e) ->
+
+		# nav
 
 
 	_hoverHandler: () ->
@@ -135,55 +156,6 @@ class @SilentParrot
 
 
 
-
-########################
-#	change this section
-	_goToNextPageAutomatically: (newActivePage) ->
-		oldActivePage = @activePage
-		if newActivePage == "aboutUs"
-		
-			for page in @orderOfPages
-
-				if page.getPageName() == newActivePage
-					@activePage = page
-					@_scrollRight(oldActivePage, newActivePage)
-					# @_scrollToNextPage(oldActivePage, @activePage)
-
-
-
-		else if newActivePage == "contact"
-			for page in @orderOfPages 
-				if page.getPageName() == newActivePage
-					@activePage = page
-					@_scrollBottom(oldActivePage, newActivePage)
-					
-
-	_scrollRight: (oldPage, newPage) ->
-		scrollRight = oldPage.getWidth()
-
-		scrollToNextPage = TweenLite.to(@mainWrapper, 2.5, {
-			x: -scrollRight,
-			ease: Power1.easeOut
-		})
-
-	_scrollBottom: (oldPage, newPage) ->
-		scrollBottom = oldPage.getHeight()
-
-		scrollToNextPage = TweenLite.to(@mainWrapper, 2.5, {
-			y: -scrollBottom,
-			ease: Power1.easeOut
-		})
-
-
-##############################
-
-
-
-
-
-
-
-	
 	_scrollDown:() ->
 		activePageName = @activePage.getPageName()
 		console.log "active page is ", @activePage
@@ -392,6 +364,11 @@ class @SilentParrot
 
 
 
+	_findPageByName: (pageName) ->
+		for page in @orderOfPages
+			if page.getPageName() == pageName
+				return page
+
 
 
 
@@ -414,7 +391,6 @@ class @SilentParrot
 	
 
 	_goToPrevActivePage: () ->
-
 		newActivePage = null
 		
 		for page, i in @orderOfPages

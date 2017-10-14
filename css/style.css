@@ -1226,7 +1226,7 @@ body {
 }
 
 /* line 18, ../scss/_main-layout.scss */
-.universeWrapper {
+.mainContainer {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -1234,7 +1234,7 @@ body {
 }
 
 /* line 25, ../scss/_main-layout.scss */
-.universe {
+.mainContent {
   position: absolute;
 }
 
@@ -1262,7 +1262,7 @@ body {
 }
 
 /* line 48, ../scss/_main-layout.scss */
-.randomPage_wrapper {
+.teamPage_wrapper {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1687,11 +1687,30 @@ h2 {
 }
 
 /* line 10, ../scss/_about-us-page.scss */
+.pageContainer {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+/* line 15, ../scss/_about-us-page.scss */
+.pageContainer .animatedLine {
+  position: absolute;
+  top: 50%;
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  height: 3px;
+  width: 3px;
+  background-color: white;
+}
+
+/* line 28, ../scss/_about-us-page.scss */
 .left-triangle {
   background-color: #3bb0c9;
 }
 
-/* line 14, ../scss/_about-us-page.scss */
+/* line 32, ../scss/_about-us-page.scss */
 .pageContent_wrapper {
   position: absolute;
   top: 0;
@@ -1699,14 +1718,14 @@ h2 {
   left: 40%;
   bottom: 0;
 }
-/* line 21, ../scss/_about-us-page.scss */
+/* line 39, ../scss/_about-us-page.scss */
 .pageContent_wrapper .content_wrapper {
   -webkit-clip-path: polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%);
   clip-path: polygon(30% 0%, 100% 0%, 100% 100%, 0% 100%);
   clip-path: url(#clip-shape-about-us-page);
 }
 
-/* line 27, ../scss/_about-us-page.scss */
+/* line 45, ../scss/_about-us-page.scss */
 .separator {
   color: white;
   background-color: #006580;

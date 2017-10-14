@@ -3,13 +3,13 @@
   this.SilentParrot = (function() {
     function SilentParrot() {
       this.websiteWindow = $(window);
-      this.mainWrapper = $('.universe--wrapper');
+      this.mainWrapper = $('.main--content--wrapper');
       this.pages = this.mainWrapper.find('.page');
       this.mainWrapperPosition = this._getWrapperSize();
-      this.homePage = new Page(this.pages[0], this);
-      this.aboutUsPage = new Page(this.pages[1], this);
-      this.randomPage = new Page(this.pages[2], this);
-      this.contactPage = new Page(this.pages[3], this);
+      this.homePage = new Page(this.pages[0], false);
+      this.aboutUsPage = new Page(this.pages[1], true);
+      this.randomPage = new Page(this.pages[2], false);
+      this.contactPage = new Page(this.pages[3], false);
       this.orderOfPages = [this.homePage, this.aboutUsPage, this.randomPage, this.contactPage];
       this.logo = this.mainWrapper.find('.logo--main');
       this.activePage = this.homePage;
@@ -19,9 +19,10 @@
       this.windowW = 0;
       this.windowH = 0;
       this._onLoadHandler();
-      $(window).on('hashchange', this._hashHandler.bind(this));
+      this.websiteWindow.on('hashchange', this._hashHandler.bind(this));
       this.websiteWindow.on('resize', this._resizeHandler.bind(this));
-      $(window).on('mousewheel DOMMouseScroll', this._scrollHandler.bind(this));
+      this.websiteWindow.on('mousewheel DOMMouseScroll', this._scrollHandler.bind(this));
+      this.mainWrapper.on('click', this._clickHandler.bind(this));
       $(this.logo).on('mouseenter mouseleave', this._hoverHandler.bind(this));
     }
 
@@ -33,9 +34,17 @@
     };
 
     SilentParrot.prototype._hashHandler = function(e) {
-      var newHash;
+      var newHash, newPage;
       newHash = window.location.hash;
-      return newHash = newHash.replace(/#/g, '');
+      newHash = newHash.replace(/#/g, '');
+      if (newHash !== this.activePage.getPageName) {
+        newPage = this._findPageByName(newHash);
+        return this._autoScrollToNewPage(newPage);
+      }
+    };
+
+    SilentParrot.prototype._autoScrollToNewPage = function(newActivePage) {
+      return newActivePage.autoScrollToActivate();
     };
 
     SilentParrot.prototype._resizeHandler = function() {
@@ -61,6 +70,8 @@
       console.log("scroll handler added");
       return $(window).on('mousewheel DOMMouseScroll', this._scrollHandler.bind(this));
     };
+
+    SilentParrot.prototype._clickHandler = function(e) {};
 
     SilentParrot.prototype._hoverHandler = function() {
       var logoAnimation;
@@ -101,56 +112,6 @@
       var hash;
       hash = window.location.hash;
       return this._setActivePage(hash);
-    };
-
-    SilentParrot.prototype._goToNextPageAutomatically = function(newActivePage) {
-      var j, k, len, len1, oldActivePage, page, ref, ref1, results, results1;
-      oldActivePage = this.activePage;
-      if (newActivePage === "aboutUs") {
-        ref = this.orderOfPages;
-        results = [];
-        for (j = 0, len = ref.length; j < len; j++) {
-          page = ref[j];
-          if (page.getPageName() === newActivePage) {
-            this.activePage = page;
-            results.push(this._scrollRight(oldActivePage, newActivePage));
-          } else {
-            results.push(void 0);
-          }
-        }
-        return results;
-      } else if (newActivePage === "contact") {
-        ref1 = this.orderOfPages;
-        results1 = [];
-        for (k = 0, len1 = ref1.length; k < len1; k++) {
-          page = ref1[k];
-          if (page.getPageName() === newActivePage) {
-            this.activePage = page;
-            results1.push(this._scrollBottom(oldActivePage, newActivePage));
-          } else {
-            results1.push(void 0);
-          }
-        }
-        return results1;
-      }
-    };
-
-    SilentParrot.prototype._scrollRight = function(oldPage, newPage) {
-      var scrollRight, scrollToNextPage;
-      scrollRight = oldPage.getWidth();
-      return scrollToNextPage = TweenLite.to(this.mainWrapper, 2.5, {
-        x: -scrollRight,
-        ease: Power1.easeOut
-      });
-    };
-
-    SilentParrot.prototype._scrollBottom = function(oldPage, newPage) {
-      var scrollBottom, scrollToNextPage;
-      scrollBottom = oldPage.getHeight();
-      return scrollToNextPage = TweenLite.to(this.mainWrapper, 2.5, {
-        y: -scrollBottom,
-        ease: Power1.easeOut
-      });
     };
 
     SilentParrot.prototype._scrollDown = function() {
@@ -316,6 +277,17 @@
             ease: Power0.easeNone,
             onComplete: this._goToPrevActivePage.bind(this)
           });
+        }
+      }
+    };
+
+    SilentParrot.prototype._findPageByName = function(pageName) {
+      var j, len, page, ref;
+      ref = this.orderOfPages;
+      for (j = 0, len = ref.length; j < len; j++) {
+        page = ref[j];
+        if (page.getPageName() === pageName) {
+          return page;
         }
       }
     };
