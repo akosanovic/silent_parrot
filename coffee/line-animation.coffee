@@ -5,30 +5,42 @@ class @PageAnimation
 		
 		@aboutUsPage   = @mainContainer.find('.aboutUs--page');
 		
-		@animatedLineH  = @mainContainer.find('.animated--line--horizontal');
-		@animatedLineV  = @mainContainer.find('.animated--line--vertical');
-
-		@lineAniamtion()
 		
+		@animatedLineH = null;
+		@animatedLineV = null;
+		@lineAnimationTimeline = null;
+
+	destroyAnimation: () ->
+		@animatedLineH = null;
+		@animatedLineV = null;
+		
+
+		@lineAnimationTimeline.clear();
+		@lineAnimationTimeline.kill();
+		@lineAnimationTimeline = null;
 		
 	lineAniamtion: () ->
+		@animatedLineH  = @mainContainer.find('.animated--line--horizontal');
+		@animatedLineV  = @mainContainer.find('.animated--line--vertical');
 		
 		horizontalLineDuration = 0.5
 
-		lineAnimationTimeline = new TimelineLite(
+
+
+		@lineAnimationTimeline = new TimelineLite(
 			{
 				paused: true,
 				onComplete: "ayoo"
 			}
 		);
 
-		lineAnimationTimeline
-			.set( @animatedLineH, {right: 0, top: '50%', height: '3px', width: 0})
+		@lineAnimationTimeline
+			.set( @animatedLineH, {left: '100%', top: '50%', height: '3px', width: 0})
 			.set( @animatedLineV, {left: "100%", left: "60%"})
 			
 			.add( "horizontalLine" )
 			.fromTo( @animatedLineH, 0.7, 
-				  { width: 0}, { width: '30%', left: "50%", ease: Power1.easeOut })
+				{ width: 0}, { width: '30%', left: "50%", ease: Power1.easeOut })
 
 			
 			.add( "verticalLine" )
@@ -43,7 +55,7 @@ class @PageAnimation
 
 
 		
-		return lineAnimationTimeline
+		return @lineAnimationTimeline
 		
 	
 

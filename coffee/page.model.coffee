@@ -6,6 +6,7 @@ class @Page
 		@page    = $(htmlElement)
 		@hasAnimation = hasAnimation;
 
+		@pageAnimation = null;
 
 		@_setPageSize()
 
@@ -69,6 +70,7 @@ class @Page
 		console.log "TOP ", pageTop
 		console.log "left", pageLeft
 		console.log "Main Container position ", @mainContainer[0].getBoundingClientRect()
+		@_destroyAnimation();
 
 		if pageTop > 0
 			TweenLite.to( @mainContainer, 0.5, {
@@ -105,10 +107,16 @@ class @Page
 		
 		if (@hasAnimation)
 			
-			pageAnimation = new PageAnimation()
-			pa = pageAnimation.lineAniamtion()
-			
+			@pageAnimation = new PageAnimation();
+			console.log "PAGE animation is #{@pageAnimation}"
+			pa = @pageAnimation.lineAniamtion()
 			pa.play()
+
+
+
+	_destroyAnimation: () ->
+		if (@pageAnimation)
+			@pageAnimation.destroyAnimation();
 
 
 
