@@ -1,16 +1,22 @@
 class @Page
+	@pageAnimation = null;
+	@pageName      = null;
+	
+
 	constructor: (htmlElement, hasAnimation) ->
 		@mainContainer = $('.main--content--wrapper')
 
-		@element = htmlElement
-		@page    = $(htmlElement)
+		@htmlElement  = htmlElement
+		@jqueryElment = $(htmlElement)
 		@hasAnimation = hasAnimation;
+		@pageName     = @getPageName();
+		
 
-		@pageAnimation = null;
 
 		@_setPageSize()
 
 		$(window).on('resize', @_setPageSize.bind(@))
+
 
 
 
@@ -23,54 +29,57 @@ class @Page
 	_setPageSize: () ->
 		@_getWindowDimensions()
 
-		@page.height(@windowH)
-		@page.width(@windowW)
+		@jqueryElment.height(@windowH)
+		@jqueryElment.width(@windowW)
+		@checkIfActive()
 
 
 	top:() ->
-		return @element.getBoundingClientRect().top
+		return @htmlElement.getBoundingClientRect().top
 	
 	bottom: () ->
-		return @element.getBoundingClientRect().bottom
+		return @htmlElement.getBoundingClientRect().bottom
 
 	left: () ->
-		return @element.getBoundingClientRect().left
+		return @htmlElement.getBoundingClientRect().left
 
 	right: ()->
-		return @element.getBoundingClientRect().right
+		return @htmlElement.getBoundingClientRect().right
 
 
-	isActive: () ->
+
+
+
+	checkIfActive: () ->
 		if @top() == 0 && @left() == 0
 			return true;
 		else 
 			return false;
 
 
+
 	getPageName: () ->
-		name = @page.data('page-name')
+		name = @jqueryElment.data('page-name')
 		return String(name)
 
 
 	getWidth: () ->
-		@page.width()
+		@jqueryElment.width()
 
 
 	getHeight: () ->
-		@page.height()
+		@jqueryElment.height()
 
 
 
 
 
 	autoScrollToActivate: () ->
-		pageTop = @top()
+		pageTop  = @top()
 		pageLeft = @left()
 
-		console.log "TOP ", pageTop
-		console.log "left", pageLeft
+		console.log "Page Position ", @htmlElement.getBoundingClientRect()
 		console.log "Main Container position ", @mainContainer[0].getBoundingClientRect()
-		@_destroyAnimation();
 
 		if pageTop > 0
 			TweenLite.to( @mainContainer, 0.5, {
@@ -99,6 +108,44 @@ class @Page
 				ease: Power0.easeOut,
 				onComplete: @_activateAnimation.bind(@)
 			})
+
+
+
+
+	scrollToActivate: () ->
+		mainContainerTop = @mainContainer[0].getBoundingClientRect().top
+		mainContainerLeft = @mainContainer[0].getBoundingClientRect().left
+
+		scrollOffset = 200
+
+		console.log "main container top", @mainContainer
+
+		pageTop  = @top()
+		pageLeft = @left()
+
+		
+		if pageTop == 0 & pageLeft == 0 & @hasAnimation
+			@_activateAnimation()
+
+
+
+		if pageTop >= scrollOffset
+			mainContainerTop = mainContainerTop - scrollOffset
+			@mainContainer.css('top', mainContainerTop)
+		
+		else if pageTop > 0
+			mainContainerTop = mainContainerTop - pageTop
+			@mainContainer.css('top', mainContainerTop)
+		
+		
+		if pageLeft >= scrollOffset
+			mainContainerLeft = mainContainerLeft - scrollOffset
+			@mainContainer.css('left', mainContainerLeft)
+
+		else if pageLeft > 0
+			mainContainerLeft = mainContainerLeft - pageLeft
+			@mainContainer.css('left', mainContainerLeft)
+
 
 		
 

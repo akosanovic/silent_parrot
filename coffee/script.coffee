@@ -4,27 +4,29 @@ class @SilentParrot
 		
 		@websiteWindow = $(window)
 		@mainWrapper   = $('.main--content--wrapper')
-		@pages         = @mainWrapper.find('.page')
-		
 		@mainWrapperPosition = @_getWrapperSize();
+
+
+		@logo  = @mainWrapper.find('.logo--main')
+		@pages = @mainWrapper.find('.page')
+		
 
 		@homePage    = new Page(@pages[0], false);
 		@aboutUsPage = new Page(@pages[1], true );
 		@randomPage  = new Page(@pages[2], false);
 		@contactPage = new Page(@pages[3], false);
-		
-
 
 		@orderOfPages = [@homePage, @aboutUsPage, @randomPage, @contactPage]
 
 
-
-		@logo = @mainWrapper.find('.logo--main')
+		
 		# Default Values
 		@activePage = @homePage
-		@leftCounter = 0
-		@topCounter  = 0
-		@mainWrapperTop  = 0
+
+		@leftCounter    = 0
+		@topCounter     = 0
+		@mainWrapperTop = 0
+
 
 		@windowW = 0;
 		@windowH = 0;
@@ -57,7 +59,7 @@ class @SilentParrot
 	_onLoadHandler:() ->
 		@_getWindowDimensions()		
 		@_setWrapperSize()
-		@_getActivePage()
+		# @_getActivePage()
 		@_getHash()
 
 
@@ -70,7 +72,7 @@ class @SilentParrot
 		
 		if newHash != @activePage.getPageName
 			newPage = @_findPageByName(newHash)
-			@_autoScrollToNewPage(newPage)
+			# @_autoScrollToNewPage(newPage)
 
 
 
@@ -94,11 +96,12 @@ class @SilentParrot
 
 	_scrollHandler:(e) ->
 		if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0)
-			console.log "Scrolled up"
 			@_scrollUp()
 
 		else 
 			@_scrollDown()
+
+
 
 
 	_removeScrollHandler: () ->
@@ -121,9 +124,6 @@ class @SilentParrot
 		logoAnimation = new LogoAnimation()
 		logoAnimation.mouseInAnimation()
 
-
-
-
 	_getWindowDimensions: () ->
 		@windowW = @websiteWindow.width()
 		@windowH = @websiteWindow.height()
@@ -143,7 +143,7 @@ class @SilentParrot
 	_getActivePage: () ->
 		for page in @orderOfPages
 			if page.isActive()
-				@_setHash(page)
+				# @_setHash(page)
 				return page
 
 
@@ -153,106 +153,28 @@ class @SilentParrot
 		@_setActivePage(hash)
 
 
+		
 
 
+
+	# mainWrapperPosition = @mainWrapper[0].getBoundingClientRect()
 
 	_scrollDown:() ->
 		activePageName = @activePage.getPageName()
-		console.log "active page is ", @activePage
-		mainWrapperPosition = @mainWrapper[0].getBoundingClientRect()
+		nextActivePage = @_goToNextActivePage()
+		
 
+		console.log "Active Page is ", activePageName		
+		console.log "Next Active Page", nextActivePage, "is Active", nextActivePage.isActivePage
+		
 
-		if activePageName == 'home'
-			
-			@leftCounter = @leftCounter + 20
+		if !(nextActivePage.checkIfActive())
+			nextActivePage.scrollToActivate()
+		
+		else
+			console.log "im here now"
+			@activePage = nextActivePage;
 
-			if @leftCounter <= 100
-				TweenLite.to( @mainWrapper, 0.4, {
-					left: "-#{@leftCounter}%",
-					ease:   Power0.easeOut,
-					onStart   : @_removeScrollHandler.bind(@),
-					onComplete: @_addScrollHandler.bind(@)
-				})
-			
-			else 
-				console.log "Go to next page activated"
-				@leftCounter = 100
-
-				TweenLite.to( @mainWrapper, 0.4, {
-					left: "-#{@leftCounter}%",
-					top: 0,
-					ease:   Power0.easeOut,
-					onComplete: @_goToNextActivePage.bind(@)
-				})
-
-		if activePageName == 'aboutUs'
-
-			@topCounter = @topCounter + 20
-			
-			if @topCounter <= 100
-				TweenLite.to( @mainWrapper, 0.4, {
-					top: "-#{@topCounter}%",
-					ease: Power0.easeOut,
-					onStart   : @_removeScrollHandler.bind(@),
-					onComplete: @_addScrollHandler.bind(@)
-				})
-
-			else 
-				@topCounter = 100
-				TweenLite.to( @mainWrapper, 0.4, {
-					left: "-#{@leftCounter}%",
-					top : "-#{@topCounter}%",
-					ease:   Power0.easeNone,
-					onComplete: @_goToNextActivePage.bind(@)
-				})
-				
-
-
-		if activePageName == 'random'
-			
-			@leftCounter = @leftCounter - 20
-			
-			if @leftCounter >= 0
-				TweenLite.to( @mainWrapper, 0.4, {
-					left: "-#{@leftCounter}%",
-					ease:  Power0.easeOut,
-					onStart   : @_removeScrollHandler.bind(@),
-					onComplete: @_addScrollHandler.bind(@)
-				})
-				
-			
-			else 
-				@leftCounter = 0
-				TweenLite.to( @mainWrapper, 0.4, {
-					left: @leftCounter,
-					top : "-#{@topCounter}%",
-					ease:  Power0.easeNone,
-					onComplete: @_goToNextActivePage.bind(@)
-				})
-
-
-
-		if activePageName == 'contact'
-			
-			@topCounter = @topCounter - 20
-
-			if @topCounter >= 0				
-				TweenLite.to( @mainWrapper, 0.4, {
-					top: "-#{@topCounter}%",
-					ease: Power0.easeNone
-					onStart   : @_removeScrollHandler.bind(@),
-					onComplete: @_addScrollHandler.bind(@)
-				})
-			
-			else 
-				# Home Page
-				@topCounter = 0;
-				TweenLite.to( @mainWrapper, 0.4, {
-					left: 0,
-					top : 0,
-					ease:   Power0.easeNone,
-					onComplete: @_goToNextActivePage.bind(@)
-				})
 
 		
 
@@ -373,21 +295,16 @@ class @SilentParrot
 
 
 	_goToNextActivePage: () ->
-		# set the correct url
 		newActivePage = null
 		for page, i in @orderOfPages
-
 			if page == @activePage 
 				if (i+1 < @orderOfPages.length)
 					newActivePage = @orderOfPages[i+1]
-					
 				else 
 					newActivePage = @orderOfPages[0]
-					
-
-		if newActivePage
-			@_setHash(newActivePage)
 				
+
+		return newActivePage
 	
 
 	_goToPrevActivePage: () ->
