@@ -172,7 +172,7 @@ class @SilentParrot
 			nextActivePage.scrollToActivate()
 		
 		else
-			console.log "im here now"
+			nextActivePage.isActivePage = false;
 			@activePage = nextActivePage;
 
 

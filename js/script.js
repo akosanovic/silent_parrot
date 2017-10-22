@@ -136,7 +136,7 @@
       if (!nextActivePage.isActivePage) {
         return nextActivePage.scrollToActivate();
       } else {
-        console.log("im here now");
+        nextActivePage.isActivePage = false;
         return this.activePage = nextActivePage;
       }
     }

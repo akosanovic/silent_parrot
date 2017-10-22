@@ -101,20 +101,16 @@
         mainContainerTop = this.mainContainer[0].getBoundingClientRect().top;
         mainContainerLeft = this.mainContainer[0].getBoundingClientRect().left;
         scrollOffset = 200;
-        console.log("main container top", this.mainContainer);
         pageTop = this.top();
         pageLeft = this.left();
+        console.log("main container top", mainContainerTop);
+        console.log("page top is", pageTop);
+        console.log("page left is ", pageLeft);
         if (pageTop === 0 & pageLeft === 0 & this.hasAnimation) {
-          console.log("Page is active ", this.pageName);
-          this._activateAnimation();
           this.isActivePage = true;
-        }
-        if (pageTop >= scrollOffset) {
-          mainContainerTop = mainContainerTop - scrollOffset;
-          this.mainContainer.css('top', mainContainerTop);
-        } else if (pageTop > 0) {
-          mainContainerTop = mainContainerTop - pageTop;
-          this.mainContainer.css('top', mainContainerTop);
+          this._activateAnimation();
+        } else if (pageTop === 0 & pageLeft === 0 & !this.hasAnimation) {
+          this.isActivePage = true;
         }
         if (pageLeft >= scrollOffset) {
           mainContainerLeft = mainContainerLeft - scrollOffset;
@@ -122,6 +118,24 @@
         } else if (pageLeft > 0) {
           mainContainerLeft = mainContainerLeft - pageLeft;
           return this.mainContainer.css('left', mainContainerLeft);
+        } else if (pageTop >= scrollOffset) {
+          mainContainerTop = mainContainerTop - scrollOffset;
+          return this.mainContainer.css('top', mainContainerTop);
+        } else if (pageTop > 0) {
+          mainContainerTop = mainContainerTop - pageTop;
+          return this.mainContainer.css('top', mainContainerTop);
+        } else if (pageLeft <= -scrollOffset) {
+          mainContainerLeft = mainContainerLeft + scrollOffset;
+          return this.mainContainer.css('left', mainContainerLeft);
+        } else if (pageLeft < 0) {
+          mainContainerLeft = mainContainerLeft + (-pageLeft);
+          return this.mainContainer.css('left', mainContainerLeft);
+        } else if (pageTop <= -scrollOffset) {
+          mainContainerTop = mainContainerTop + scrollOffset;
+          return this.mainContainer.css('top', mainContainerTop);
+        } else {
+          mainContainerTop = mainContainerTop + (-pageTop);
+          return this.mainContainer.css('top', mainContainerTop);
         }
       }
 

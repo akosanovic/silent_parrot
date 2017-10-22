@@ -114,32 +114,27 @@ class @Page
 
 
 	scrollToActivate: () ->
-		mainContainerTop = @mainContainer[0].getBoundingClientRect().top
+		mainContainerTop  = @mainContainer[0].getBoundingClientRect().top
 		mainContainerLeft = @mainContainer[0].getBoundingClientRect().left
 
 		scrollOffset = 200
-
-		console.log "main container top", @mainContainer
-
 		pageTop  = @top()
 		pageLeft = @left()
 
+		console.log "main container top", mainContainerTop
+		console.log "page top is", pageTop
+		console.log "page left is ", pageLeft
+
 		
 		if pageTop == 0 & pageLeft == 0 & @hasAnimation
-			console.log "Page is active ", @pageName
+			@isActivePage = true
 			@_activateAnimation()
+		
+		else if pageTop == 0 & pageLeft == 0 & !@hasAnimation
 			@isActivePage = true;
 
 
 
-		if pageTop >= scrollOffset
-			mainContainerTop = mainContainerTop - scrollOffset
-			@mainContainer.css('top', mainContainerTop)
-		
-		else if pageTop > 0
-			mainContainerTop = mainContainerTop - pageTop
-			@mainContainer.css('top', mainContainerTop)
-		
 		
 		if pageLeft >= scrollOffset
 			mainContainerLeft = mainContainerLeft - scrollOffset
@@ -149,6 +144,31 @@ class @Page
 			mainContainerLeft = mainContainerLeft - pageLeft
 			@mainContainer.css('left', mainContainerLeft)
 
+
+		else if pageTop >= scrollOffset
+			mainContainerTop = mainContainerTop - scrollOffset
+			@mainContainer.css('top', mainContainerTop)
+		
+		else if pageTop > 0
+			mainContainerTop = mainContainerTop - pageTop
+			@mainContainer.css('top', mainContainerTop)
+	
+
+		else if pageLeft <= -scrollOffset
+			mainContainerLeft = mainContainerLeft + scrollOffset
+			@mainContainer.css('left', mainContainerLeft)
+
+		else if pageLeft < 0
+			mainContainerLeft = mainContainerLeft + (-pageLeft)
+			@mainContainer.css('left', mainContainerLeft)
+
+		else if pageTop <= -scrollOffset
+			mainContainerTop = mainContainerTop + scrollOffset
+			@mainContainer.css('top', mainContainerTop)
+
+		else
+			mainContainerTop = mainContainerTop + (-pageTop)
+			@mainContainer.css('top', mainContainerTop)
 
 		
 
