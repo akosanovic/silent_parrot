@@ -180,106 +180,112 @@ class @SilentParrot
 
 	_scrollUp:() ->
 		activePageName = @activePage.getPageName()
-		mainWrapperPosition = @mainWrapper[0].getBoundingClientRect()
+		nextActivePage = @_goToPrevActivePage()
+
+		if !(nextActivePage.isActivePage)
+			nextActivePage.scrollToActivate()
+		else
+			nextActivePage.isActivePage = false
+			@activePage = nextActivePage;
 
 
-		if activePageName == 'home'
+		# if activePageName == 'home'
 			
-			@leftCounter = @leftCounter - 20
+		# 	@leftCounter = @leftCounter - 20
 			
-			if @leftCounter > 0
-				TweenLite.to( @mainWrapper, 0.4, {
-					left: "-#{@leftCounter}%",
-					ease:  Power0.easeOut,
-					onStart   : @_removeScrollHandler.bind(@),
-					onComplete: @_addScrollHandler.bind(@)
-				})
+		# 	if @leftCounter > 0
+		# 		TweenLite.to( @mainWrapper, 0.4, {
+		# 			left: "-#{@leftCounter}%",
+		# 			ease:  Power0.easeOut,
+		# 			onStart   : @_removeScrollHandler.bind(@),
+		# 			onComplete: @_addScrollHandler.bind(@)
+		# 		})
 			
-			else 
-				@leftCounter = 0
+		# 	else 
+		# 		@leftCounter = 0
 
-				TweenLite.to( @mainWrapper, 0.4, {
-					left: 0,
-					top: 0,
-					ease:   Power0.easeNone,
-					onComplete: @_goToPrevActivePage.bind(@)
-				})
+		# 		TweenLite.to( @mainWrapper, 0.4, {
+		# 			left: 0,
+		# 			top: 0,
+		# 			ease:   Power0.easeNone,
+		# 			onComplete: @_goToPrevActivePage.bind(@)
+		# 		})
 
 
 
-		if activePageName == 'aboutUs'
+		# if activePageName == 'aboutUs'
 
-			@topCounter = @topCounter - 20
+		# 	@topCounter = @topCounter - 20
 
-			if @topCounter > 0
+		# 	if @topCounter > 0
 				
-				TweenLite.to( @mainWrapper, 0.4, {
-					top: "-#{@topCounter}%",
-					ease: Power0.easeNone,
-					onStart   : @_removeScrollHandler.bind(@),
-					onComplete: @_addScrollHandler.bind(@)
-				})
-			else 
-				@topCounter = 0
+		# 		TweenLite.to( @mainWrapper, 0.4, {
+		# 			top: "-#{@topCounter}%",
+		# 			ease: Power0.easeNone,
+		# 			onStart   : @_removeScrollHandler.bind(@),
+		# 			onComplete: @_addScrollHandler.bind(@)
+		# 		})
+		# 	else 
+		# 		@topCounter = 0
 				
-				TweenLite.to( @mainWrapper, 0.4, {
-					left: "-#{@leftCounter}%",
-					top : "-#{@topCounter}%",
-					ease:   Power0.easeNone,
-					onComplete: @_goToPrevActivePage.bind(@)
-				})
+		# 		TweenLite.to( @mainWrapper, 0.4, {
+		# 			left: "-#{@leftCounter}%",
+		# 			top : "-#{@topCounter}%",
+		# 			ease:   Power0.easeNone,
+		# 			onComplete: @_goToPrevActivePage.bind(@)
+		# 		})
 				
 
 
-		if activePageName == 'random'
+		# if activePageName == 'random'
 	
-			@leftCounter = @leftCounter + 20
+		# 	@leftCounter = @leftCounter + 20
 
-			if @leftCounter < 100
+		# 	if @leftCounter < 100
 				
-				TweenLite.to( @mainWrapper, 0.4, {
-					left: "-#{@leftCounter}%",
-					ease:   Power0.easeNone,
-					onStart   : @_removeScrollHandler.bind(@),
-					onComplete: @_addScrollHandler.bind(@)
-				})
+		# 		TweenLite.to( @mainWrapper, 0.4, {
+		# 			left: "-#{@leftCounter}%",
+		# 			ease:   Power0.easeNone,
+		# 			onStart   : @_removeScrollHandler.bind(@),
+		# 			onComplete: @_addScrollHandler.bind(@)
+		# 		})
 			
-			else 
-				@leftCounter = 100;
+		# 	else 
+		# 		@leftCounter = 100;
 
-				TweenLite.to( @mainWrapper, 0.4, {
-					left: "-#{@leftCounter}%",
-					top : "-#{@topCounter}%",
-					ease:  Power0.easeNone,
-					onComplete: @_goToPrevActivePage.bind(@)
-				})
+		# 		TweenLite.to( @mainWrapper, 0.4, {
+		# 			left: "-#{@leftCounter}%",
+		# 			top : "-#{@topCounter}%",
+		# 			ease:  Power0.easeNone,
+		# 			onComplete: @_goToPrevActivePage.bind(@)
+		# 		})
 
 
 
-		if activePageName == 'contact'
+		# if activePageName == 'contact'
 			
-			@topCounter = @topCounter + 20
-			console.log "TOP COuNTER is ", @topCounter
+		# 	@topCounter = @topCounter + 20
+		# 	console.log "TOP COuNTER is ", @topCounter
 			
-			if @topCounter < 100
+		# 	if @topCounter < 100
 				
-				TweenLite.to( @mainWrapper, 0.4, {
-					top: "-#{@topCounter}%",
-					ease:   Power0.easeNone,
-					onStart   : @_removeScrollHandler.bind(@),
-					onComplete: @_addScrollHandler.bind(@)
-				})
+		# 		TweenLite.to( @mainWrapper, 0.4, {
+		# 			top: "-#{@topCounter}%",
+		# 			ease:   Power0.easeNone,
+		# 			onStart   : @_removeScrollHandler.bind(@),
+		# 			onComplete: @_addScrollHandler.bind(@)
+		# 		})
 
 			
-			else 
-				@topCounter = 100;
+		# 	else 
+		# 		@topCounter = 100;
 
-				TweenLite.to( @mainWrapper, 0.4, {
-					left: 0,
-					top : "-#{@topCounter}%",
-					ease:   Power0.easeNone,
-					onComplete: @_goToPrevActivePage.bind(@)
-				})
+		# 		TweenLite.to( @mainWrapper, 0.4, {
+		# 			left: 0,
+		# 			top : "-#{@topCounter}%",
+		# 			ease:   Power0.easeNone,
+		# 			onComplete: @_goToPrevActivePage.bind(@)
+		# 		})
 				
 				
 
@@ -303,8 +309,8 @@ class @SilentParrot
 				else 
 					newActivePage = @orderOfPages[0]
 				
-
 		return newActivePage
+		
 	
 
 	_goToPrevActivePage: () ->
@@ -318,9 +324,8 @@ class @SilentParrot
 				else 
 					numOfPages = @orderOfPages.length - 1
 					newActivePage = @orderOfPages[numOfPages]
-		if newActivePage
-			@_setHash(newActivePage)
-
+		
+		return newActivePage
 			
 
 	
