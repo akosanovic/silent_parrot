@@ -70,42 +70,40 @@
         console.log("Page Position ", this.htmlElement.getBoundingClientRect());
         console.log("Main Container position ", this.mainContainer[0].getBoundingClientRect());
         if (pageTop > 0) {
-          return TweenLite.to(this.mainContainer, 0.5, {
+          return TweenLite.to(this.mainContainer, 2.5, {
             top: -pageTop,
-            ease: Power0.easeOut,
+            ease: Power0.easeNone,
             onComplete: this._activateAnimation.bind(this)
           });
         } else if (pageTop < 0) {
-          return TweenLite.to(this.mainContainer, 0.5, {
+          return TweenLite.to(this.mainContainer, 2.5, {
             top: 0,
-            ease: Power0.easeOut,
+            ease: Power0.easeNone,
             onComplete: this._activateAnimation.bind(this)
           });
         } else if (pageLeft > 0) {
-          return TweenLite.to(this.mainContainer, 0.5, {
+          return TweenLite.to(this.mainContainer, 2.5, {
             left: -pageLeft,
-            ease: Power0.easeOut,
+            ease: Power0.easeNone,
             onComplete: this._activateAnimation.bind(this)
           });
         } else if (pageLeft < 0) {
-          return TweenLite.to(this.mainContainer, 0.5, {
+          return TweenLite.to(this.mainContainer, 2.5, {
             left: 0,
-            ease: Power0.easeOut,
+            ease: Power0.easeNone,
             onComplete: this._activateAnimation.bind(this)
           });
         }
       }
 
-      scrollToActivate() {
+      mouseScrollToActivate() {
         var mainContainerLeft, mainContainerTop, pageLeft, pageTop, scrollOffset;
         mainContainerTop = this.mainContainer[0].getBoundingClientRect().top;
         mainContainerLeft = this.mainContainer[0].getBoundingClientRect().left;
         scrollOffset = 200;
         pageTop = this.top();
         pageLeft = this.left();
-        console.log("main container top", mainContainerTop);
-        console.log("page top is", pageTop);
-        console.log("page left is ", pageLeft);
+        console.log("Better solution for page animation trigger");
         if (pageTop === 0 & pageLeft === 0 & this.hasAnimation) {
           this.isActivePage = true;
           this._activateAnimation();

@@ -83,37 +83,37 @@ class @Page
 		console.log "Main Container position ", @mainContainer[0].getBoundingClientRect()
 
 		if pageTop > 0
-			TweenLite.to( @mainContainer, 0.5, {
+			TweenLite.to( @mainContainer, 2.5, {
 				top: -pageTop,
-				ease: Power0.easeOut,
+				ease: Power0.easeNone,
 				onComplete: @_activateAnimation.bind(@)
 			})
 
 		else if pageTop < 0 
-			TweenLite.to( @mainContainer, 0.5, {
+			TweenLite.to( @mainContainer, 2.5, {
 				top:  0,
-				ease: Power0.easeOut,
+				ease: Power0.easeNone,
 				onComplete: @_activateAnimation.bind(@)
 			})
 
 		else if pageLeft > 0 
-			TweenLite.to( @mainContainer, 0.5, {
+			TweenLite.to( @mainContainer, 2.5, {
 				left: -pageLeft,
-				ease: Power0.easeOut,
+				ease: Power0.easeNone,
 				onComplete: @_activateAnimation.bind(@)
 			})
 
 		else if pageLeft < 0 
-			TweenLite.to( @mainContainer, 0.5, {
+			TweenLite.to( @mainContainer, 2.5, {
 				left: 0,
-				ease: Power0.easeOut,
+				ease: Power0.easeNone,
 				onComplete: @_activateAnimation.bind(@)
 			})
 
 
 
 
-	scrollToActivate: () ->
+	mouseScrollToActivate: () ->
 		mainContainerTop  = @mainContainer[0].getBoundingClientRect().top
 		mainContainerLeft = @mainContainer[0].getBoundingClientRect().left
 
@@ -121,11 +121,8 @@ class @Page
 		pageTop  = @top()
 		pageLeft = @left()
 
-		console.log "main container top", mainContainerTop
-		console.log "page top is", pageTop
-		console.log "page left is ", pageLeft
 
-		
+		console.log "Better solution for page animation trigger"
 		if pageTop == 0 & pageLeft == 0 & @hasAnimation
 			@isActivePage = true
 			@_activateAnimation()

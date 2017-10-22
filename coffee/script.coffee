@@ -6,7 +6,7 @@ class @SilentParrot
 		@mainWrapper   = $('.main--content--wrapper')
 		@mainWrapperPosition = @_getWrapperSize();
 
-
+		@navButtons = @mainWrapper.find('.nav--button')
 		@logo  = @mainWrapper.find('.logo--main')
 		@pages = @mainWrapper.find('.page')
 		
@@ -19,7 +19,6 @@ class @SilentParrot
 		@orderOfPages = [@homePage, @aboutUsPage, @randomPage, @contactPage]
 
 
-		
 		# Default Values
 		@activePage = @homePage
 
@@ -72,7 +71,7 @@ class @SilentParrot
 		
 		if newHash != @activePage.getPageName
 			newPage = @_findPageByName(newHash)
-			# @_autoScrollToNewPage(newPage)
+		
 
 
 
@@ -116,8 +115,18 @@ class @SilentParrot
 
 
 	_clickHandler: (e) ->
+		$target = $(e.target)
+		
+		element = $target.closest(@navButtons)
+		nameOfPageToActivate = null
+		if (element.length > 0) 
+			nameOfPageToActivate = $(element).find('a')[0].hash.replace('#', '')
+			pageToActivate = @_findPageByName(nameOfPageToActivate)
 
-		# nav
+			@_autoScrollToNewPage(pageToActivate)
+			
+
+			
 
 
 	_hoverHandler: () ->
@@ -157,19 +166,13 @@ class @SilentParrot
 
 
 
-	# mainWrapperPosition = @mainWrapper[0].getBoundingClientRect()
-
 	_scrollDown:() ->
 		activePageName = @activePage.getPageName()
 		nextActivePage = @_goToNextActivePage()
-		
-
-		console.log "Active Page is ", activePageName		
-		console.log "Next Active Page", nextActivePage, "is Active", nextActivePage.isActivePage
-		
+				
 
 		if !(nextActivePage.isActivePage)
-			nextActivePage.scrollToActivate()
+			nextActivePage.mouseScrollToActivate()
 		
 		else
 			nextActivePage.isActivePage = false;
@@ -183,111 +186,13 @@ class @SilentParrot
 		nextActivePage = @_goToPrevActivePage()
 
 		if !(nextActivePage.isActivePage)
-			nextActivePage.scrollToActivate()
+			nextActivePage.mouseScrollToActivate()
 		else
 			nextActivePage.isActivePage = false
 			@activePage = nextActivePage;
 
 
-		# if activePageName == 'home'
-			
-		# 	@leftCounter = @leftCounter - 20
-			
-		# 	if @leftCounter > 0
-		# 		TweenLite.to( @mainWrapper, 0.4, {
-		# 			left: "-#{@leftCounter}%",
-		# 			ease:  Power0.easeOut,
-		# 			onStart   : @_removeScrollHandler.bind(@),
-		# 			onComplete: @_addScrollHandler.bind(@)
-		# 		})
-			
-		# 	else 
-		# 		@leftCounter = 0
-
-		# 		TweenLite.to( @mainWrapper, 0.4, {
-		# 			left: 0,
-		# 			top: 0,
-		# 			ease:   Power0.easeNone,
-		# 			onComplete: @_goToPrevActivePage.bind(@)
-		# 		})
-
-
-
-		# if activePageName == 'aboutUs'
-
-		# 	@topCounter = @topCounter - 20
-
-		# 	if @topCounter > 0
-				
-		# 		TweenLite.to( @mainWrapper, 0.4, {
-		# 			top: "-#{@topCounter}%",
-		# 			ease: Power0.easeNone,
-		# 			onStart   : @_removeScrollHandler.bind(@),
-		# 			onComplete: @_addScrollHandler.bind(@)
-		# 		})
-		# 	else 
-		# 		@topCounter = 0
-				
-		# 		TweenLite.to( @mainWrapper, 0.4, {
-		# 			left: "-#{@leftCounter}%",
-		# 			top : "-#{@topCounter}%",
-		# 			ease:   Power0.easeNone,
-		# 			onComplete: @_goToPrevActivePage.bind(@)
-		# 		})
-				
-
-
-		# if activePageName == 'random'
-	
-		# 	@leftCounter = @leftCounter + 20
-
-		# 	if @leftCounter < 100
-				
-		# 		TweenLite.to( @mainWrapper, 0.4, {
-		# 			left: "-#{@leftCounter}%",
-		# 			ease:   Power0.easeNone,
-		# 			onStart   : @_removeScrollHandler.bind(@),
-		# 			onComplete: @_addScrollHandler.bind(@)
-		# 		})
-			
-		# 	else 
-		# 		@leftCounter = 100;
-
-		# 		TweenLite.to( @mainWrapper, 0.4, {
-		# 			left: "-#{@leftCounter}%",
-		# 			top : "-#{@topCounter}%",
-		# 			ease:  Power0.easeNone,
-		# 			onComplete: @_goToPrevActivePage.bind(@)
-		# 		})
-
-
-
-		# if activePageName == 'contact'
-			
-		# 	@topCounter = @topCounter + 20
-		# 	console.log "TOP COuNTER is ", @topCounter
-			
-		# 	if @topCounter < 100
-				
-		# 		TweenLite.to( @mainWrapper, 0.4, {
-		# 			top: "-#{@topCounter}%",
-		# 			ease:   Power0.easeNone,
-		# 			onStart   : @_removeScrollHandler.bind(@),
-		# 			onComplete: @_addScrollHandler.bind(@)
-		# 		})
-
-			
-		# 	else 
-		# 		@topCounter = 100;
-
-		# 		TweenLite.to( @mainWrapper, 0.4, {
-		# 			left: 0,
-		# 			top : "-#{@topCounter}%",
-		# 			ease:   Power0.easeNone,
-		# 			onComplete: @_goToPrevActivePage.bind(@)
-		# 		})
-				
-				
+		
 
 
 
@@ -310,7 +215,7 @@ class @SilentParrot
 					newActivePage = @orderOfPages[0]
 				
 		return newActivePage
-		
+
 	
 
 	_goToPrevActivePage: () ->

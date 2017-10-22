@@ -5,6 +5,7 @@
       this.websiteWindow = $(window);
       this.mainWrapper = $('.main--content--wrapper');
       this.mainWrapperPosition = this._getWrapperSize();
+      this.navButtons = this.mainWrapper.find('.nav--button');
       this.logo = this.mainWrapper.find('.logo--main');
       this.pages = this.mainWrapper.find('.page');
       this.homePage = new Page(this.pages[0], false);
@@ -12,7 +13,6 @@
       this.randomPage = new Page(this.pages[2], false);
       this.contactPage = new Page(this.pages[3], false);
       this.orderOfPages = [this.homePage, this.aboutUsPage, this.randomPage, this.contactPage];
-      
       // Default Values
       this.activePage = this.homePage;
       this.leftCounter = 0;
@@ -51,7 +51,6 @@
       }
     }
 
-    // @_autoScrollToNewPage(newPage)
     _autoScrollToNewPage(newActivePage) {
       // scroll to new page
       // make page active
@@ -81,9 +80,18 @@
       return $(window).on('mousewheel DOMMouseScroll', this._scrollHandler.bind(this));
     }
 
-    _clickHandler(e) {}
+    _clickHandler(e) {
+      var $target, element, nameOfPageToActivate, pageToActivate;
+      $target = $(e.target);
+      element = $target.closest(this.navButtons);
+      nameOfPageToActivate = null;
+      if (element.length > 0) {
+        nameOfPageToActivate = $(element).find('a')[0].hash.replace('#', '');
+        pageToActivate = this._findPageByName(nameOfPageToActivate);
+        return this._autoScrollToNewPage(pageToActivate);
+      }
+    }
 
-    // nav
     _hoverHandler() {
       var logoAnimation;
       logoAnimation = new LogoAnimation();
@@ -125,16 +133,12 @@
       return this._setActivePage(hash);
     }
 
-    
-    // mainWrapperPosition = @mainWrapper[0].getBoundingClientRect()
     _scrollDown() {
       var activePageName, nextActivePage;
       activePageName = this.activePage.getPageName();
       nextActivePage = this._goToNextActivePage();
-      console.log("Active Page is ", activePageName);
-      console.log("Next Active Page", nextActivePage, "is Active", nextActivePage.isActivePage);
       if (!nextActivePage.isActivePage) {
-        return nextActivePage.scrollToActivate();
+        return nextActivePage.mouseScrollToActivate();
       } else {
         nextActivePage.isActivePage = false;
         return this.activePage = nextActivePage;
@@ -146,7 +150,7 @@
       activePageName = this.activePage.getPageName();
       nextActivePage = this._goToPrevActivePage();
       if (!nextActivePage.isActivePage) {
-        return nextActivePage.scrollToActivate();
+        return nextActivePage.mouseScrollToActivate();
       } else {
         nextActivePage.isActivePage = false;
         return this.activePage = nextActivePage;
