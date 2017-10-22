@@ -10,6 +10,7 @@ class @Page
 		@jqueryElment = $(htmlElement)
 		@hasAnimation = hasAnimation;
 		@pageName     = @getPageName();
+		@isActivePage = false;
 		
 
 
@@ -125,7 +126,9 @@ class @Page
 
 		
 		if pageTop == 0 & pageLeft == 0 & @hasAnimation
+			console.log "Page is active ", @pageName
 			@_activateAnimation()
+			@isActivePage = true;
 
 
 

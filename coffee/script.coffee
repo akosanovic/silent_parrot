@@ -168,7 +168,7 @@ class @SilentParrot
 		console.log "Next Active Page", nextActivePage, "is Active", nextActivePage.isActivePage
 		
 
-		if !(nextActivePage.checkIfActive())
+		if !(nextActivePage.isActivePage)
 			nextActivePage.scrollToActivate()
 		
 		else
