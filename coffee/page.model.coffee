@@ -86,30 +86,34 @@ class @Page
 
 
 		if pageTop > 0
-			TweenLite.to( @mainContainer, 0.75, {
+			TweenLite.to( @mainContainer, 1, {
 				top: -pageTop,
-				ease: Power0.easeNone
+				ease: Power0.easeNone,
+				onComplete: @_activateAnimation()
 			})
 			return;
 
 		else if pageTop < 0 
-			TweenLite.to( @mainContainer, 0.75, {
+			TweenLite.to( @mainContainer, 1, {
 				top:  0,
-				ease: Power0.easeNone
+				ease: Power0.easeNone,
+				onComplete: @_activateAnimation()
 			})
 			return;
 
 		else if pageLeft > 0 
-			TweenLite.to( @mainContainer, 0.75, {
+			TweenLite.to( @mainContainer, 1, {
 				left: -pageLeft,
-				ease: Power0.easeNone
+				ease: Power0.easeNone,
+				onComplete: @_activateAnimation()
 			})
 			return;
 
 		else if pageLeft < 0 
-			TweenLite.to( @mainContainer, 0.75, {
+			TweenLite.to( @mainContainer, 1, {
 				left: 0,
-				ease: Power0.easeNone
+				ease: Power0.easeNone,
+				onComplete: @_activateAnimation()
 			})
 			return;
 
@@ -176,7 +180,6 @@ class @Page
 	_activateAnimation: () ->
 		
 		if (@hasAnimation)
-			
 			@pageAnimation = new PageAnimation();
 			console.log "PAGE animation is #{@pageAnimation}"
 			pa = @pageAnimation.lineAniamtion()

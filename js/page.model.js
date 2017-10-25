@@ -70,24 +70,28 @@
         console.log("Page Position ", this.htmlElement.getBoundingClientRect());
         console.log("Main Container position ", this.mainContainer[0].getBoundingClientRect());
         if (pageTop > 0) {
-          TweenLite.to(this.mainContainer, 0.75, {
+          TweenLite.to(this.mainContainer, 1, {
             top: -pageTop,
-            ease: Power0.easeNone
+            ease: Power0.easeNone,
+            onComplete: this._activateAnimation()
           });
         } else if (pageTop < 0) {
-          TweenLite.to(this.mainContainer, 0.75, {
+          TweenLite.to(this.mainContainer, 1, {
             top: 0,
-            ease: Power0.easeNone
+            ease: Power0.easeNone,
+            onComplete: this._activateAnimation()
           });
         } else if (pageLeft > 0) {
-          TweenLite.to(this.mainContainer, 0.75, {
+          TweenLite.to(this.mainContainer, 1, {
             left: -pageLeft,
-            ease: Power0.easeNone
+            ease: Power0.easeNone,
+            onComplete: this._activateAnimation()
           });
         } else if (pageLeft < 0) {
-          TweenLite.to(this.mainContainer, 0.75, {
+          TweenLite.to(this.mainContainer, 1, {
             left: 0,
-            ease: Power0.easeNone
+            ease: Power0.easeNone,
+            onComplete: this._activateAnimation()
           });
         }
       }
