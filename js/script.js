@@ -8,10 +8,10 @@
       this.navButtons = this.mainWrapper.find('.nav--button');
       this.logo = this.mainWrapper.find('.logo--main');
       this.pages = this.mainWrapper.find('.page');
-      this.homePage = new Page(this.pages[0], false);
-      this.aboutUsPage = new Page(this.pages[1], true);
-      this.randomPage = new Page(this.pages[2], false);
-      this.contactPage = new Page(this.pages[3], false);
+      this.homePage = new Page(this.pages[0], false, this.mainWrapper);
+      this.aboutUsPage = new Page(this.pages[1], true, this.mainWrapper);
+      this.randomPage = new Page(this.pages[2], false, this.mainWrapper);
+      this.contactPage = new Page(this.pages[3], false, this.mainWrapper);
       this.orderOfPages = [this.homePage, this.aboutUsPage, this.randomPage, this.contactPage];
       // Default Values
       this.activePage = this.homePage;

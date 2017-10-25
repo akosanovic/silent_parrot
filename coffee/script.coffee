@@ -11,10 +11,10 @@ class @SilentParrot
 		@pages = @mainWrapper.find('.page')
 		
 
-		@homePage    = new Page(@pages[0], false);
-		@aboutUsPage = new Page(@pages[1], true );
-		@randomPage  = new Page(@pages[2], false);
-		@contactPage = new Page(@pages[3], false);
+		@homePage    = new Page(@pages[0], false, @mainWrapper);
+		@aboutUsPage = new Page(@pages[1], true, @mainWrapper);
+		@randomPage  = new Page(@pages[2], false, @mainWrapper);
+		@contactPage = new Page(@pages[3], false, @mainWrapper);
 
 		@orderOfPages = [@homePage, @aboutUsPage, @randomPage, @contactPage]
 

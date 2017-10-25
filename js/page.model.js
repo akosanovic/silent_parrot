@@ -2,8 +2,8 @@
 (function() {
   this.Page = (function() {
     class Page {
-      constructor(htmlElement, hasAnimation) {
-        this.mainContainer = $('.main--content--wrapper');
+      constructor(htmlElement, hasAnimation, parentContainer) {
+        this.mainContainer = parentContainer;
         this.htmlElement = htmlElement;
         this.jqueryElment = $(htmlElement);
         this.hasAnimation = hasAnimation;
@@ -70,28 +70,24 @@
         console.log("Page Position ", this.htmlElement.getBoundingClientRect());
         console.log("Main Container position ", this.mainContainer[0].getBoundingClientRect());
         if (pageTop > 0) {
-          return TweenLite.to(this.mainContainer, 2.5, {
+          TweenLite.to(this.mainContainer, 0.75, {
             top: -pageTop,
-            ease: Power0.easeNone,
-            onComplete: this._activateAnimation.bind(this)
+            ease: Power0.easeNone
           });
         } else if (pageTop < 0) {
-          return TweenLite.to(this.mainContainer, 2.5, {
+          TweenLite.to(this.mainContainer, 0.75, {
             top: 0,
-            ease: Power0.easeNone,
-            onComplete: this._activateAnimation.bind(this)
+            ease: Power0.easeNone
           });
         } else if (pageLeft > 0) {
-          return TweenLite.to(this.mainContainer, 2.5, {
+          TweenLite.to(this.mainContainer, 0.75, {
             left: -pageLeft,
-            ease: Power0.easeNone,
-            onComplete: this._activateAnimation.bind(this)
+            ease: Power0.easeNone
           });
         } else if (pageLeft < 0) {
-          return TweenLite.to(this.mainContainer, 2.5, {
+          TweenLite.to(this.mainContainer, 0.75, {
             left: 0,
-            ease: Power0.easeNone,
-            onComplete: this._activateAnimation.bind(this)
+            ease: Power0.easeNone
           });
         }
       }

@@ -26,7 +26,6 @@ body {
 
 .mainContent {
 	position: absolute;
-	@include transition(all 0.2s ease-in-out);
 }
 
 .homePage_wrapper {

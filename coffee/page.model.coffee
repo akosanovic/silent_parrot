@@ -1,10 +1,10 @@
 class @Page
-	@pageAnimation = null;
-	@pageName      = null;
-	
 
-	constructor: (htmlElement, hasAnimation) ->
-		@mainContainer = $('.main--content--wrapper')
+	@pageAnimation = null;
+	@pageName      = null;	
+
+	constructor: (htmlElement, hasAnimation, parentContainer) ->
+		@mainContainer = parentContainer
 
 		@htmlElement  = htmlElement
 		@jqueryElment = $(htmlElement)
@@ -75,6 +75,7 @@ class @Page
 
 
 
+
 	autoScrollToActivate: () ->
 		pageTop  = @top()
 		pageLeft = @left()
@@ -82,33 +83,35 @@ class @Page
 		console.log "Page Position ", @htmlElement.getBoundingClientRect()
 		console.log "Main Container position ", @mainContainer[0].getBoundingClientRect()
 
+
+
 		if pageTop > 0
-			TweenLite.to( @mainContainer, 2.5, {
+			TweenLite.to( @mainContainer, 0.75, {
 				top: -pageTop,
-				ease: Power0.easeNone,
-				onComplete: @_activateAnimation.bind(@)
+				ease: Power0.easeNone
 			})
+			return;
 
 		else if pageTop < 0 
-			TweenLite.to( @mainContainer, 2.5, {
+			TweenLite.to( @mainContainer, 0.75, {
 				top:  0,
-				ease: Power0.easeNone,
-				onComplete: @_activateAnimation.bind(@)
+				ease: Power0.easeNone
 			})
+			return;
 
 		else if pageLeft > 0 
-			TweenLite.to( @mainContainer, 2.5, {
+			TweenLite.to( @mainContainer, 0.75, {
 				left: -pageLeft,
-				ease: Power0.easeNone,
-				onComplete: @_activateAnimation.bind(@)
+				ease: Power0.easeNone
 			})
+			return;
 
 		else if pageLeft < 0 
-			TweenLite.to( @mainContainer, 2.5, {
+			TweenLite.to( @mainContainer, 0.75, {
 				left: 0,
-				ease: Power0.easeNone,
-				onComplete: @_activateAnimation.bind(@)
+				ease: Power0.easeNone
 			})
+			return;
 
 
 
