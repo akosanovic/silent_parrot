@@ -30,7 +30,8 @@ class @SilentParrot
 		@windowW = 0;
 		@windowH = 0;
 
-			
+		@scrollLeft  = 0 
+		
 
 
 		# Event Binding
@@ -96,7 +97,6 @@ class @SilentParrot
 	_scrollHandler:(e) ->
 		if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0)
 			@_scrollUp()
-
 		else 
 			@_scrollDown()
 
@@ -163,33 +163,112 @@ class @SilentParrot
 
 
 		
+	
+
+
+
+	_scrollCurrentPageTopTo0: () =>
+		console.log "Scroll Current Page Top to 0"
+
+
+
+	_scrollCurrentPageLeftTo0: () =>
+		console.log "Scroll Current Page left to 0"
+
+
+	_scrollToNextPage: () =>
+		nextActivePage = @_goToNextActivePage()
+
+		if !nextActivePage.checkIfActive()
+			nextActivePage.mouseScrollToActivate()
+			console.log "Scroll To Next Page "
+		else 
+			@activePage = nextActivePage
+			console.log "next page is current active page"
+
+
+	_scrollToPrevPage: () =>
+		nextActivePage = @_goToPrevActivePage()
+
+		if !nextActivePage.checkIfActive()
+			nextActivePage.mouseScrollToActivate()
+			console.log "Scroll To Next Page "
+		else 
+			@activePage = nextActivePage
+			console.log "next page is current active page"
+
 
 
 
 	_scrollDown:() ->
-		activePageName = @activePage.getPageName()
+		currentPageTop  = @activePage.top()
+		currentPageLeft = @activePage.left()
+
 		nextActivePage = @_goToNextActivePage()
+		nextPageTop    = nextActivePage.top()
+		nextPageLeft   = nextActivePage.left()
+
+
+		if currentPageTop == nextPageTop
+			if currentPageTop == 0
+				@_scrollToNextPage()
+			else 
+				@_scrollCurrentPageLeftTo0()
 				
 
-		if !(nextActivePage.isActivePage)
-			nextActivePage.mouseScrollToActivate()
-		
-		else
-			nextActivePage.isActivePage = false;
-			@activePage = nextActivePage;
+
+		else if currentPageLeft == nextPageLeft
+			if currentPageLeft == 0
+				@_scrollToNextPage()
+			else 
+				@_scrollCurrentPageLeftTo0()
 
 
-		
+
 
 	_scrollUp:() ->
-		activePageName = @activePage.getPageName()
-		nextActivePage = @_goToPrevActivePage()
 
-		if !(nextActivePage.isActivePage)
-			nextActivePage.mouseScrollToActivate()
-		else
-			nextActivePage.isActivePage = false
-			@activePage = nextActivePage;
+		nextActivePage = @_goToPrevActivePage()
+		nextPageTop    = nextActivePage.top()
+		nextPageLeft   = nextActivePage.left()
+
+		currentPageTop  = @activePage.top()
+		currentPageLeft = @activePage.left()
+
+		
+
+
+		if currentPageTop == nextPageTop
+			console.log "current page top, ", currentPageTop
+			
+			if !currentPageTop == 0
+				@_scrollCurrentPageLeftTo0()
+			else 
+				@_scrollToPrevPage()
+
+		else if currentPageLeft == nextPageLeft
+
+			if currentPageLeft == 0
+				@_scrollToPrevPage()
+			else
+				@_scrollCurrentPageLeftTo0()
+				
+
+
+
+		# if (@activePage.isActivePage)
+		# 	@activePage = nextActivePage
+		# 	console.log "active page is #{@activePage}"
+		# 	@_scrollUp()
+		# else
+		# 	@activePage.mouseScrollToActivate()
+
+
+		# if !(nextActivePage.isActivePage)
+		# 	nextActivePage.mouseScrollToActivate()
+		# else
+		# 	nextActivePage.isActivePage = false
+		# 	@activePage = nextActivePage;
 
 
 		
