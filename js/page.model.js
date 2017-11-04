@@ -12,6 +12,7 @@
       this.hasAnimation = hasAnimation;
       this.pageName = this.getPageName();
       this.isActivePage = false;
+      this.scrollOffset = 200;
       this._setPageSize();
       $(window).on('resize', this._setPageSize.bind(this));
     }
@@ -28,24 +29,32 @@
       return this.checkIfActive();
     };
 
-    Page.prototype.top = function() {
+    Page.prototype.getMainContainerTop = function() {
+      return this.mainContainer[0].getBoundingClientRect().top;
+    };
+
+    Page.prototype.getMainContainerLeft = function() {
+      return this.mainContainer[0].getBoundingClientRect().left;
+    };
+
+    Page.prototype.getPageTop = function() {
       return this.htmlElement.getBoundingClientRect().top;
     };
 
-    Page.prototype.bottom = function() {
+    Page.prototype.getPageBottom = function() {
       return this.htmlElement.getBoundingClientRect().bottom;
     };
 
-    Page.prototype.left = function() {
+    Page.prototype.getPageLeft = function() {
       return this.htmlElement.getBoundingClientRect().left;
     };
 
-    Page.prototype.right = function() {
+    Page.prototype.getPageRight = function() {
       return this.htmlElement.getBoundingClientRect().right;
     };
 
     Page.prototype.checkIfActive = function() {
-      if (this.top() === 0 && this.left() === 0) {
+      if (this.getPageTop() === 0 && this.getPageLeft() === 0) {
         return true;
       } else {
         return false;
@@ -68,8 +77,8 @@
 
     Page.prototype.autoScrollToActivate = function() {
       var pageLeft, pageTop;
-      pageTop = this.top();
-      pageLeft = this.left();
+      pageTop = this.getPageTop();
+      pageLeft = this.getPageLeft();
       console.log("Page Position ", this.htmlElement.getBoundingClientRect());
       console.log("Main Container position ", this.mainContainer[0].getBoundingClientRect());
       if (pageTop > 0) {
@@ -100,12 +109,11 @@
     };
 
     Page.prototype.mouseScrollToActivate = function() {
-      var mainContainerLeft, mainContainerTop, pageLeft, pageTop, scrollOffset;
-      mainContainerTop = this.mainContainer[0].getBoundingClientRect().top;
-      mainContainerLeft = this.mainContainer[0].getBoundingClientRect().left;
-      scrollOffset = 200;
-      pageTop = this.top();
-      pageLeft = this.left();
+      var mainContainerLeft, mainContainerTop, pageLeft, pageTop;
+      mainContainerTop = this.getMainContainerTop();
+      mainContainerLeft = this.getMainContainerLeft();
+      pageTop = this.getPageTop();
+      pageLeft = this.getPageLeft();
       console.log("Better solution for page animation trigger");
       if (pageTop === 0 & pageLeft === 0 & this.hasAnimation) {
         this.isActivePage = true;
@@ -113,30 +121,68 @@
       } else if (pageTop === 0 & pageLeft === 0 & !this.hasAnimation) {
         this.isActivePage = true;
       }
-      if (pageLeft >= scrollOffset) {
-        mainContainerLeft = mainContainerLeft - scrollOffset;
+      if (pageLeft >= this.scrollOffset) {
+        mainContainerLeft = mainContainerLeft - this.scrollOffset;
         return this.mainContainer.css('left', mainContainerLeft);
       } else if (pageLeft > 0) {
         mainContainerLeft = mainContainerLeft - pageLeft;
         return this.mainContainer.css('left', mainContainerLeft);
-      } else if (pageTop >= scrollOffset) {
-        mainContainerTop = mainContainerTop - scrollOffset;
+      } else if (pageTop >= this.scrollOffset) {
+        mainContainerTop = mainContainerTop - this.scrollOffset;
         return this.mainContainer.css('top', mainContainerTop);
       } else if (pageTop > 0) {
         mainContainerTop = mainContainerTop - pageTop;
         return this.mainContainer.css('top', mainContainerTop);
-      } else if (pageLeft <= -scrollOffset) {
-        mainContainerLeft = mainContainerLeft + scrollOffset;
+      } else if (pageLeft <= -this.scrollOffset) {
+        mainContainerLeft = mainContainerLeft + this.scrollOffset;
         return this.mainContainer.css('left', mainContainerLeft);
       } else if (pageLeft < 0) {
         mainContainerLeft = mainContainerLeft + (-pageLeft);
         return this.mainContainer.css('left', mainContainerLeft);
-      } else if (pageTop <= -scrollOffset) {
-        mainContainerTop = mainContainerTop + scrollOffset;
+      } else if (pageTop <= -this.scrollOffset) {
+        mainContainerTop = mainContainerTop + this.scrollOffset;
         return this.mainContainer.css('top', mainContainerTop);
       } else {
         mainContainerTop = mainContainerTop + (-pageTop);
         return this.mainContainer.css('top', mainContainerTop);
+      }
+    };
+
+    Page.prototype.scrollPageTopTo0 = function() {
+      var mainContainerTop, pageTop;
+      mainContainerTop = this.getMainContainerTop();
+      pageTop = this.getPageTop();
+      if (pageTop > this.scrollOffset) {
+        mainContainerTop = mainContainerTop - this.scrollOffset;
+        return this.mainContainer.css('top', mainContainerTop);
+      } else if (pageTop > 0) {
+        mainContainerTop = mainContainerTop - pageTop;
+        return this.mainContainer.css('top', mainContainerTop);
+      } else if (pageTop < this.scrollOffset) {
+        mainContainerTop = mainContainerTop + this.scrollOffset;
+        return this.mainContainer.css('top', mainContainerTop);
+      } else if (pageTop < 0) {
+        mainContainerTop = mainContainerTop + pageTop;
+        return this.mainContainer.css('top', mainContainerTop);
+      }
+    };
+
+    Page.prototype.scrollPageLeftTo0 = function() {
+      var mainContainerLeft, mainContainerTop, pageLeft;
+      mainContainerLeft = this.getMainContainerLeft();
+      pageLeft = this.getPageLeft();
+      if (pageLeft > this.scrollOffset) {
+        mainContainerTop = mainContainerTop - this.scrollOffset;
+        return this.mainContainer.css('left', mainContainerLeft);
+      } else if (pageLeft > 0) {
+        mainContainerLeft = mainContainerLeft - pageLeft;
+        return this.mainContainer.css('left', mainContainerLeft);
+      } else if (pageLeft < this.scrollOffset) {
+        mainContainerLeft = mainContainerLeft + this.scrollOffset;
+        return this.mainContainer.css('left', mainContainerLeft);
+      } else if (pageLeft < 0) {
+        mainContainerLeft = mainContainerLeft + pageLeft;
+        return this.mainContainer.css('left', mainContainerLeft);
       }
     };
 

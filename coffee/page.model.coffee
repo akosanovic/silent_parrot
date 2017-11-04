@@ -12,9 +12,15 @@ class @Page
 		@pageName     = @getPageName();
 		@isActivePage = false;
 		
+		@scrollOffset = 200
 
 
 		@_setPageSize()
+
+		# value changes on each scroll - have to set observables/subscribe
+		# Sub
+		# @pageTop  = @getPageTop()
+		# @pageLeft = @getPageLeft()
 
 		$(window).on('resize', @_setPageSize.bind(@))
 
@@ -35,24 +41,31 @@ class @Page
 		@checkIfActive()
 
 
-	top:() ->
+	getMainContainerTop: () ->
+		return @mainContainer[0].getBoundingClientRect().top
+
+	getMainContainerLeft: () ->
+		return @mainContainer[0].getBoundingClientRect().left
+
+
+
+
+	getPageTop: () ->
 		return @htmlElement.getBoundingClientRect().top
 	
-	bottom: () ->
+	getPageBottom: () ->
 		return @htmlElement.getBoundingClientRect().bottom
 
-	left: () ->
+	getPageLeft: () ->
 		return @htmlElement.getBoundingClientRect().left
 
-	right: ()->
+	getPageRight: ()->
 		return @htmlElement.getBoundingClientRect().right
 
 
 
-
-
 	checkIfActive: () ->
-		if @top() == 0 && @left() == 0
+		if @getPageTop() == 0 && @getPageLeft() == 0
 			return true;
 		else 
 			return false;
@@ -77,12 +90,11 @@ class @Page
 
 
 	autoScrollToActivate: () ->
-		pageTop  = @top()
-		pageLeft = @left()
+		pageTop  = @getPageTop()
+		pageLeft = @getPageLeft()
 
 		console.log "Page Position ", @htmlElement.getBoundingClientRect()
 		console.log "Main Container position ", @mainContainer[0].getBoundingClientRect()
-
 
 
 		if pageTop > 0
@@ -121,12 +133,11 @@ class @Page
 
 
 	mouseScrollToActivate: () ->
-		mainContainerTop  = @mainContainer[0].getBoundingClientRect().top
-		mainContainerLeft = @mainContainer[0].getBoundingClientRect().left
-
-		scrollOffset = 200
-		pageTop  = @top()
-		pageLeft = @left()
+		mainContainerTop  = @getMainContainerTop()
+		mainContainerLeft = @getMainContainerLeft()
+		
+		pageTop  = @getPageTop()
+		pageLeft = @getPageLeft()
 
 
 		console.log "Better solution for page animation trigger"
@@ -140,8 +151,8 @@ class @Page
 
 
 		
-		if pageLeft >= scrollOffset
-			mainContainerLeft = mainContainerLeft - scrollOffset
+		if pageLeft >= @scrollOffset
+			mainContainerLeft = mainContainerLeft - @scrollOffset
 			@mainContainer.css('left', mainContainerLeft)
 
 		else if pageLeft > 0
@@ -149,8 +160,8 @@ class @Page
 			@mainContainer.css('left', mainContainerLeft)
 
 
-		else if pageTop >= scrollOffset
-			mainContainerTop = mainContainerTop - scrollOffset
+		else if pageTop >= @scrollOffset
+			mainContainerTop = mainContainerTop - @scrollOffset
 			@mainContainer.css('top', mainContainerTop)
 		
 		else if pageTop > 0
@@ -158,21 +169,76 @@ class @Page
 			@mainContainer.css('top', mainContainerTop)
 	
 
-		else if pageLeft <= -scrollOffset
-			mainContainerLeft = mainContainerLeft + scrollOffset
+		else if pageLeft <= -@scrollOffset
+			mainContainerLeft = mainContainerLeft + @scrollOffset
 			@mainContainer.css('left', mainContainerLeft)
 
 		else if pageLeft < 0
 			mainContainerLeft = mainContainerLeft + (-pageLeft)
 			@mainContainer.css('left', mainContainerLeft)
 
-		else if pageTop <= -scrollOffset
-			mainContainerTop = mainContainerTop + scrollOffset
+		else if pageTop <= -@scrollOffset
+			mainContainerTop = mainContainerTop + @scrollOffset
 			@mainContainer.css('top', mainContainerTop)
 
 		else
 			mainContainerTop = mainContainerTop + (-pageTop)
 			@mainContainer.css('top', mainContainerTop)
+
+	
+
+
+	scrollPageTopTo0: () ->
+		mainContainerTop = @getMainContainerTop()
+		pageTop = @getPageTop()
+
+		
+		if pageTop > @scrollOffset			
+			mainContainerTop = mainContainerTop - @scrollOffset
+			@mainContainer.css('top', mainContainerTop)
+
+		else if pageTop > 0
+			mainContainerTop = mainContainerTop - pageTop
+			@mainContainer.css('top', mainContainerTop)
+
+		else if pageTop < @scrollOffset
+			mainContainerTop = mainContainerTop + @scrollOffset
+			@mainContainer.css('top', mainContainerTop)
+
+		else if pageTop < 0
+			mainContainerTop = mainContainerTop + pageTop
+			@mainContainer.css('top', mainContainerTop)
+
+
+
+	
+
+	scrollPageLeftTo0: () ->
+		mainContainerLeft = @getMainContainerLeft()
+		pageLeft = @getPageLeft()
+
+		
+		if pageLeft > @scrollOffset			
+			mainContainerTop = mainContainerTop - @scrollOffset
+			@mainContainer.css('left', mainContainerLeft)
+
+		else if pageLeft > 0
+			mainContainerLeft = mainContainerLeft - pageLeft
+			@mainContainer.css('left', mainContainerLeft)
+
+		else if pageLeft < @scrollOffset
+			mainContainerLeft = mainContainerLeft + @scrollOffset
+			@mainContainer.css('left', mainContainerLeft)
+
+		else if pageLeft < 0
+			mainContainerLeft = mainContainerLeft + pageLeft
+			@mainContainer.css('left', mainContainerLeft)
+		
+ 
+
+
+
+
 
 		
 

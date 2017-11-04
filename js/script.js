@@ -129,22 +129,20 @@
     };
 
     SilentParrot.prototype._scrollCurrentPageTopTo0 = function() {
-      return console.log("Scroll Current Page Top to 0");
+      return this.activePage.scrollPageTopTo0();
     };
 
     SilentParrot.prototype._scrollCurrentPageLeftTo0 = function() {
-      return console.log("Scroll Current Page left to 0");
+      return this.activePage.scrollPageLeftTo0();
     };
 
     SilentParrot.prototype._scrollToNextPage = function() {
       var nextActivePage;
       nextActivePage = this._goToNextActivePage();
       if (!nextActivePage.checkIfActive()) {
-        nextActivePage.mouseScrollToActivate();
-        return console.log("Scroll To Next Page ");
+        return nextActivePage.mouseScrollToActivate();
       } else {
-        this.activePage = nextActivePage;
-        return console.log("next page is current active page");
+        return this.activePage = nextActivePage;
       }
     };
 
@@ -152,26 +150,24 @@
       var nextActivePage;
       nextActivePage = this._goToPrevActivePage();
       if (!nextActivePage.checkIfActive()) {
-        nextActivePage.mouseScrollToActivate();
-        return console.log("Scroll To Next Page ");
+        return nextActivePage.mouseScrollToActivate();
       } else {
-        this.activePage = nextActivePage;
-        return console.log("next page is current active page");
+        return this.activePage = nextActivePage;
       }
     };
 
     SilentParrot.prototype._scrollDown = function() {
       var currentPageLeft, currentPageTop, nextActivePage, nextPageLeft, nextPageTop;
-      currentPageTop = this.activePage.top();
-      currentPageLeft = this.activePage.left();
+      currentPageTop = this.activePage.getPageTop();
+      currentPageLeft = this.activePage.getPageLeft();
       nextActivePage = this._goToNextActivePage();
-      nextPageTop = nextActivePage.top();
-      nextPageLeft = nextActivePage.left();
+      nextPageTop = nextActivePage.getPageTop();
+      nextPageLeft = nextActivePage.getPageLeft();
       if (currentPageTop === nextPageTop) {
         if (currentPageTop === 0) {
           return this._scrollToNextPage();
         } else {
-          return this._scrollCurrentPageLeftTo0();
+          return this._scrollCurrentPageTopTo0();
         }
       } else if (currentPageLeft === nextPageLeft) {
         if (currentPageLeft === 0) {
@@ -185,16 +181,15 @@
     SilentParrot.prototype._scrollUp = function() {
       var currentPageLeft, currentPageTop, nextActivePage, nextPageLeft, nextPageTop;
       nextActivePage = this._goToPrevActivePage();
-      nextPageTop = nextActivePage.top();
-      nextPageLeft = nextActivePage.left();
-      currentPageTop = this.activePage.top();
-      currentPageLeft = this.activePage.left();
+      nextPageTop = nextActivePage.getPageTop();
+      nextPageLeft = nextActivePage.getPageLeft();
+      currentPageTop = this.activePage.getPageTop();
+      currentPageLeft = this.activePage.getPageLeft();
       if (currentPageTop === nextPageTop) {
-        console.log("current page top, ", currentPageTop);
-        if (!currentPageTop === 0) {
-          return this._scrollCurrentPageLeftTo0();
-        } else {
+        if (currentPageTop === 0) {
           return this._scrollToPrevPage();
+        } else {
+          return this._scrollCurrentPageTopTo0();
         }
       } else if (currentPageLeft === nextPageLeft) {
         if (currentPageLeft === 0) {

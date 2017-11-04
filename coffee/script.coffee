@@ -168,23 +168,25 @@ class @SilentParrot
 
 
 	_scrollCurrentPageTopTo0: () =>
-		console.log "Scroll Current Page Top to 0"
+		@activePage.scrollPageTopTo0()
+				
 
 
 
 	_scrollCurrentPageLeftTo0: () =>
-		console.log "Scroll Current Page left to 0"
+		@activePage.scrollPageLeftTo0()
 
 
 	_scrollToNextPage: () =>
 		nextActivePage = @_goToNextActivePage()
+		
 
 		if !nextActivePage.checkIfActive()
 			nextActivePage.mouseScrollToActivate()
-			console.log "Scroll To Next Page "
+			# console.log "Scroll To Next Page "
 		else 
 			@activePage = nextActivePage
-			console.log "next page is current active page"
+			# console.log "next page is current active page"
 
 
 	_scrollToPrevPage: () =>
@@ -192,28 +194,28 @@ class @SilentParrot
 
 		if !nextActivePage.checkIfActive()
 			nextActivePage.mouseScrollToActivate()
-			console.log "Scroll To Next Page "
+			# console.log "Scroll To Next Page "
 		else 
 			@activePage = nextActivePage
-			console.log "next page is current active page"
+			# console.log "next page is current active page"
 
 
 
 
 	_scrollDown:() ->
-		currentPageTop  = @activePage.top()
-		currentPageLeft = @activePage.left()
+		currentPageTop  = @activePage.getPageTop()
+		currentPageLeft = @activePage.getPageLeft()
 
 		nextActivePage = @_goToNextActivePage()
-		nextPageTop    = nextActivePage.top()
-		nextPageLeft   = nextActivePage.left()
+		nextPageTop    = nextActivePage.getPageTop()
+		nextPageLeft   = nextActivePage.getPageLeft()
 
 
 		if currentPageTop == nextPageTop
 			if currentPageTop == 0
 				@_scrollToNextPage()
 			else 
-				@_scrollCurrentPageLeftTo0()
+				@_scrollCurrentPageTopTo0()
 				
 
 
@@ -229,46 +231,30 @@ class @SilentParrot
 	_scrollUp:() ->
 
 		nextActivePage = @_goToPrevActivePage()
-		nextPageTop    = nextActivePage.top()
-		nextPageLeft   = nextActivePage.left()
 
-		currentPageTop  = @activePage.top()
-		currentPageLeft = @activePage.left()
+		nextPageTop    = nextActivePage.getPageTop()
+		nextPageLeft   = nextActivePage.getPageLeft()
+
+		currentPageTop  = @activePage.getPageTop()
+		currentPageLeft = @activePage.getPageLeft()
 
 		
 
 
 		if currentPageTop == nextPageTop
-			console.log "current page top, ", currentPageTop
-			
-			if !currentPageTop == 0
-				@_scrollCurrentPageLeftTo0()
-			else 
+
+			if currentPageTop == 0
 				@_scrollToPrevPage()
+			else 
+				@_scrollCurrentPageTopTo0()
+
 
 		else if currentPageLeft == nextPageLeft
-
 			if currentPageLeft == 0
 				@_scrollToPrevPage()
 			else
 				@_scrollCurrentPageLeftTo0()
 				
-
-
-
-		# if (@activePage.isActivePage)
-		# 	@activePage = nextActivePage
-		# 	console.log "active page is #{@activePage}"
-		# 	@_scrollUp()
-		# else
-		# 	@activePage.mouseScrollToActivate()
-
-
-		# if !(nextActivePage.isActivePage)
-		# 	nextActivePage.mouseScrollToActivate()
-		# else
-		# 	nextActivePage.isActivePage = false
-		# 	@activePage = nextActivePage;
 
 
 		
