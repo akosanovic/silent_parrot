@@ -12,7 +12,7 @@
       this.hasAnimation = hasAnimation;
       this.pageName = this.getPageName();
       this.isActivePage = false;
-      this.scrollOffset = 200;
+      this.scrollOffset = 400;
       this._setPageSize();
       $(window).on('resize', this._setPageSize.bind(this));
     }
@@ -121,30 +121,30 @@
       } else if (pageTop === 0 & pageLeft === 0 & !this.hasAnimation) {
         this.isActivePage = true;
       }
-      if (pageLeft >= this.scrollOffset) {
-        mainContainerLeft = mainContainerLeft - this.scrollOffset;
-        return this.mainContainer.css('left', mainContainerLeft);
-      } else if (pageLeft > 0) {
-        mainContainerLeft = mainContainerLeft - pageLeft;
-        return this.mainContainer.css('left', mainContainerLeft);
-      } else if (pageTop >= this.scrollOffset) {
-        mainContainerTop = mainContainerTop - this.scrollOffset;
-        return this.mainContainer.css('top', mainContainerTop);
-      } else if (pageTop > 0) {
-        mainContainerTop = mainContainerTop - pageTop;
-        return this.mainContainer.css('top', mainContainerTop);
-      } else if (pageLeft <= -this.scrollOffset) {
-        mainContainerLeft = mainContainerLeft + this.scrollOffset;
-        return this.mainContainer.css('left', mainContainerLeft);
-      } else if (pageLeft < 0) {
-        mainContainerLeft = mainContainerLeft + (-pageLeft);
-        return this.mainContainer.css('left', mainContainerLeft);
-      } else if (pageTop <= -this.scrollOffset) {
-        mainContainerTop = mainContainerTop + this.scrollOffset;
-        return this.mainContainer.css('top', mainContainerTop);
-      } else {
-        mainContainerTop = mainContainerTop + (-pageTop);
-        return this.mainContainer.css('top', mainContainerTop);
+      if (pageLeft !== 0) {
+        mainContainerLeft = this._getMainContainerLeft();
+        if (pageLeft >= this.scrollOffset) {
+          mainContainerLeft = mainContainerLeft - this.scrollOffset;
+        } else if (pageLeft > 0) {
+          mainContainerLeft = mainContainerLeft - pageLeft;
+        } else if (pageLeft <= -this.scrollOffset) {
+          mainContainerLeft = mainContainerLeft + this.scrollOffset;
+        } else if (pageLeft < 0) {
+          mainContainerLeft = mainContainerLeft + (-pageLeft);
+        }
+        return this.mouseScrollAnimation('left', mainContainerLeft);
+      } else if (pageTop !== 0) {
+        mainContainerTop = this._getMainContainerTop();
+        if (pageTop >= this.scrollOffset) {
+          mainContainerTop = mainContainerTop - this.scrollOffset;
+        } else if (pageTop > 0) {
+          mainContainerTop = mainContainerTop - pageTop;
+        } else if (pageTop <= -this.scrollOffset) {
+          mainContainerTop = mainContainerTop + this.scrollOffset;
+        } else {
+          mainContainerTop = mainContainerTop + (-pageTop);
+        }
+        return this.mouseScrollAnimation('top', mainContainerTop);
       }
     };
 
@@ -154,17 +154,14 @@
       pageTop = this.getPageTop();
       if (pageTop > this.scrollOffset) {
         mainContainerTop = mainContainerTop - this.scrollOffset;
-        return this.mainContainer.css('top', mainContainerTop);
       } else if (pageTop > 0) {
         mainContainerTop = mainContainerTop - pageTop;
-        return this.mainContainer.css('top', mainContainerTop);
       } else if (pageTop < -this.scrollOffset) {
         mainContainerTop = mainContainerTop + this.scrollOffset;
-        return this.mainContainer.css('top', mainContainerTop);
       } else if (pageTop < 0) {
         mainContainerTop = mainContainerTop + (-pageTop);
-        return this.mainContainer.css('top', mainContainerTop);
       }
+      return this.mouseScrollAnimation('top', mainContainerTop);
     };
 
     Page.prototype.scrollPageLeftTo0 = function() {
@@ -173,17 +170,30 @@
       pageLeft = this.getPageLeft();
       if (pageLeft > this.scrollOffset) {
         mainContainerLeft = mainContainerLeft - this.scrollOffset;
-        return this.mainContainer.css('left', mainContainerLeft);
       } else if (pageLeft > 0) {
         mainContainerLeft = mainContainerLeft - pageLeft;
-        return this.mainContainer.css('left', mainContainerLeft);
       } else if (pageLeft < -this.scrollOffset) {
         mainContainerLeft = mainContainerLeft + this.scrollOffset;
-        return this.mainContainer.css('left', mainContainerLeft);
       } else if (pageLeft < 0) {
-        console.log("no way");
         mainContainerLeft = mainContainerLeft + (-pageLeft);
-        return this.mainContainer.css('left', mainContainerLeft);
+      }
+      return this.mouseScrollAnimation('left', mainContainerLeft);
+    };
+
+    Page.prototype.mouseScrollAnimation = function(position, amount) {
+      var scrollAmount, scrollPosition;
+      scrollPosition = position;
+      scrollAmount = amount;
+      if (scrollPosition === 'left') {
+        return TweenLite.to(this.mainContainer, 1, {
+          left: scrollAmount,
+          ease: Power0.ease
+        });
+      } else if (scrollPosition === 'top') {
+        return TweenLite.to(this.mainContainer, 1, {
+          top: scrollAmount,
+          ease: Power0.ease
+        });
       }
     };
 

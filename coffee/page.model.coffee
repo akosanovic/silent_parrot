@@ -12,7 +12,7 @@ class @Page
 		@pageName     = @getPageName();
 		@isActivePage = false;
 		
-		@scrollOffset = 200
+		@scrollOffset = 400
 
 
 		@_setPageSize()
@@ -153,41 +153,43 @@ class @Page
 
 
 
-		
-		if pageLeft >= @scrollOffset
-			mainContainerLeft = mainContainerLeft - @scrollOffset
-			@mainContainer.css('left', mainContainerLeft)
+		if pageLeft != 0 
+			mainContainerLeft = @_getMainContainerLeft()
 
-		else if pageLeft > 0
-			mainContainerLeft = mainContainerLeft - pageLeft
-			@mainContainer.css('left', mainContainerLeft)
+			if pageLeft >= @scrollOffset
+				mainContainerLeft = mainContainerLeft - @scrollOffset
+
+			else if pageLeft > 0
+				mainContainerLeft = mainContainerLeft - pageLeft
+
+			else if pageLeft <= -@scrollOffset
+				mainContainerLeft = mainContainerLeft + @scrollOffset
+
+			else if pageLeft < 0
+				mainContainerLeft = mainContainerLeft + (-pageLeft)
+
+			@mouseScrollAnimation( 'left', mainContainerLeft )
 
 
-		else if pageTop >= @scrollOffset
-			mainContainerTop = mainContainerTop - @scrollOffset
-			@mainContainer.css('top', mainContainerTop)
-		
-		else if pageTop > 0
-			mainContainerTop = mainContainerTop - pageTop
-			@mainContainer.css('top', mainContainerTop)
-	
 
-		else if pageLeft <= -@scrollOffset
-			mainContainerLeft = mainContainerLeft + @scrollOffset
-			@mainContainer.css('left', mainContainerLeft)
+		else if pageTop !=0
+			mainContainerTop = @_getMainContainerTop()
 
-		else if pageLeft < 0
-			mainContainerLeft = mainContainerLeft + (-pageLeft)
-			@mainContainer.css('left', mainContainerLeft)
+			if pageTop >= @scrollOffset
+				mainContainerTop = mainContainerTop - @scrollOffset
 
-		else if pageTop <= -@scrollOffset
-			mainContainerTop = mainContainerTop + @scrollOffset
-			@mainContainer.css('top', mainContainerTop)
 
-		else
-			mainContainerTop = mainContainerTop + (-pageTop)
-			@mainContainer.css('top', mainContainerTop)
+			else if pageTop > 0
+				mainContainerTop = mainContainerTop - pageTop
+			
 
+			else if pageTop <= -@scrollOffset
+				mainContainerTop = mainContainerTop + @scrollOffset
+
+			else
+				mainContainerTop = mainContainerTop + (-pageTop)
+			
+			@mouseScrollAnimation( 'top', mainContainerTop )
 	
 
 
@@ -198,23 +200,19 @@ class @Page
 		
 		if pageTop > @scrollOffset			
 			mainContainerTop = mainContainerTop - @scrollOffset
-			@mainContainer.css('top', mainContainerTop)
 
 		else if pageTop > 0
 			mainContainerTop = mainContainerTop - pageTop
-			@mainContainer.css('top', mainContainerTop)
 
 		else if pageTop < -@scrollOffset
 			mainContainerTop = mainContainerTop + @scrollOffset
-			@mainContainer.css('top', mainContainerTop)
 
 		else if pageTop < 0
 			mainContainerTop = mainContainerTop + (-pageTop)
-			@mainContainer.css('top', mainContainerTop)
+		
+		@mouseScrollAnimation( 'top', mainContainerTop )
 
 
-
-	
 
 	scrollPageLeftTo0: () ->
 		mainContainerLeft = @_getMainContainerLeft()
@@ -224,20 +222,48 @@ class @Page
 		
 		if pageLeft > @scrollOffset			
 			mainContainerLeft = mainContainerLeft - @scrollOffset
-			@mainContainer.css('left', mainContainerLeft)
 
 		else if pageLeft > 0
 			mainContainerLeft = mainContainerLeft - pageLeft
-			@mainContainer.css('left', mainContainerLeft)
 
 		else if pageLeft < -@scrollOffset
 			mainContainerLeft = mainContainerLeft + @scrollOffset
-			@mainContainer.css('left', mainContainerLeft)
 
 		else if pageLeft < 0
-			console.log "no way"
 			mainContainerLeft = mainContainerLeft + (-pageLeft)
-			@mainContainer.css('left', mainContainerLeft)
+
+		@mouseScrollAnimation( 'left', mainContainerLeft )
+
+
+
+
+	mouseScrollAnimation: ( position, amount ) ->
+		scrollPosition = position
+		scrollAmount   = amount
+		
+		if scrollPosition == 'left'
+
+			TweenLite.to( @mainContainer, 1, {
+				left: scrollAmount,
+				ease: Power0.ease,
+				# onComplete: @_activateAnimation()
+			})
+
+
+		else if scrollPosition == 'top'
+
+			TweenLite.to( @mainContainer, 1, {
+				top: scrollAmount,
+				ease: Power0.ease,
+				# onComplete: @_activateAnimation()
+			})
+		
+
+
+
+	
+
+	
 		
  
 
