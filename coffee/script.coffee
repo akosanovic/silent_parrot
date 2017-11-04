@@ -149,11 +149,11 @@ class @SilentParrot
 		return wrapperSize #top, bottom, left, right	
 
 
-	_getActivePage: () ->
-		for page in @orderOfPages
-			if page.isActive()
-				# @_setHash(page)
-				return page
+	# _getActivePage: () ->
+	# 	for page in @orderOfPages
+	# 		if page.checkIfActive()
+	# 			console.log "active page is ", page.getPageName()
+	# 			return page
 
 
 	_getHash: () ->
@@ -165,16 +165,6 @@ class @SilentParrot
 		
 	
 
-
-
-	_scrollCurrentPageTopTo0: () =>
-		@activePage.scrollPageTopTo0()
-				
-
-
-
-	_scrollCurrentPageLeftTo0: () =>
-		@activePage.scrollPageLeftTo0()
 
 
 	_scrollToNextPage: () =>
@@ -201,6 +191,15 @@ class @SilentParrot
 
 
 
+	_scrollCurrentPageTopTo0: () =>
+		@activePage.scrollPageTopTo0()
+				
+
+	_scrollCurrentPageLeftTo0: () =>
+		@activePage.scrollPageLeftTo0()
+
+
+
 
 	_scrollDown:() ->
 		currentPageTop  = @activePage.getPageTop()
@@ -210,7 +209,7 @@ class @SilentParrot
 		nextPageTop    = nextActivePage.getPageTop()
 		nextPageLeft   = nextActivePage.getPageLeft()
 
-
+		
 		if currentPageTop == nextPageTop
 			if currentPageTop == 0
 				@_scrollToNextPage()
@@ -231,7 +230,6 @@ class @SilentParrot
 	_scrollUp:() ->
 
 		nextActivePage = @_goToPrevActivePage()
-
 		nextPageTop    = nextActivePage.getPageTop()
 		nextPageLeft   = nextActivePage.getPageLeft()
 
@@ -272,6 +270,7 @@ class @SilentParrot
 
 	_goToNextActivePage: () ->
 		newActivePage = null
+		
 		for page, i in @orderOfPages
 			if page == @activePage 
 				if (i+1 < @orderOfPages.length)

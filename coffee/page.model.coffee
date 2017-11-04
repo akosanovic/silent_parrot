@@ -41,10 +41,19 @@ class @Page
 		@checkIfActive()
 
 
-	getMainContainerTop: () ->
+	getWidth: () ->
+		@jqueryElment.width()
+
+
+	getHeight: () ->
+		@jqueryElment.height()
+
+
+
+	_getMainContainerTop: () ->
 		return @mainContainer[0].getBoundingClientRect().top
 
-	getMainContainerLeft: () ->
+	_getMainContainerLeft: () ->
 		return @mainContainer[0].getBoundingClientRect().left
 
 
@@ -77,13 +86,7 @@ class @Page
 		return String(name)
 
 
-	getWidth: () ->
-		@jqueryElment.width()
-
-
-	getHeight: () ->
-		@jqueryElment.height()
-
+	
 
 
 
@@ -133,8 +136,8 @@ class @Page
 
 
 	mouseScrollToActivate: () ->
-		mainContainerTop  = @getMainContainerTop()
-		mainContainerLeft = @getMainContainerLeft()
+		mainContainerTop  = @_getMainContainerTop()
+		mainContainerLeft = @_getMainContainerLeft()
 		
 		pageTop  = @getPageTop()
 		pageLeft = @getPageLeft()
@@ -189,7 +192,7 @@ class @Page
 
 
 	scrollPageTopTo0: () ->
-		mainContainerTop = @getMainContainerTop()
+		mainContainerTop = @_getMainContainerTop()
 		pageTop = @getPageTop()
 
 		
@@ -201,12 +204,12 @@ class @Page
 			mainContainerTop = mainContainerTop - pageTop
 			@mainContainer.css('top', mainContainerTop)
 
-		else if pageTop < @scrollOffset
+		else if pageTop < -@scrollOffset
 			mainContainerTop = mainContainerTop + @scrollOffset
 			@mainContainer.css('top', mainContainerTop)
 
 		else if pageTop < 0
-			mainContainerTop = mainContainerTop + pageTop
+			mainContainerTop = mainContainerTop + (-pageTop)
 			@mainContainer.css('top', mainContainerTop)
 
 
@@ -214,24 +217,26 @@ class @Page
 	
 
 	scrollPageLeftTo0: () ->
-		mainContainerLeft = @getMainContainerLeft()
+		mainContainerLeft = @_getMainContainerLeft()
 		pageLeft = @getPageLeft()
+
 
 		
 		if pageLeft > @scrollOffset			
-			mainContainerTop = mainContainerTop - @scrollOffset
+			mainContainerLeft = mainContainerLeft - @scrollOffset
 			@mainContainer.css('left', mainContainerLeft)
 
 		else if pageLeft > 0
 			mainContainerLeft = mainContainerLeft - pageLeft
 			@mainContainer.css('left', mainContainerLeft)
 
-		else if pageLeft < @scrollOffset
+		else if pageLeft < -@scrollOffset
 			mainContainerLeft = mainContainerLeft + @scrollOffset
 			@mainContainer.css('left', mainContainerLeft)
 
 		else if pageLeft < 0
-			mainContainerLeft = mainContainerLeft + pageLeft
+			console.log "no way"
+			mainContainerLeft = mainContainerLeft + (-pageLeft)
 			@mainContainer.css('left', mainContainerLeft)
 		
  

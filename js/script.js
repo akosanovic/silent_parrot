@@ -4,10 +4,10 @@
 
   this.SilentParrot = (function() {
     function SilentParrot() {
-      this._scrollToPrevPage = bind(this._scrollToPrevPage, this);
-      this._scrollToNextPage = bind(this._scrollToNextPage, this);
       this._scrollCurrentPageLeftTo0 = bind(this._scrollCurrentPageLeftTo0, this);
       this._scrollCurrentPageTopTo0 = bind(this._scrollCurrentPageTopTo0, this);
+      this._scrollToPrevPage = bind(this._scrollToPrevPage, this);
+      this._scrollToNextPage = bind(this._scrollToNextPage, this);
       this.websiteWindow = $(window);
       this.mainWrapper = $('.main--content--wrapper');
       this.mainWrapperPosition = this._getWrapperSize();
@@ -111,29 +111,10 @@
       return wrapperSize;
     };
 
-    SilentParrot.prototype._getActivePage = function() {
-      var j, len, page, ref;
-      ref = this.orderOfPages;
-      for (j = 0, len = ref.length; j < len; j++) {
-        page = ref[j];
-        if (page.isActive()) {
-          return page;
-        }
-      }
-    };
-
     SilentParrot.prototype._getHash = function() {
       var hash;
       hash = window.location.hash;
       return this._setActivePage(hash);
-    };
-
-    SilentParrot.prototype._scrollCurrentPageTopTo0 = function() {
-      return this.activePage.scrollPageTopTo0();
-    };
-
-    SilentParrot.prototype._scrollCurrentPageLeftTo0 = function() {
-      return this.activePage.scrollPageLeftTo0();
     };
 
     SilentParrot.prototype._scrollToNextPage = function() {
@@ -154,6 +135,14 @@
       } else {
         return this.activePage = nextActivePage;
       }
+    };
+
+    SilentParrot.prototype._scrollCurrentPageTopTo0 = function() {
+      return this.activePage.scrollPageTopTo0();
+    };
+
+    SilentParrot.prototype._scrollCurrentPageLeftTo0 = function() {
+      return this.activePage.scrollPageLeftTo0();
     };
 
     SilentParrot.prototype._scrollDown = function() {
